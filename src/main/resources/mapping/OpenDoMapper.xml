@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shu.course_backend.dao.OpenDoMapper" >
+  <resultMap id="BaseResultMap" type="com.shu.course_backend.model.entity.OpenDo" >
+    <id column="open_id" property="openId" jdbcType="INTEGER" />
+    <result column="course_id" property="courseId" jdbcType="INTEGER" />
+    <result column="semester" property="semester" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="answer_address" property="answerAddress" jdbcType="VARCHAR" />
+    <result column="answer_time" property="answerTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.shu.course_backend.model.entity.OpenDo" extends="BaseResultMap" >
+    <result column="course_time" property="courseTime" jdbcType="BINARY" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    open_id, course_id, semester, address, answer_address, answer_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    course_time
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.shu.course_backend.model.entity.OpenDoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from open_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shu.course_backend.model.entity.OpenDoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from open_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from open_info
+    where open_id = #{openId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from open_info
+    where open_id = #{openId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shu.course_backend.model.entity.OpenDoExample" >
+    delete from open_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shu.course_backend.model.entity.OpenDo" >
+    insert into open_info (open_id, course_id, semester, 
+      address, answer_address, answer_time, 
+      course_time)
+    values (#{openId,jdbcType=INTEGER}, #{courseId,jdbcType=INTEGER}, #{semester,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{answerAddress,jdbcType=VARCHAR}, #{answerTime,jdbcType=VARCHAR}, 
+      #{courseTime,jdbcType=BINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shu.course_backend.model.entity.OpenDo" >
+    insert into open_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="openId != null" >
+        open_id,
+      </if>
+      <if test="courseId != null" >
+        course_id,
+      </if>
+      <if test="semester != null" >
+        semester,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="answerAddress != null" >
+        answer_address,
+      </if>
+      <if test="answerTime != null" >
+        answer_time,
+      </if>
+      <if test="courseTime != null" >
+        course_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="openId != null" >
+        #{openId,jdbcType=INTEGER},
+      </if>
+      <if test="courseId != null" >
+        #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="semester != null" >
+        #{semester,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="answerAddress != null" >
+        #{answerAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="answerTime != null" >
+        #{answerTime,jdbcType=VARCHAR},
+      </if>
+      <if test="courseTime != null" >
+        #{courseTime,jdbcType=BINARY},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shu.course_backend.model.entity.OpenDoExample" resultType="java.lang.Integer" >
+    select count(*) from open_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update open_info
+    <set >
+      <if test="record.openId != null" >
+        open_id = #{record.openId,jdbcType=INTEGER},
+      </if>
+      <if test="record.courseId != null" >
+        course_id = #{record.courseId,jdbcType=INTEGER},
+      </if>
+      <if test="record.semester != null" >
+        semester = #{record.semester,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.answerAddress != null" >
+        answer_address = #{record.answerAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.answerTime != null" >
+        answer_time = #{record.answerTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseTime != null" >
+        course_time = #{record.courseTime,jdbcType=BINARY},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update open_info
+    set open_id = #{record.openId,jdbcType=INTEGER},
+      course_id = #{record.courseId,jdbcType=INTEGER},
+      semester = #{record.semester,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      answer_address = #{record.answerAddress,jdbcType=VARCHAR},
+      answer_time = #{record.answerTime,jdbcType=VARCHAR},
+      course_time = #{record.courseTime,jdbcType=BINARY}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update open_info
+    set open_id = #{record.openId,jdbcType=INTEGER},
+      course_id = #{record.courseId,jdbcType=INTEGER},
+      semester = #{record.semester,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      answer_address = #{record.answerAddress,jdbcType=VARCHAR},
+      answer_time = #{record.answerTime,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shu.course_backend.model.entity.OpenDo" >
+    update open_info
+    <set >
+      <if test="courseId != null" >
+        course_id = #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="semester != null" >
+        semester = #{semester,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="answerAddress != null" >
+        answer_address = #{answerAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="answerTime != null" >
+        answer_time = #{answerTime,jdbcType=VARCHAR},
+      </if>
+      <if test="courseTime != null" >
+        course_time = #{courseTime,jdbcType=BINARY},
+      </if>
+    </set>
+    where open_id = #{openId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.shu.course_backend.model.entity.OpenDo" >
+    update open_info
+    set course_id = #{courseId,jdbcType=INTEGER},
+      semester = #{semester,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      answer_address = #{answerAddress,jdbcType=VARCHAR},
+      answer_time = #{answerTime,jdbcType=VARCHAR},
+      course_time = #{courseTime,jdbcType=BINARY}
+    where open_id = #{openId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shu.course_backend.model.entity.OpenDo" >
+    update open_info
+    set course_id = #{courseId,jdbcType=INTEGER},
+      semester = #{semester,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      answer_address = #{answerAddress,jdbcType=VARCHAR},
+      answer_time = #{answerTime,jdbcType=VARCHAR}
+    where open_id = #{openId,jdbcType=INTEGER}
+  </update>
+</mapper>
