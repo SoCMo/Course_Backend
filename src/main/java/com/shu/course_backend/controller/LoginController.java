@@ -1,8 +1,7 @@
 package com.shu.course_backend.controller;
 
-import com.pongshy.model.request.JwtRequest;
-import com.pongshy.service.LoginService;
-import com.pongshy.tool.JwtTokenUtil;
+import com.shu.course_backend.model.request.JwtRequest;
+import com.shu.course_backend.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @ClassName: LoginController
- * @Description: TODO
+ * @Description: 登录接口
  * @Author: pongshy
  * @Date: 2021/1/8-10:37
  * @Version: V1.0

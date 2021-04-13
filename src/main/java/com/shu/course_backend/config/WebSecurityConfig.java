@@ -1,6 +1,6 @@
 package com.shu.course_backend.config;
 
-import com.pongshy.config.filter.JwtRequestFilter;
+import com.shu.course_backend.config.filter.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

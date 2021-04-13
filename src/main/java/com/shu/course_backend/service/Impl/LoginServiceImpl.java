@@ -1,10 +1,11 @@
 package com.shu.course_backend.service.Impl;
 
-import com.pongshy.config.JwtUserDetailsService;
-import com.pongshy.dao.UserDOMapper;
-import com.pongshy.model.response.JwtResponse;
-import com.pongshy.service.LoginService;
-import com.pongshy.tool.JwtTokenUtil;
+
+import com.shu.course_backend.config.JwtUserDetailsService;
+import com.shu.course_backend.dao.UserDoMapper;
+import com.shu.course_backend.model.response.JwtResponse;
+import com.shu.course_backend.service.LoginService;
+import com.shu.course_backend.tool.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,7 +33,7 @@ public class LoginServiceImpl implements LoginService {
     private JwtTokenUtil jwtTokenUtil;
 
     @Resource
-    private UserDOMapper userDOMapper;
+    private UserDoMapper userDOMapper;
 
     @Autowired
     private AuthenticationManager authenticationManager;

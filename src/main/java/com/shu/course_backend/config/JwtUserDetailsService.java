@@ -1,8 +1,12 @@
 package com.shu.course_backend.config;
 
-import com.pongshy.dao.UserDOMapper;
-import com.pongshy.model.entity.UserDO;
-import com.pongshy.model.entity.UserDOExample;
+import com.shu.course_backend.dao.PasswordDoMapper;
+import com.shu.course_backend.dao.UserDoMapper;
+import com.shu.course_backend.model.UserRole;
+import com.shu.course_backend.model.entity.PasswordDo;
+import com.shu.course_backend.model.entity.UserDo;
+import com.shu.course_backend.model.entity.UserDoExample;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -24,27 +28,32 @@ import java.util.List;
  * @Version: V1.0
  **/
 @Service
+@Slf4j
 public class JwtUserDetailsService implements UserDetailsService {
 
 
     @Resource
-    private UserDOMapper userDOMapper;
+    private UserDoMapper userDOMapper;
+
+    @Resource
+    private PasswordDoMapper passwordDoMapper;
 
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // 从数据库中获取user的详细信息
-        UserDOExample userDOExample = new UserDOExample();
+        UserDoExample userDOExample = new UserDoExample();
 
         userDOExample
                 .createCriteria()
-                .andUsernameEqualTo(username);
-        List<UserDO> userDOList = userDOMapper.selectByExample(userDOExample);
+                .andUserIdEqualTo(username);
+        List<UserDo> userDOList = userDOMapper.selectByExample(userDOExample);
         if (userDOList.size() == 1) {
-            UserDO userDO = userDOList.get(0);
+            UserDo userDO = userDOList.get(0);
+            PasswordDo passwordDo = passwordDoMapper.selectByPrimaryKey(userDO.getUserId());
             List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(userDO.getRole()));
-            return new User(userDO.getUsername(), userDO.getPassword(), authorities);
+            authorities.add(new SimpleGrantedAuthority(UserRole.getUserRole(userDO.getIdentity())));
+            return new User(userDO.getUserId(), passwordDo.getPassword(), authorities);
         } else {
             throw new UsernameNotFoundException("Not found with username: " + username);
         }
