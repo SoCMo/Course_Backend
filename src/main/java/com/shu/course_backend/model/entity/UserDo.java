@@ -7,7 +7,7 @@ public class UserDo {
 
     private Integer gender;
 
-    private String department;
+    private Integer departmentId;
 
     private String education;
 
@@ -43,12 +43,12 @@ public class UserDo {
         this.gender = gender;
     }
 
-    public String getDepartment() {
-        return department;
+    public Integer getDepartmentId() {
+        return departmentId;
     }
 
-    public void setDepartment(String department) {
-        this.department = department == null ? null : department.trim();
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
     }
 
     public String getEducation() {

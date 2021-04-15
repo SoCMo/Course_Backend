@@ -5,7 +5,7 @@
     <id column="user_id" property="userId" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="gender" property="gender" jdbcType="INTEGER" />
-    <result column="department" property="department" jdbcType="VARCHAR" />
+    <result column="department_id" property="departmentId" jdbcType="INTEGER" />
     <result column="education" property="education" jdbcType="VARCHAR" />
     <result column="identity" property="identity" jdbcType="TINYINT" />
     <result column="mobile_phone" property="mobilePhone" jdbcType="VARCHAR" />
@@ -71,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    user_id, name, gender, department, education, identity, mobile_phone, email, pending
+    user_id, name, gender, department_id, education, identity, mobile_phone, email, pending
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shu.course_backend.model.entity.UserDoExample" >
     select
@@ -106,11 +106,11 @@
   </delete>
   <insert id="insert" parameterType="com.shu.course_backend.model.entity.UserDo" >
     insert into user_info (user_id, name, gender, 
-      department, education, identity, 
+      department_id, education, identity, 
       mobile_phone, email, pending
       )
     values (#{userId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, 
-      #{department,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, #{identity,jdbcType=TINYINT}, 
+      #{departmentId,jdbcType=INTEGER}, #{education,jdbcType=VARCHAR}, #{identity,jdbcType=TINYINT}, 
       #{mobilePhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{pending,jdbcType=BIT}
       )
   </insert>
@@ -126,8 +126,8 @@
       <if test="gender != null" >
         gender,
       </if>
-      <if test="department != null" >
-        department,
+      <if test="departmentId != null" >
+        department_id,
       </if>
       <if test="education != null" >
         education,
@@ -155,8 +155,8 @@
       <if test="gender != null" >
         #{gender,jdbcType=INTEGER},
       </if>
-      <if test="department != null" >
-        #{department,jdbcType=VARCHAR},
+      <if test="departmentId != null" >
+        #{departmentId,jdbcType=INTEGER},
       </if>
       <if test="education != null" >
         #{education,jdbcType=VARCHAR},
@@ -193,8 +193,8 @@
       <if test="record.gender != null" >
         gender = #{record.gender,jdbcType=INTEGER},
       </if>
-      <if test="record.department != null" >
-        department = #{record.department,jdbcType=VARCHAR},
+      <if test="record.departmentId != null" >
+        department_id = #{record.departmentId,jdbcType=INTEGER},
       </if>
       <if test="record.education != null" >
         education = #{record.education,jdbcType=VARCHAR},
@@ -221,7 +221,7 @@
     set user_id = #{record.userId,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       gender = #{record.gender,jdbcType=INTEGER},
-      department = #{record.department,jdbcType=VARCHAR},
+      department_id = #{record.departmentId,jdbcType=INTEGER},
       education = #{record.education,jdbcType=VARCHAR},
       identity = #{record.identity,jdbcType=TINYINT},
       mobile_phone = #{record.mobilePhone,jdbcType=VARCHAR},
@@ -240,8 +240,8 @@
       <if test="gender != null" >
         gender = #{gender,jdbcType=INTEGER},
       </if>
-      <if test="department != null" >
-        department = #{department,jdbcType=VARCHAR},
+      <if test="departmentId != null" >
+        department_id = #{departmentId,jdbcType=INTEGER},
       </if>
       <if test="education != null" >
         education = #{education,jdbcType=VARCHAR},
@@ -265,7 +265,7 @@
     update user_info
     set name = #{name,jdbcType=VARCHAR},
       gender = #{gender,jdbcType=INTEGER},
-      department = #{department,jdbcType=VARCHAR},
+      department_id = #{departmentId,jdbcType=INTEGER},
       education = #{education,jdbcType=VARCHAR},
       identity = #{identity,jdbcType=TINYINT},
       mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
