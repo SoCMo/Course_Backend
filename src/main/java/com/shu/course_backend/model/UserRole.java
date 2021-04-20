@@ -1,5 +1,8 @@
 package com.shu.course_backend.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @ClassName: UserRole
  * @Description: 用户身份枚举类
@@ -9,25 +12,34 @@ package com.shu.course_backend.model;
 public enum UserRole {
 
 
-    ROLE_USER,
+    ROLE_STUDENT,
     ROLE_TEACHER,
     ROLE_ADMIN;
 
-    public static String getUserRole(Byte i) {
-        switch (i) {
-            case 0: {
-                return UserRole.ROLE_USER.toString();
-            }
-            case 1: {
-                return UserRole.ROLE_TEACHER.toString();
-            }
-            case 2: {
-                return UserRole.ROLE_ADMIN.toString();
-            }
-            default: {
-                return "身份出错";
-            }
+    public static List<String> getUserRole(String i) {
+        List<String> roles = new ArrayList<>();
+
+        if ("001".equals(i)) {
+            roles.add(UserRole.ROLE_STUDENT.toString());
+        } else if ("010".equals(i)) {
+            roles.add(UserRole.ROLE_TEACHER.toString());
+        } else if ("011".equals(i)) {
+            roles.add(UserRole.ROLE_STUDENT.toString());
+            roles.add(UserRole.ROLE_TEACHER.toString());
+        } else if ("100".equals(i)) {
+            roles.add(UserRole.ROLE_ADMIN.toString());
+        } else if ("101".equals(i)) {
+            roles.add(UserRole.ROLE_STUDENT.toString());
+            roles.add(UserRole.ROLE_ADMIN.toString());
+        } else if ("110".equals(i)) {
+            roles.add(UserRole.ROLE_TEACHER.toString());
+            roles.add(UserRole.ROLE_ADMIN.toString());
+        } else if ("111".equals(i)) {
+            roles.add(UserRole.ROLE_STUDENT.toString());
+            roles.add(UserRole.ROLE_TEACHER.toString());
+            roles.add(UserRole.ROLE_ADMIN.toString());
         }
+        return roles;
     }
 
 

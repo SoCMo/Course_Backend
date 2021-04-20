@@ -11,7 +11,7 @@ public class UserDo {
 
     private String education;
 
-    private Byte identity;
+    private String identity;
 
     private String mobilePhone;
 
@@ -59,12 +59,12 @@ public class UserDo {
         this.education = education == null ? null : education.trim();
     }
 
-    public Byte getIdentity() {
+    public String getIdentity() {
         return identity;
     }
 
-    public void setIdentity(Byte identity) {
-        this.identity = identity;
+    public void setIdentity(String identity) {
+        this.identity = identity == null ? null : identity.trim();
     }
 
     public String getMobilePhone() {

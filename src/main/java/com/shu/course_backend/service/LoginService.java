@@ -1,5 +1,7 @@
 package com.shu.course_backend.service;
 
+import com.shu.course_backend.exception.AllException;
+import com.shu.course_backend.model.request.RegisterRequest;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -11,8 +13,25 @@ import org.springframework.http.ResponseEntity;
  **/
 public interface LoginService {
 
-
+    /**
+     * @Description: 登录接口实现
+     * @Param: [username, password]
+     * @return: org.springframework.http.ResponseEntity<?>
+     * @Author: pongshy
+     * @Date: 2021/4/20
+     * @Version: V1.0
+     **/
     public ResponseEntity<?> login(String username, String password) throws Exception;
 
     public ResponseEntity<?> testGetMsgFromToken(String token);
+
+    /**
+     * @Description: 新用户注册接口实现
+     * @Param: [registerRequest]
+     * @return: org.springframework.http.ResponseEntity<?>
+     * @Author: pongshy
+     * @Date: 2021/4/20
+     * @Version: V1.0
+     **/
+    public ResponseEntity<?> register(RegisterRequest registerRequest);
 }

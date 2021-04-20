@@ -52,7 +52,11 @@ public class JwtUserDetailsService implements UserDetailsService {
             UserDo userDO = userDOList.get(0);
             PasswordDo passwordDo = passwordDoMapper.selectByPrimaryKey(userDO.getUserId());
             List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(UserRole.getUserRole(userDO.getIdentity())));
+            List<String> roles = UserRole.getUserRole(userDO.getIdentity());
+            for (String role : roles) {
+                authorities.add(new SimpleGrantedAuthority(role));
+            }
+//            authorities.add(new SimpleGrantedAuthority(UserRole.getUserRole(userDO.getIdentity())));
             return new User(userDO.getUserId(), passwordDo.getPassword(), authorities);
         } else {
             throw new UsernameNotFoundException("Not found with username: " + username);

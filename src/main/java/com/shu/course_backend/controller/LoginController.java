@@ -1,10 +1,13 @@
 package com.shu.course_backend.controller;
 
 import com.shu.course_backend.model.request.JwtRequest;
+
+import com.shu.course_backend.model.request.RegisterRequest;
 import com.shu.course_backend.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -28,6 +31,11 @@ public class LoginController {
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public ResponseEntity<?> loginByUsernameAndPassword(@RequestBody JwtRequest jwtRequest) throws Exception {
         return loginService.login(jwtRequest.getUsername(), jwtRequest.getPassword());
+    }
+
+    @PostMapping(value = "register")
+    public ResponseEntity<?> registerUser(@RequestBody @Validated RegisterRequest registerRequest) {
+        return loginService.register(registerRequest);
     }
 
     @RequestMapping(value = "test", method = RequestMethod.GET)

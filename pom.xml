@@ -35,6 +35,12 @@
         <version>2.1.4</version>
     </dependency>
 
+<!--    SpringBoot 2.3.0后放弃了默认对javax.validation的支持-->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+
     <dependency>
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>

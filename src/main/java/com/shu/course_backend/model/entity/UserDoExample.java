@@ -444,52 +444,62 @@ public class UserDoExample {
             return (Criteria) this;
         }
 
-        public Criteria andIdentityEqualTo(Byte value) {
+        public Criteria andIdentityEqualTo(String value) {
             addCriterion("identity =", value, "identity");
             return (Criteria) this;
         }
 
-        public Criteria andIdentityNotEqualTo(Byte value) {
+        public Criteria andIdentityNotEqualTo(String value) {
             addCriterion("identity <>", value, "identity");
             return (Criteria) this;
         }
 
-        public Criteria andIdentityGreaterThan(Byte value) {
+        public Criteria andIdentityGreaterThan(String value) {
             addCriterion("identity >", value, "identity");
             return (Criteria) this;
         }
 
-        public Criteria andIdentityGreaterThanOrEqualTo(Byte value) {
+        public Criteria andIdentityGreaterThanOrEqualTo(String value) {
             addCriterion("identity >=", value, "identity");
             return (Criteria) this;
         }
 
-        public Criteria andIdentityLessThan(Byte value) {
+        public Criteria andIdentityLessThan(String value) {
             addCriterion("identity <", value, "identity");
             return (Criteria) this;
         }
 
-        public Criteria andIdentityLessThanOrEqualTo(Byte value) {
+        public Criteria andIdentityLessThanOrEqualTo(String value) {
             addCriterion("identity <=", value, "identity");
             return (Criteria) this;
         }
 
-        public Criteria andIdentityIn(List<Byte> values) {
+        public Criteria andIdentityLike(String value) {
+            addCriterion("identity like", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityNotLike(String value) {
+            addCriterion("identity not like", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityIn(List<String> values) {
             addCriterion("identity in", values, "identity");
             return (Criteria) this;
         }
 
-        public Criteria andIdentityNotIn(List<Byte> values) {
+        public Criteria andIdentityNotIn(List<String> values) {
             addCriterion("identity not in", values, "identity");
             return (Criteria) this;
         }
 
-        public Criteria andIdentityBetween(Byte value1, Byte value2) {
+        public Criteria andIdentityBetween(String value1, String value2) {
             addCriterion("identity between", value1, value2, "identity");
             return (Criteria) this;
         }
 
-        public Criteria andIdentityNotBetween(Byte value1, Byte value2) {
+        public Criteria andIdentityNotBetween(String value1, String value2) {
             addCriterion("identity not between", value1, value2, "identity");
             return (Criteria) this;
         }

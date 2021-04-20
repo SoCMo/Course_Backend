@@ -7,7 +7,7 @@
     <result column="gender" property="gender" jdbcType="INTEGER" />
     <result column="department_id" property="departmentId" jdbcType="INTEGER" />
     <result column="education" property="education" jdbcType="VARCHAR" />
-    <result column="identity" property="identity" jdbcType="TINYINT" />
+    <result column="identity" property="identity" jdbcType="CHAR" />
     <result column="mobile_phone" property="mobilePhone" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="pending" property="pending" jdbcType="BIT" />
@@ -110,7 +110,7 @@
       mobile_phone, email, pending
       )
     values (#{userId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, 
-      #{departmentId,jdbcType=INTEGER}, #{education,jdbcType=VARCHAR}, #{identity,jdbcType=TINYINT}, 
+      #{departmentId,jdbcType=INTEGER}, #{education,jdbcType=VARCHAR}, #{identity,jdbcType=CHAR}, 
       #{mobilePhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{pending,jdbcType=BIT}
       )
   </insert>
@@ -162,7 +162,7 @@
         #{education,jdbcType=VARCHAR},
       </if>
       <if test="identity != null" >
-        #{identity,jdbcType=TINYINT},
+        #{identity,jdbcType=CHAR},
       </if>
       <if test="mobilePhone != null" >
         #{mobilePhone,jdbcType=VARCHAR},
@@ -200,7 +200,7 @@
         education = #{record.education,jdbcType=VARCHAR},
       </if>
       <if test="record.identity != null" >
-        identity = #{record.identity,jdbcType=TINYINT},
+        identity = #{record.identity,jdbcType=CHAR},
       </if>
       <if test="record.mobilePhone != null" >
         mobile_phone = #{record.mobilePhone,jdbcType=VARCHAR},
@@ -223,7 +223,7 @@
       gender = #{record.gender,jdbcType=INTEGER},
       department_id = #{record.departmentId,jdbcType=INTEGER},
       education = #{record.education,jdbcType=VARCHAR},
-      identity = #{record.identity,jdbcType=TINYINT},
+      identity = #{record.identity,jdbcType=CHAR},
       mobile_phone = #{record.mobilePhone,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
       pending = #{record.pending,jdbcType=BIT}
@@ -247,7 +247,7 @@
         education = #{education,jdbcType=VARCHAR},
       </if>
       <if test="identity != null" >
-        identity = #{identity,jdbcType=TINYINT},
+        identity = #{identity,jdbcType=CHAR},
       </if>
       <if test="mobilePhone != null" >
         mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
@@ -267,7 +267,7 @@
       gender = #{gender,jdbcType=INTEGER},
       department_id = #{departmentId,jdbcType=INTEGER},
       education = #{education,jdbcType=VARCHAR},
-      identity = #{identity,jdbcType=TINYINT},
+      identity = #{identity,jdbcType=CHAR},
       mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       pending = #{pending,jdbcType=BIT}

@@ -12,7 +12,7 @@ class CourseBackendApplicationTests {
     @Test
     void contextLoads() {
         System.out.println(new BCryptPasswordEncoder().encode("123456"));
-        System.out.println(UserRole.ROLE_USER.toString());
+        System.out.println(UserRole.ROLE_STUDENT.toString());
     }
 
 }
