@@ -14,6 +14,7 @@ import com.shu.course_backend.model.request.RegisterRequest;
 import com.shu.course_backend.model.response.LoginResponse;
 import com.shu.course_backend.service.LoginService;
 import com.shu.course_backend.tool.JwtTokenUtil;
+import org.apache.ibatis.annotations.ResultType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,7 +72,7 @@ public class LoginServiceImpl implements LoginService {
      * @Version: V1.0
      **/
     @Override
-    public ResponseEntity<?> login(String username, String password) throws Exception {
+    public Result login(String username, String password) throws Exception {
         authenticate(username, password);
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
         final String token = jwtTokenUtil.generateToken(userDetails);
@@ -91,7 +92,7 @@ public class LoginServiceImpl implements LoginService {
                         .getDepartmentName()
         );
 
-        return ResponseEntity.ok(response);
+        return Result.success(response);
     }
 
     private void authenticate(String username, String password) throws Exception {
@@ -123,39 +124,38 @@ public class LoginServiceImpl implements LoginService {
      * @Version: V1.0
      **/
     @Override
-    public ResponseEntity<?> register(RegisterRequest registerRequest)  {
+    public Result register(RegisterRequest registerRequest)  {
         UserDo isExisted = userDOMapper.selectByPrimaryKey(registerRequest.getUserId());
+        try {
+            if (isExisted == null) {
+                UserDo userDo = new UserDo();
+                userDo.setUserId(registerRequest.getUserId());
+                userDo.setName(registerRequest.getUsername());
+                userDo.setEducation(registerRequest.getEducation());
+                userDo.setIdentity("001");
+                userDo.setMobilePhone(registerRequest.getPhone());
+                userDo.setEmail(registerRequest.getEmail());
+                userDo.setDepartmentId(registerRequest.getDepartmentId());
+                try {
+                    if (userDOMapper.insertSelective(userDo) == 1) {
+                        // 插入密码
+                        PasswordDo passwordDo = new PasswordDo();
+                        passwordDo.setUserId(userDo.getUserId());
+                        passwordDo.setPassword(new BCryptPasswordEncoder().encode(registerRequest.getPassword()));
+                        passwordDoMapper.insertSelective(passwordDo);
 
-        if (isExisted == null) {
-            UserDo userDo = new UserDo();
-            userDo.setUserId(registerRequest.getUserId());
-            userDo.setName(registerRequest.getUsername());
-            userDo.setEducation(registerRequest.getEducation());
-            userDo.setIdentity("001");
-            userDo.setMobilePhone(registerRequest.getPhone());
-            userDo.setEmail(registerRequest.getEmail());
-            userDo.setDepartmentId(registerRequest.getDepartmentId());
-            try {
-                if (userDOMapper.insertSelective(userDo) == 1) {
-                    // 插入密码
-                    PasswordDo passwordDo = new PasswordDo();
-                    passwordDo.setUserId(userDo.getUserId());
-                    passwordDo.setPassword(new BCryptPasswordEncoder().encode(registerRequest.getPassword()));
-                    passwordDoMapper.insertSelective(passwordDo);
-
-                    return ResponseEntity.ok(new Result(
-                            HttpStatus.OK,
-                            "注册成功"
-                    ));
-                } else {
-                    throw new AllException(EmAllException.DATABASE_ERROR, "用户注册出错");
+                        return Result.success("注册成功");
+                    } else {
+                        throw new AllException(EmAllException.DATABASE_ERROR, "用户注册出错");
+                    }
+                } catch (AllException ex) {
+                    return Result.error(ex);
                 }
-            } catch (AllException ex) {
-                return new ResponseEntity<>(new Result(ex), HttpStatus.OK);
+            } else {
+                throw new AllException(EmAllException.BAD_REQUEST, "该学号/工号已有人注册");
             }
-        } else {
-            String msg = "该学号/工号已有用户注册";
-            return new ResponseEntity<>(new Result(HttpStatus.BAD_REQUEST, msg), HttpStatus.OK);
+        } catch (AllException ex) {
+            return Result.error(ex);
         }
     }
 }

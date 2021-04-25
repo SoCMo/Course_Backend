@@ -1,6 +1,7 @@
 package com.shu.course_backend.service;
 
 import com.shu.course_backend.exception.AllException;
+import com.shu.course_backend.model.Result;
 import com.shu.course_backend.model.request.RegisterRequest;
 import org.springframework.http.ResponseEntity;
 
@@ -21,7 +22,7 @@ public interface LoginService {
      * @Date: 2021/4/20
      * @Version: V1.0
      **/
-    public ResponseEntity<?> login(String username, String password) throws Exception;
+    public Result login(String username, String password) throws Exception;
 
     public ResponseEntity<?> testGetMsgFromToken(String token);
 
@@ -33,5 +34,5 @@ public interface LoginService {
      * @Date: 2021/4/20
      * @Version: V1.0
      **/
-    public ResponseEntity<?> register(RegisterRequest registerRequest);
+    public Result register(RegisterRequest registerRequest);
 }

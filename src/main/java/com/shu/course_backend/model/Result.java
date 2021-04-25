@@ -45,6 +45,11 @@ public class Result<T> {
         return result;
     }
 
+    public static Result success(String msg) {
+        Result result = new Result(HttpStatus.OK, msg);
+        return result;
+    }
+
     public static Result error(AllException ex){
         return new Result(ex);
     }
