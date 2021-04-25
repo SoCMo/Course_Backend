@@ -4,7 +4,9 @@ import com.shu.course_backend.dao.UserDoMapper;
 import com.shu.course_backend.exception.AllException;
 import com.shu.course_backend.exception.EmAllException;
 import com.shu.course_backend.model.Result;
+import com.shu.course_backend.model.UserRole;
 import com.shu.course_backend.service.UserService;
+import com.shu.course_backend.tool.AuthTool;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -31,12 +33,21 @@ public class UserController {
 
     private final UserService userService;
 
+    private final AuthTool authTool;
+
     @GetMapping("/{userId}")
     @ApiOperation(value = "获取用户信息")
     Result UserInfo(@PathVariable("userId") String userId) {
         if(StringUtils.isEmpty(userId)){
             return Result.error(new AllException(EmAllException.BAD_REQUEST, "用户名不能为空"));
         }
+        if(!authTool.getUserIdentity().contains("ROLE_STUDENT")
+        && !authTool.getUserIdentity().contains("ROLE_TEACHER")
+        && !userId.equals(authTool.getUserId())){
+            return Result.error(new AllException(EmAllException.IDENTITY_ERROR, "没有权限"));
+        }
+
+
         return userService.UserInfo(userId);
     }
 

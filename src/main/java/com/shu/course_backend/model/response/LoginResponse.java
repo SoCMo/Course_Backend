@@ -1,6 +1,5 @@
 package com.shu.course_backend.model.response;
 
-import com.sun.istack.internal.NotNull;
 import lombok.Data;
 import lombok.NonNull;
 
