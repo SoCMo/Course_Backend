@@ -1,18 +1,24 @@
 package com.shu.course_backend;
 
 import com.shu.course_backend.model.UserRole;
+import com.shu.course_backend.tool.AuthTool;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 
 @SpringBootTest
+@RequiredArgsConstructor
 class CourseBackendApplicationTests {
 
+    private final AuthTool authTool;
+
     @Test
+    @WithMockUser(username = "18120198", roles = "USER")
     void contextLoads() {
-        System.out.println(new BCryptPasswordEncoder().encode("123456"));
-        System.out.println(UserRole.ROLE_STUDENT.toString());
-    }
+        System.out.println(authTool.getUserIdentity());
+   }
 
 }
