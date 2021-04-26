@@ -1,13 +1,20 @@
 package com.shu.course_backend.service.Impl;
 
 import com.shu.course_backend.dao.CourseDoMapper;
+import com.shu.course_backend.dao.DepartmentDoMapper;
+import com.shu.course_backend.dao.UserDoMapper;
 import com.shu.course_backend.exception.AllException;
 import com.shu.course_backend.exception.EmAllException;
 import com.shu.course_backend.model.Result;
 import com.shu.course_backend.model.entity.CourseDo;
+import com.shu.course_backend.model.entity.DepartmentDo;
+import com.shu.course_backend.model.entity.UserDo;
 import com.shu.course_backend.model.request.CourseRequest;
+import com.shu.course_backend.model.request.UserAdditionReq;
 import com.shu.course_backend.service.AdminService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,11 +29,13 @@ import java.util.List;
  **/
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
+    private final DepartmentDoMapper departmentDoMapper;
 
+    private final UserDoMapper userDoMapper;
 
-    @Resource
-    private CourseDoMapper courseDoMapper;
+    private final CourseDoMapper courseDoMapper;
 
     /**
      * @Description: 创建课程
@@ -90,6 +99,5 @@ public class AdminServiceImpl implements AdminService {
             return Result.error(ex);
         }
     }
-
 
 }

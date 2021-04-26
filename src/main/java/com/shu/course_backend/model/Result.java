@@ -21,7 +21,7 @@ public class Result<T> {
     private T data;
 
 
-    public Result(HttpStatus status,
+    private Result(HttpStatus status,
                   String msg
     ) {
         Date date = new Date(System.currentTimeMillis());
@@ -31,7 +31,7 @@ public class Result<T> {
         this.message = msg;
     }
 
-    public Result(AllException ex) {
+    private Result(AllException ex) {
         Date date = new Date(System.currentTimeMillis());
 
         this.timestamp = TimeTool.DateToString(date);

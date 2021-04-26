@@ -2,9 +2,12 @@ package com.shu.course_backend.service.Impl;
 
 import com.shu.course_backend.dao.DepartmentDoMapper;
 import com.shu.course_backend.dao.UserDoMapper;
+import com.shu.course_backend.exception.AllException;
+import com.shu.course_backend.exception.EmAllException;
 import com.shu.course_backend.model.Result;
 import com.shu.course_backend.model.UserRole;
 import com.shu.course_backend.model.entity.UserDo;
+import com.shu.course_backend.model.request.UserAdditionReq;
 import com.shu.course_backend.model.response.Info.UserInfoRes;
 import com.shu.course_backend.model.response.LoginResponse;
 import com.shu.course_backend.service.UserService;
@@ -47,4 +50,29 @@ public class UserServiceImpl implements UserService {
 
         return Result.success(response);
     }
+
+
+    @Override
+    public Result UserAddition(UserAdditionReq userAdditionReq) {
+        if (departmentDoMapper.selectByPrimaryKey(userAdditionReq.getDepartmentId()) == null) {
+            return Result.error(new AllException(EmAllException.BAD_REQUEST, "该部门不存在"));
+        }
+
+        if(userDoMapper.selectByPrimaryKey(userAdditionReq.getUserId()) != null){
+            return Result.error(new AllException(EmAllException.BAD_REQUEST, "该用户Id已存在"));
+        }
+
+        UserDo userDo = new UserDo();
+        BeanUtils.copyProperties(userAdditionReq, userDo);
+        try {
+            if(userDoMapper.insertSelective(userDo) >= 1){
+                return Result.success(userDo);
+            }else {
+                throw new AllException(EmAllException.DATABASE_ERROR);
+            }
+        }catch (AllException ex){
+            return Result.error(ex);
+        }
+    }
+
 }

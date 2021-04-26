@@ -22,11 +22,8 @@ import javax.annotation.Resource;
 @CrossOrigin
 @Api(tags = "管理员模块")
 public class AdminController {
-
-
     @Resource
     private AdminService adminService;
-
 
     @PostMapping("/create")
     @ApiOperation(value = "创建课程")
@@ -45,7 +42,5 @@ public class AdminController {
     public Result deleteCourse(@PathVariable("id") Integer courseId) {
         return adminService.deleteOneCourse(courseId);
     }
-
-
 
 }

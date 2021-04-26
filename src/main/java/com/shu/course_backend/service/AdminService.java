@@ -2,6 +2,7 @@ package com.shu.course_backend.service;
 
 import com.shu.course_backend.model.Result;
 import com.shu.course_backend.model.request.CourseRequest;
+import com.shu.course_backend.model.request.UserAdditionReq;
 
 /**
  * @ClassName: AdminService
@@ -42,5 +43,4 @@ public interface AdminService {
      * @Version: V1.0
      **/
     Result deleteOneCourse(Integer courseId);
-
 }

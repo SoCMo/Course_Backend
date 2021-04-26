@@ -4,6 +4,7 @@ import com.shu.course_backend.config.filter.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -70,7 +71,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/test").hasAnyRole("ADMIN", "STUDENT")
-                .antMatchers("/user").hasAnyRole("ADMIN", "STUDENT", "TEACHER")
+                .antMatchers(HttpMethod.POST, "/users/").hasRole("ADMIN")
+                .antMatchers("/users/").hasAnyRole("ADMIN", "STUDENT", "TEACHER")
                 .antMatchers("/admin").hasAnyRole("ADMIN")
                 .antMatchers("/register").permitAll()
                 .anyRequest()
