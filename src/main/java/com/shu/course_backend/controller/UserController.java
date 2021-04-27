@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,6 +51,7 @@ public class UserController {
         return Result.error(new AllException(EmAllException.IDENTITY_ERROR, "没有权限"));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/")
     @ApiOperation(value = "创建用户")
     Result UserAddition(@RequestBody @Validated UserAdditionReq userAdditionReq) {

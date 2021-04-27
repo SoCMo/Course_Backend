@@ -1,23 +1,23 @@
 package com.shu.course_backend.model.entity;
 
 public class ConstDo {
-    private String key;
+    private String configKey;
 
-    private String value;
+    private String configValue;
 
-    public String getKey() {
-        return key;
+    public String getConfigKey() {
+        return configKey;
     }
 
-    public void setKey(String key) {
-        this.key = key == null ? null : key.trim();
+    public void setConfigKey(String configKey) {
+        this.configKey = configKey == null ? null : configKey.trim();
     }
 
-    public String getValue() {
-        return value;
+    public String getConfigValue() {
+        return configValue;
     }
 
-    public void setValue(String value) {
-        this.value = value == null ? null : value.trim();
+    public void setConfigValue(String configValue) {
+        this.configValue = configValue == null ? null : configValue.trim();
     }
 }
