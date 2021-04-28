@@ -1,6 +1,7 @@
 package com.shu.course_backend.model;
 
 import com.shu.course_backend.exception.AllException;
+import com.shu.course_backend.exception.EmAllException;
 import com.shu.course_backend.tool.TimeTool;
 import com.sun.net.httpserver.Authenticator;
 import lombok.Data;
@@ -52,5 +53,13 @@ public class Result<T> {
 
     public static Result error(AllException ex){
         return new Result(ex);
+    }
+
+    public static Result error(EmAllException ex){
+        return new Result(new AllException(ex));
+    }
+
+    public static Result error(EmAllException ex, String msg){
+        return new Result(new AllException(ex, msg));
     }
 }

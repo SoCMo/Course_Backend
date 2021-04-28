@@ -1,6 +1,7 @@
 package com.shu.course_backend.service;
 
 import com.shu.course_backend.model.Result;
+import com.shu.course_backend.model.entity.UpdateIdentityEntity;
 import com.shu.course_backend.model.request.UserAdditionReq;
 
 /**
@@ -29,4 +30,12 @@ public interface UserService {
      */
     Result UserAddition(UserAdditionReq userAdditionReq);
 
+    /**
+    * @Description: 修改用户身份
+    * @Param: [updateIdentityReq]
+    * @Return: com.shu.course_backend.model.Result
+    * @Author: SoCMo
+    * @Date: 2021/4/28
+    */
+    Result UpdateIdentity(UpdateIdentityEntity updateIdentityEntity);
 }

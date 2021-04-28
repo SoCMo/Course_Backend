@@ -7,18 +7,14 @@ import com.shu.course_backend.exception.EmAllException;
 import com.shu.course_backend.model.Result;
 import com.shu.course_backend.model.UserRole;
 import com.shu.course_backend.model.entity.UserDo;
+import com.shu.course_backend.model.entity.UpdateIdentityEntity;
 import com.shu.course_backend.model.request.UserAdditionReq;
 import com.shu.course_backend.model.response.Info.UserInfoRes;
-import com.shu.course_backend.model.response.LoginResponse;
 import com.shu.course_backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 
 /**
  * program: UserServiceImpl
@@ -67,6 +63,22 @@ public class UserServiceImpl implements UserService {
         try {
             if(userDoMapper.insertSelective(userDo) >= 1){
                 return Result.success(userDo);
+            }else {
+                throw new AllException(EmAllException.DATABASE_ERROR);
+            }
+        }catch (AllException ex){
+            return Result.error(ex);
+        }
+    }
+
+    @Override
+    public Result UpdateIdentity(UpdateIdentityEntity updateIdentityEntity) {
+        UserDo userDo = new UserDo();
+        userDo.setIdentity(updateIdentityEntity.getIdentity());
+        userDo.setUserId(updateIdentityEntity.getUserId());
+        try {
+            if(userDoMapper.updateByPrimaryKeySelective(userDo) >= 1){
+                return Result.success(userDoMapper.selectByPrimaryKey(updateIdentityEntity.getUserId()));
             }else {
                 throw new AllException(EmAllException.DATABASE_ERROR);
             }

@@ -25,7 +25,7 @@ public class ConfigServiceImpl implements ConfigService {
     @Override
     public Result updateSemester(String nowSemester) {
         if(!nowSemester.matches("^\\d{4}[0-3]$")){
-            return Result.error(new AllException(EmAllException.BAD_REQUEST, "学期格式错误"));
+            return Result.error(EmAllException.BAD_REQUEST, "学期格式错误");
         }
 
         ConstDo constDo = new ConstDo();
@@ -34,6 +34,21 @@ public class ConfigServiceImpl implements ConfigService {
 
         if(constDoMapper.updateByPrimaryKey(constDo) == 1){
             return Result.success(constDo);
-        } else return Result.error(new AllException(EmAllException.DATABASE_ERROR));
+        } else return Result.error(EmAllException.DATABASE_ERROR);
+    }
+
+    @Override
+    public Result updateElectionState(String state) {
+        if(!(state.equals("true") || state.equals("false"))){
+            return Result.error(EmAllException.BAD_REQUEST, "选课状态错误");
+        }
+
+        ConstDo constDo = new ConstDo();
+        constDo.setConfigKey("NOW_ELECTIONSTATE");
+        constDo.setConfigValue(state);
+
+        if(constDoMapper.updateByPrimaryKey(constDo) == 1){
+            return Result.success(constDo);
+        } else return Result.error(EmAllException.DATABASE_ERROR);
     }
 }
