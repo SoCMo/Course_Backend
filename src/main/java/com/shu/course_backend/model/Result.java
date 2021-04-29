@@ -46,6 +46,10 @@ public class Result<T> {
         return result;
     }
 
+    public static Result success(){
+        return new Result(HttpStatus.OK, "");
+    }
+
     public static Result success(String msg) {
         Result result = new Result(HttpStatus.OK, msg);
         return result;
