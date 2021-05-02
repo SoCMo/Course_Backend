@@ -2,6 +2,7 @@ package com.shu.course_backend.service.Impl;
 
 
 import com.shu.course_backend.config.JwtUserDetailsService;
+import com.shu.course_backend.dao.ConstDoMapper;
 import com.shu.course_backend.dao.DepartmentDoMapper;
 import com.shu.course_backend.dao.PasswordDoMapper;
 import com.shu.course_backend.dao.UserDoMapper;
@@ -14,6 +15,7 @@ import com.shu.course_backend.model.request.RegisterRequest;
 import com.shu.course_backend.model.response.LoginResponse;
 import com.shu.course_backend.service.LoginService;
 import com.shu.course_backend.tool.JwtTokenUtil;
+import com.shu.course_backend.tool.StrUtil;
 import org.apache.ibatis.annotations.ResultType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,6 +62,9 @@ public class LoginServiceImpl implements LoginService {
     @Resource
     private PasswordDoMapper passwordDoMapper;
 
+    @Resource
+    private ConstDoMapper constDoMapper;
+
 
 
 
@@ -91,6 +96,8 @@ public class LoginServiceImpl implements LoginService {
                         .selectByPrimaryKey(userDo.getDepartmentId())
                         .getDepartmentName()
         );
+        ConstDo constDo = constDoMapper.selectByPrimaryKey("NOW_SEMESTER");
+        response.setSemester(StrUtil.semesterConversion(constDo.getConfigValue()));
 
         return Result.success(response);
     }
