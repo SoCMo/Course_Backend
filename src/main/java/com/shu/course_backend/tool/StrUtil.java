@@ -22,19 +22,19 @@ public class StrUtil {
         sb.append(year);
         sb.append("学年");
         switch (sem) {
-            case "1": {
+            case "0": {
                 sb.append("秋季学期");
                 break;
             }
-            case "2": {
+            case "1": {
                 sb.append("冬季学期");
                 break;
             }
-            case "3": {
+            case "2": {
                 sb.append("春季学期");
                 break;
             }
-            case "4": {
+            case "3": {
                 sb.append("夏季学期");
                 break;
             }
