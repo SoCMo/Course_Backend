@@ -10,7 +10,7 @@ public interface ConstDoMapper {
 
     int deleteByExample(ConstDoExample example);
 
-    int deleteByPrimaryKey(String key);
+    int deleteByPrimaryKey(String configKey);
 
     int insert(ConstDo record);
 
@@ -18,7 +18,7 @@ public interface ConstDoMapper {
 
     List<ConstDo> selectByExample(ConstDoExample example);
 
-    ConstDo selectByPrimaryKey(String key);
+    ConstDo selectByPrimaryKey(String configKey);
 
     int updateByExampleSelective(@Param("record") ConstDo record, @Param("example") ConstDoExample example);
 

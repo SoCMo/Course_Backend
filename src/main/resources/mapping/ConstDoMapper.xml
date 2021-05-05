@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.shu.course_backend.dao.ConstDoMapper" >
   <resultMap id="BaseResultMap" type="com.shu.course_backend.model.entity.ConstDo" >
-    <id column="key" property="key" jdbcType="VARCHAR" />
-    <result column="value" property="value" jdbcType="VARCHAR" />
+    <id column="config_key" property="configKey" jdbcType="VARCHAR" />
+    <result column="config_value" property="configValue" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -64,7 +64,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    key, value
+    config_key, config_value
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shu.course_backend.model.entity.ConstDoExample" >
     select
@@ -85,11 +85,11 @@
     select 
     <include refid="Base_Column_List" />
     from const_info
-    where key = #{key,jdbcType=VARCHAR}
+    where config_key = #{configKey,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from const_info
-    where key = #{key,jdbcType=VARCHAR}
+    where config_key = #{configKey,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.shu.course_backend.model.entity.ConstDoExample" >
     delete from const_info
@@ -98,25 +98,25 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.shu.course_backend.model.entity.ConstDo" >
-    insert into const_info (key, value)
-    values (#{key,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR})
+    insert into const_info (config_key, config_value)
+    values (#{configKey,jdbcType=VARCHAR}, #{configValue,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.shu.course_backend.model.entity.ConstDo" >
     insert into const_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="key != null" >
-        key,
+      <if test="configKey != null" >
+        config_key,
       </if>
-      <if test="value != null" >
-        value,
+      <if test="configValue != null" >
+        config_value,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="key != null" >
-        #{key,jdbcType=VARCHAR},
+      <if test="configKey != null" >
+        #{configKey,jdbcType=VARCHAR},
       </if>
-      <if test="value != null" >
-        #{value,jdbcType=VARCHAR},
+      <if test="configValue != null" >
+        #{configValue,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -129,11 +129,11 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update const_info
     <set >
-      <if test="record.key != null" >
-        key = #{record.key,jdbcType=VARCHAR},
+      <if test="record.configKey != null" >
+        config_key = #{record.configKey,jdbcType=VARCHAR},
       </if>
-      <if test="record.value != null" >
-        value = #{record.value,jdbcType=VARCHAR},
+      <if test="record.configValue != null" >
+        config_value = #{record.configValue,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -142,8 +142,8 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update const_info
-    set key = #{record.key,jdbcType=VARCHAR},
-      value = #{record.value,jdbcType=VARCHAR}
+    set config_key = #{record.configKey,jdbcType=VARCHAR},
+      config_value = #{record.configValue,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -151,15 +151,15 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.shu.course_backend.model.entity.ConstDo" >
     update const_info
     <set >
-      <if test="value != null" >
-        value = #{value,jdbcType=VARCHAR},
+      <if test="configValue != null" >
+        config_value = #{configValue,jdbcType=VARCHAR},
       </if>
     </set>
-    where key = #{key,jdbcType=VARCHAR}
+    where config_key = #{configKey,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.shu.course_backend.model.entity.ConstDo" >
     update const_info
-    set value = #{value,jdbcType=VARCHAR}
-    where key = #{key,jdbcType=VARCHAR}
+    set config_value = #{configValue,jdbcType=VARCHAR}
+    where config_key = #{configKey,jdbcType=VARCHAR}
   </update>
 </mapper>
