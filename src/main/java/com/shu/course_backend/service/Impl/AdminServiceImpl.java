@@ -7,17 +7,12 @@ import com.shu.course_backend.exception.AllException;
 import com.shu.course_backend.exception.EmAllException;
 import com.shu.course_backend.model.Result;
 import com.shu.course_backend.model.entity.CourseDo;
-import com.shu.course_backend.model.entity.DepartmentDo;
-import com.shu.course_backend.model.entity.UserDo;
 import com.shu.course_backend.model.request.CourseRequest;
-import com.shu.course_backend.model.request.UserAdditionReq;
 import com.shu.course_backend.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**

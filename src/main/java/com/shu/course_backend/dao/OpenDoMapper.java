@@ -16,21 +16,15 @@ public interface OpenDoMapper {
 
     int insertSelective(OpenDo record);
 
-    List<OpenDo> selectByExampleWithBLOBs(OpenDoExample example);
-
     List<OpenDo> selectByExample(OpenDoExample example);
 
     OpenDo selectByPrimaryKey(Integer openId);
 
     int updateByExampleSelective(@Param("record") OpenDo record, @Param("example") OpenDoExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") OpenDo record, @Param("example") OpenDoExample example);
-
     int updateByExample(@Param("record") OpenDo record, @Param("example") OpenDoExample example);
 
     int updateByPrimaryKeySelective(OpenDo record);
-
-    int updateByPrimaryKeyWithBLOBs(OpenDo record);
 
     int updateByPrimaryKey(OpenDo record);
 }

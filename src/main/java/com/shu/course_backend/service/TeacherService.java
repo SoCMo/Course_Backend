@@ -19,7 +19,7 @@ public interface TeacherService {
      * @Author: pongshy
      * @Date: 2021/5/5 22:14
      */
-    Result applyTheCourseByTeacher(Integer courseId, String userId);
+    Result applyTheCourseByTeacher(Integer courseId, Integer courseTimeId, String userId);
 
 
 }
