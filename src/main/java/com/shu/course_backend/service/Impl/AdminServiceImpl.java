@@ -1,18 +1,26 @@
 package com.shu.course_backend.service.Impl;
 
 import com.shu.course_backend.dao.CourseDoMapper;
+import com.shu.course_backend.dao.CourseTimeDoMapper;
 import com.shu.course_backend.dao.DepartmentDoMapper;
 import com.shu.course_backend.dao.UserDoMapper;
 import com.shu.course_backend.exception.AllException;
 import com.shu.course_backend.exception.EmAllException;
 import com.shu.course_backend.model.Result;
 import com.shu.course_backend.model.entity.CourseDo;
+import com.shu.course_backend.model.entity.CourseTimeDo;
+import com.shu.course_backend.model.entity.CourseTimeDoExample;
 import com.shu.course_backend.model.request.CourseRequest;
+import com.shu.course_backend.model.request.CourseTimeModifyRequest;
+import com.shu.course_backend.model.request.CourseTimeRequest;
+import com.shu.course_backend.model.response.CourseResponse;
 import com.shu.course_backend.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,11 +34,15 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
+
+
     private final DepartmentDoMapper departmentDoMapper;
 
     private final UserDoMapper userDoMapper;
 
     private final CourseDoMapper courseDoMapper;
+
+    private final CourseTimeDoMapper courseTimeDoMapper;
 
     /**
      * @Description: 创建课程
@@ -70,8 +82,23 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Result getAllCourses() {
         List<CourseDo> courseDoList = courseDoMapper.selectByExample(null);
+        List<CourseResponse> responses = new ArrayList<>();
 
-        return Result.success(courseDoList);
+        for (CourseDo courseDo : courseDoList) {
+            CourseResponse tmp = new CourseResponse();
+
+            BeanUtils.copyProperties(courseDo, tmp);
+
+            CourseTimeDoExample example = new CourseTimeDoExample();
+            example
+                    .createCriteria()
+                    .andCourseIdEqualTo(courseDo.getId());
+            List<CourseTimeDo> timeDoList = courseTimeDoMapper.selectByExample(example);
+            tmp.setTimeList(timeDoList);
+            responses.add(tmp);
+        }
+
+        return Result.success(responses);
     }
 
     /**
@@ -92,6 +119,88 @@ public class AdminServiceImpl implements AdminService {
             }
         } catch (AllException ex) {
             return Result.error(ex);
+        }
+    }
+
+    /*
+     * @Description: 增加一门课的上课时间与地点等数据
+     * @Param: [courseTimeRequest]
+     * @return: com.shu.course_backend.model.Result
+     * @Author: pongshy
+     * @Date: 2021/5/12
+     * @Version: V1.0
+     **/
+    @Override
+    public Result addCourseTime(CourseTimeRequest courseTimeRequest) {
+        CourseTimeDo record = new CourseTimeDo();
+
+        record.setCourseId(courseTimeRequest.getCourseId());
+        record.setAddress(courseTimeRequest.getAddress());
+        record.setAnswerAddress(courseTimeRequest.getAnswerAddress());
+        record.setAnswerTime(courseTimeRequest.getAnswerTime());
+        // 上课时间按
+//        record.setCourseTime();
+
+        try {
+            if (courseTimeDoMapper.insertSelective(record) == 1) {
+                return Result.success("添加成功");
+            } else {
+                throw new AllException(EmAllException.DATABASE_ERROR);
+            }
+        } catch (AllException e) {
+            return Result.error(e);
+        }
+    }
+
+    /*
+     * @Description: 修改一门课的上课时间与地点等数据
+     * @Param: [courseTimeModifyRequest]
+     * @return: com.shu.course_backend.model.Result
+     * @Author: pongshy
+     * @Date: 2021/5/12
+     * @Version: V1.0
+     **/
+    @Override
+    public Result modifyCourseTime(CourseTimeModifyRequest courseTimeModifyRequest) {
+        CourseTimeDo record = new CourseTimeDo();
+
+        record.setId(courseTimeModifyRequest.getId());
+        record.setAddress(courseTimeModifyRequest.getAddress());
+        record.setAnswerTime(courseTimeModifyRequest.getAnswerTime());
+        record.setAnswerAddress(courseTimeModifyRequest.getAnswerAddress());
+//        上课时间转换函数未写
+//        record.setAddress();
+
+        try {
+            if (courseTimeDoMapper.updateByPrimaryKeySelective(record) == 1) {
+                return Result.success("修改成功");
+            } else {
+                throw new AllException(EmAllException.BAD_REQUEST, "传入参数有误");
+            }
+        } catch (AllException e) {
+            return Result.error(e);
+        }
+
+    }
+
+    /*
+     * @Description: 删除一门课程指定一个上课时间和地点等信息
+     * @Param: [id]
+     * @return: com.shu.course_backend.model.Result
+     * @Author: pongshy
+     * @Date: 2021/5/12
+     * @Version: V1.0
+     **/
+    @Override
+    public Result deleteCourseTime(Integer id) {
+        try {
+            if (courseTimeDoMapper.deleteByPrimaryKey(id) == 1) {
+                return Result.success("删除成功");
+            } else {
+                throw new AllException(EmAllException.BAD_REQUEST, "传入id有误");
+            }
+        } catch (AllException e) {
+            return Result.error(e);
         }
     }
 
