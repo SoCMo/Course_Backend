@@ -234,6 +234,76 @@ public class CourseTimeDoExample {
             return (Criteria) this;
         }
 
+        public Criteria andCourseTimeIsNull() {
+            addCriterion("course_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseTimeIsNotNull() {
+            addCriterion("course_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseTimeEqualTo(String value) {
+            addCriterion("course_time =", value, "courseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseTimeNotEqualTo(String value) {
+            addCriterion("course_time <>", value, "courseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseTimeGreaterThan(String value) {
+            addCriterion("course_time >", value, "courseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseTimeGreaterThanOrEqualTo(String value) {
+            addCriterion("course_time >=", value, "courseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseTimeLessThan(String value) {
+            addCriterion("course_time <", value, "courseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseTimeLessThanOrEqualTo(String value) {
+            addCriterion("course_time <=", value, "courseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseTimeLike(String value) {
+            addCriterion("course_time like", value, "courseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseTimeNotLike(String value) {
+            addCriterion("course_time not like", value, "courseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseTimeIn(List<String> values) {
+            addCriterion("course_time in", values, "courseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseTimeNotIn(List<String> values) {
+            addCriterion("course_time not in", values, "courseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseTimeBetween(String value1, String value2) {
+            addCriterion("course_time between", value1, value2, "courseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseTimeNotBetween(String value1, String value2) {
+            addCriterion("course_time not between", value1, value2, "courseTime");
+            return (Criteria) this;
+        }
+
         public Criteria andAnswerAddressIsNull() {
             addCriterion("answer_address is null");
             return (Criteria) this;

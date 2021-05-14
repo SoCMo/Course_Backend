@@ -16,21 +16,15 @@ public interface CourseTimeDoMapper {
 
     int insertSelective(CourseTimeDo record);
 
-    List<CourseTimeDo> selectByExampleWithBLOBs(CourseTimeDoExample example);
-
     List<CourseTimeDo> selectByExample(CourseTimeDoExample example);
 
     CourseTimeDo selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") CourseTimeDo record, @Param("example") CourseTimeDoExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") CourseTimeDo record, @Param("example") CourseTimeDoExample example);
-
     int updateByExample(@Param("record") CourseTimeDo record, @Param("example") CourseTimeDoExample example);
 
     int updateByPrimaryKeySelective(CourseTimeDo record);
-
-    int updateByPrimaryKeyWithBLOBs(CourseTimeDo record);
 
     int updateByPrimaryKey(CourseTimeDo record);
 }

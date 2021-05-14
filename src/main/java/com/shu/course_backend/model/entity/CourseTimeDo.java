@@ -5,13 +5,13 @@ public class CourseTimeDo {
 
     private String address;
 
+    private String courseTime;
+
     private String answerAddress;
 
     private String answerTime;
 
     private Integer courseId;
-
-    private byte[] courseTime;
 
     public Integer getId() {
         return id;
@@ -27,6 +27,14 @@ public class CourseTimeDo {
 
     public void setAddress(String address) {
         this.address = address == null ? null : address.trim();
+    }
+
+    public String getCourseTime() {
+        return courseTime;
+    }
+
+    public void setCourseTime(String courseTime) {
+        this.courseTime = courseTime == null ? null : courseTime.trim();
     }
 
     public String getAnswerAddress() {
@@ -51,13 +59,5 @@ public class CourseTimeDo {
 
     public void setCourseId(Integer courseId) {
         this.courseId = courseId;
-    }
-
-    public byte[] getCourseTime() {
-        return courseTime;
-    }
-
-    public void setCourseTime(byte[] courseTime) {
-        this.courseTime = courseTime;
     }
 }
