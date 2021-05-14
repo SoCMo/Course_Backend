@@ -1,15 +1,13 @@
 package com.shu.course_backend.service.Impl;
 
-import com.shu.course_backend.dao.CourseDoMapper;
-import com.shu.course_backend.dao.CourseTimeDoMapper;
-import com.shu.course_backend.dao.DepartmentDoMapper;
-import com.shu.course_backend.dao.UserDoMapper;
+import com.shu.course_backend.dao.*;
 import com.shu.course_backend.exception.AllException;
 import com.shu.course_backend.exception.EmAllException;
 import com.shu.course_backend.model.Result;
 import com.shu.course_backend.model.entity.CourseDo;
 import com.shu.course_backend.model.entity.CourseTimeDo;
 import com.shu.course_backend.model.entity.CourseTimeDoExample;
+import com.shu.course_backend.model.entity.OpenDoExample;
 import com.shu.course_backend.model.request.CourseRequest;
 import com.shu.course_backend.model.request.CourseTimeModifyRequest;
 import com.shu.course_backend.model.request.CourseTimeRequest;
@@ -45,6 +43,8 @@ public class AdminServiceImpl implements AdminService {
     private final CourseDoMapper courseDoMapper;
 
     private final CourseTimeDoMapper courseTimeDoMapper;
+
+    private final OpenDoMapper openDoMapper;
 
     /**
      * @Description: 创建课程
@@ -102,6 +102,19 @@ public class AdminServiceImpl implements AdminService {
                 CourseTimeResponse resTmp = new CourseTimeResponse();
                 BeanUtils.copyProperties(courseTimeDo, resTmp);
                 resTmp.setCourseTimeList(CourseTool.translateFromBitToStr(courseTimeDo.getCourseTime()));
+                //查看该时间段老师是否已开课
+                Integer id = courseTimeDo.getId();
+                OpenDoExample openDoExample = new OpenDoExample();
+                openDoExample
+                        .createCriteria()
+                        .andCourseTimeIdEqualTo(id);
+                Integer count = openDoMapper.countByExample(openDoExample);
+                if (count == 0) {
+                    resTmp.setIsChosen(0);
+                } else {
+                    resTmp.setIsChosen(1);
+                }
+
                 timeResponses.add(resTmp);
             }
             tmp.setTimeList(timeResponses);

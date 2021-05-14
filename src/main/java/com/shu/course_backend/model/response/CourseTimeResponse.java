@@ -28,6 +28,8 @@ public class CourseTimeResponse {
 
     private Integer courseId;
 
+    private Integer isChosen;   // 1表示被选择，0表示没有被选择
+
     public CourseTimeResponse() {
         this.courseTimeList = new ArrayList<>();
     }
