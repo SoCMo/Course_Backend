@@ -44,4 +44,10 @@ public class AdminController {
         return adminService.deleteOneCourse(courseId);
     }
 
+    @GetMapping("/apply/get")
+    @ApiOperation(value = "获取所有申请课程信息")
+    public Result getAllApplications() {
+        return null;
+    }
+
 }
