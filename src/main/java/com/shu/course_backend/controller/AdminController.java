@@ -41,7 +41,7 @@ public class AdminController {
         return adminService.addCourseTime(courseTimeRequest);
     }
 
-    @PutMapping("/modify")
+    @PutMapping("/modifyTime")
     @ApiOperation(value = "修改一门课程除了上课时间与地点外的具体信息")
     public Result modifyCourse(@RequestBody @Validated CourseTimeModifyRequest courseTimeModifyRequest) {
         return adminService.modifyCourseTime(courseTimeModifyRequest);
