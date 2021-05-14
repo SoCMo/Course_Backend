@@ -3,17 +3,13 @@ package com.shu.course_backend.model.entity;
 public class OpenDo {
     private Integer openId;
 
+    private String teacherId;
+
     private Integer courseId;
 
     private String semester;
 
-    private String address;
-
-    private String answerAddress;
-
-    private String answerTime;
-
-    private byte[] courseTime;
+    private Integer courseTimeId;
 
     public Integer getOpenId() {
         return openId;
@@ -21,6 +17,14 @@ public class OpenDo {
 
     public void setOpenId(Integer openId) {
         this.openId = openId;
+    }
+
+    public String getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId == null ? null : teacherId.trim();
     }
 
     public Integer getCourseId() {
@@ -39,35 +43,11 @@ public class OpenDo {
         this.semester = semester == null ? null : semester.trim();
     }
 
-    public String getAddress() {
-        return address;
+    public Integer getCourseTimeId() {
+        return courseTimeId;
     }
 
-    public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
-    }
-
-    public String getAnswerAddress() {
-        return answerAddress;
-    }
-
-    public void setAnswerAddress(String answerAddress) {
-        this.answerAddress = answerAddress == null ? null : answerAddress.trim();
-    }
-
-    public String getAnswerTime() {
-        return answerTime;
-    }
-
-    public void setAnswerTime(String answerTime) {
-        this.answerTime = answerTime == null ? null : answerTime.trim();
-    }
-
-    public byte[] getCourseTime() {
-        return courseTime;
-    }
-
-    public void setCourseTime(byte[] courseTime) {
-        this.courseTime = courseTime;
+    public void setCourseTimeId(Integer courseTimeId) {
+        this.courseTimeId = courseTimeId;
     }
 }

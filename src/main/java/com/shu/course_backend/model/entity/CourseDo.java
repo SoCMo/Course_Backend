@@ -5,8 +5,6 @@ public class CourseDo {
 
     private String name;
 
-    private String teacherId;
-
     private Integer credit;
 
     private Integer capacity;
@@ -27,14 +25,6 @@ public class CourseDo {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
-    }
-
-    public String getTeacherId() {
-        return teacherId;
-    }
-
-    public void setTeacherId(String teacherId) {
-        this.teacherId = teacherId == null ? null : teacherId.trim();
     }
 
     public Integer getCredit() {

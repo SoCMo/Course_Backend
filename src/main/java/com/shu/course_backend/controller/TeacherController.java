@@ -1,6 +1,7 @@
 package com.shu.course_backend.controller;
 
 import com.shu.course_backend.model.Result;
+import com.shu.course_backend.model.request.ApplyRequest;
 import com.shu.course_backend.service.TeacherService;
 import com.shu.course_backend.tool.JwtTokenUtil;
 import io.swagger.annotations.Api;
@@ -9,6 +10,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -36,14 +38,17 @@ public class TeacherController {
 
     @PreAuthorize("hasRole('TEACHER')")
     @ApiOperation(value = "教师申请课程")
-    @ApiImplicitParam(name = "courseId", value = "课程号", required = true)
-    @GetMapping("/apply/{courseId}")
-    public Result applyTheCourse(@PathVariable(value = "courseId") Integer courseId,
+//    @ApiImplicitParam(name = "courseId", value = "课程号", required = true)
+    @PostMapping("/apply")
+    public Result applyTheCourse(@RequestBody @Validated ApplyRequest applyRequest,
                                  HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         String userid = jwtTokenUtil.getUsernameFromTokenAfterSub(token);
 
-        return teacherService.applyTheCourseByTeacher(courseId, userid);
+        return teacherService.applyTheCourseByTeacher(
+                applyRequest.getCourseId(),
+                applyRequest.getCourseTimeId(),
+                userid);
     }
 
 
