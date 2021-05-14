@@ -4,7 +4,10 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @ClassName: CourseTimeRequest
@@ -18,7 +21,7 @@ import javax.validation.constraints.NotEmpty;
 public class CourseTimeRequest {
 
 
-    @NotEmpty(message = "课程号不能为空")
+    @NotNull(message = "课程号不能为空")
     @ApiModelProperty(value = "课程号", required = true)
     private Integer courseId;
 
@@ -27,8 +30,8 @@ public class CourseTimeRequest {
     private String address;
 
     @NotEmpty(message = "上课时间不能为空")
-    @ApiModelProperty(value = "上课时间", required = true, example = "周二:3,4")
-    private String courseTime;
+    @ApiModelProperty(value = "上课时间", required = true, example = "周二:3-4")
+    private List<String> courseTime;
 
     @ApiModelProperty(value = "答疑地点", required = true, example = "计704")
     private String answerAddress;

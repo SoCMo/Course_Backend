@@ -4,8 +4,10 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @ClassName: CourseTimeModifyRequest
@@ -28,12 +30,14 @@ public class CourseTimeModifyRequest {
     private String address;
 
     @NotEmpty(message = "上课时间不能为空")
-    @ApiModelProperty(value = "上课时间", required = true, example = "周二:3,4")
-    private String courseTime;
+    @ApiModelProperty(value = "上课时间", required = true, example = "周二:3-4")
+    private List<String> courseTime;
 
+    @NotEmpty(message = "答疑地点不能为空")
     @ApiModelProperty(value = "答疑地点", required = true, example = "计704")
     private String answerAddress;
 
+    @NotEmpty(message = "答疑时间不能为空")
     @ApiModelProperty(value = "答疑时间", required = true)
     private String answerTime;
 

@@ -14,7 +14,9 @@ import com.shu.course_backend.model.request.CourseRequest;
 import com.shu.course_backend.model.request.CourseTimeModifyRequest;
 import com.shu.course_backend.model.request.CourseTimeRequest;
 import com.shu.course_backend.model.response.CourseResponse;
+import com.shu.course_backend.model.response.CourseTimeResponse;
 import com.shu.course_backend.service.AdminService;
+import com.shu.course_backend.tool.CourseTool;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -94,7 +96,15 @@ public class AdminServiceImpl implements AdminService {
                     .createCriteria()
                     .andCourseIdEqualTo(courseDo.getId());
             List<CourseTimeDo> timeDoList = courseTimeDoMapper.selectByExample(example);
-            tmp.setTimeList(timeDoList);
+            List<CourseTimeResponse> timeResponses = new ArrayList<>();
+            // 上课时间
+            for (CourseTimeDo courseTimeDo : timeDoList) {
+                CourseTimeResponse resTmp = new CourseTimeResponse();
+                BeanUtils.copyProperties(courseTimeDo, resTmp);
+                resTmp.setCourseTimeList(CourseTool.translateFromBitToStr(courseTimeDo.getCourseTime()));
+                timeResponses.add(resTmp);
+            }
+            tmp.setTimeList(timeResponses);
             responses.add(tmp);
         }
 
@@ -138,8 +148,11 @@ public class AdminServiceImpl implements AdminService {
         record.setAddress(courseTimeRequest.getAddress());
         record.setAnswerAddress(courseTimeRequest.getAnswerAddress());
         record.setAnswerTime(courseTimeRequest.getAnswerTime());
-        // 上课时间按
-//        record.setCourseTime();
+        try {
+            record.setCourseTime(CourseTool.translateFromStrToBit(courseTimeRequest.getCourseTime()));
+        } catch (AllException e) {
+            return Result.error(e);
+        }
 
         try {
             if (courseTimeDoMapper.insertSelective(record) == 1) {
@@ -168,8 +181,11 @@ public class AdminServiceImpl implements AdminService {
         record.setAddress(courseTimeModifyRequest.getAddress());
         record.setAnswerTime(courseTimeModifyRequest.getAnswerTime());
         record.setAnswerAddress(courseTimeModifyRequest.getAnswerAddress());
-//        上课时间转换函数未写
-//        record.setAddress();
+        try {
+            record.setCourseTime(CourseTool.translateFromStrToBit(courseTimeModifyRequest.getCourseTime()));
+        } catch (AllException e) {
+            return Result.error(e);
+        }
 
         try {
             if (courseTimeDoMapper.updateByPrimaryKeySelective(record) == 1) {

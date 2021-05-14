@@ -27,7 +27,7 @@ public class CourseResponse {
 
     private Integer proportion;
 
-    private List<CourseTimeDo> timeList;
+    private List<CourseTimeResponse> timeList;
 
     public CourseResponse() {
         this.timeList = new ArrayList<>();
