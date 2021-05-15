@@ -29,6 +29,7 @@ import java.util.Map;
 @CrossOrigin
 @Api(tags = "学生资源")
 @RequiredArgsConstructor
+@Validated
 public class StudentController {
     private final StudentService studentService;
 
