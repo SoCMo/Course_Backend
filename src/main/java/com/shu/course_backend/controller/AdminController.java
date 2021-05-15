@@ -75,9 +75,5 @@ public class AdminController {
         return null;
     }
 
-    // TODO: 输入成绩
-
-    // TODO: 修改成绩
-
 
 }
