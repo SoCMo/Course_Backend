@@ -4,10 +4,7 @@ import com.shu.course_backend.dao.*;
 import com.shu.course_backend.exception.AllException;
 import com.shu.course_backend.exception.EmAllException;
 import com.shu.course_backend.model.Result;
-import com.shu.course_backend.model.entity.CourseDo;
-import com.shu.course_backend.model.entity.CourseTimeDo;
-import com.shu.course_backend.model.entity.CourseTimeDoExample;
-import com.shu.course_backend.model.entity.OpenDoExample;
+import com.shu.course_backend.model.entity.*;
 import com.shu.course_backend.model.request.CourseRequest;
 import com.shu.course_backend.model.request.CourseTimeModifyRequest;
 import com.shu.course_backend.model.request.CourseTimeRequest;
@@ -189,10 +186,19 @@ public class AdminServiceImpl implements AdminService {
         }
 
         try {
-            if (courseTimeDoMapper.insertSelective(record) == 1) {
-                return Result.success("添加成功");
+            CourseDoExample courseDoExample = new CourseDoExample();
+            courseDoExample
+                    .createCriteria()
+                    .andIdEqualTo(courseTimeRequest.getCourseId());
+            Integer count = courseDoMapper.countByExample(courseDoExample);
+            if (count == 1) {
+                if (courseTimeDoMapper.insertSelective(record) == 1) {
+                    return Result.success("添加成功");
+                } else {
+                    throw new AllException(EmAllException.DATABASE_ERROR);
+                }
             } else {
-                throw new AllException(EmAllException.DATABASE_ERROR);
+                throw new AllException(EmAllException.BAD_REQUEST, "参数有误");
             }
         } catch (AllException e) {
             return Result.error(e);
