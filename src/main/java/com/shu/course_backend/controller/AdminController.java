@@ -6,6 +6,7 @@ import com.shu.course_backend.model.request.CourseTimeModifyRequest;
 import com.shu.course_backend.model.request.CourseTimeRequest;
 import com.shu.course_backend.service.AdminService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -55,14 +56,27 @@ public class AdminController {
 
     @DeleteMapping("/course/{id}")
     @ApiOperation(value = "删除一门指定课程")
+    @ApiImplicitParam(name = "id", value = "课程号", required = true, paramType = "path")
     public Result deleteCourse(@PathVariable("id") Integer courseId) {
         return adminService.deleteOneCourse(courseId);
     }
 
     @DeleteMapping("/coursetime/{id}")
     @ApiOperation(value = "删除一门课程一个指定上课时间等数据")
+    @ApiImplicitParam(name = "id", value = "主键id", required = true, paramType = "path")
     public Result deleteCourseTime(@PathVariable("id") Integer id) {
         return adminService.deleteCourseTime(id);
     }
+
+    @ApiOperation(value = "获取某门课的所有学生成绩")
+    @GetMapping("/getGrades/{courseId}")
+    public Result getStudentGrades(@PathVariable("courseId") Integer courseId) {
+        return null;
+    }
+
+    // TODO: 输入成绩
+
+    // TODO: 修改成绩
+
 
 }

@@ -91,7 +91,7 @@ public class CourseTool {
             String tmp = timeList.get(i);
             for (int j = 0; j < tmp.length(); ++j) {
                 if (sb.charAt(j) == '1' && tmp.charAt(j) == '1') {
-                    throw new AllException(EmAllException.BAD_REQUEST, "存在重课");
+                    throw new AllException(EmAllException.DATABASE_ERROR, "存在重课");
                 }
 
                 if (sb.charAt(j) == '1' || tmp.charAt(j) == '1') {
