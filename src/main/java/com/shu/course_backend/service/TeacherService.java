@@ -21,5 +21,14 @@ public interface TeacherService {
      */
     Result applyTheCourseByTeacher(Integer courseId, Integer courseTimeId, String userId);
 
+    /*
+     * @Description: 获取指定课程的所有学生成绩
+     * @Method: [courseId]
+     * @Return: com.shu.course_backend.model.Result
+     * @Version: 1.0
+     * @Author: pongshy
+     * @Date: 2021/5/15 22:04
+     */
+    Result getAllGrades(Integer courseId);
 
 }

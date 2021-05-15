@@ -20,7 +20,9 @@ public enum EmAllException implements com.shu.course_backend.exception.CommonErr
 
     USER_REFUSE(503, "服务器无法处理请求", HttpStatus.SERVICE_UNAVAILABLE),
 
-    EMPTY_RESPONSE(504, "请求的资源为空", HttpStatus.BAD_REQUEST);
+    EMPTY_RESPONSE(504, "请求的资源为空", HttpStatus.BAD_REQUEST),
+
+    NOT_FOUND(404, "请求针对不存在记录", HttpStatus.NOT_FOUND);
 
     // 错误码
     private Integer code;

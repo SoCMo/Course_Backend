@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
 
 /**
  * @ClassName: TeacherController
@@ -49,6 +50,14 @@ public class TeacherController {
                 applyRequest.getCourseId(),
                 applyRequest.getCourseTimeId(),
                 userid);
+    }
+
+    @PreAuthorize("hasRole('TEACHER')")
+    @ApiOperation(value = "查看具体一门课的所有学生的成绩")
+    @ApiImplicitParam(name = "courseId", value = "课程号", required = true, paramType = "path")
+    @GetMapping("/getGrades/{courseId}")
+    public Result getAllGrades(@PathVariable("courseId") Integer courseId) {
+        return teacherService.getAllGrades(courseId);
     }
 
 

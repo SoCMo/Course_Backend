@@ -226,4 +226,10 @@
       examination = #{examination,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectNameAndGrade" parameterType="java.lang.Integer" resultType="com.shu.course_backend.model.response.GradeResponse">
+    SELECT user_info.`name`, user_info.user_id AS studentId, election_info.grade, election_info.usual, election_info.examination AS exam
+    FROM user_info INNER JOIN election_info ON user_info.user_id = election_info.student_id
+    WHERE election_info.course_id = #{courseId,jdbcType=INTEGER}
+    ORDER BY election_info.student_id ASC
+  </select>
 </mapper>
