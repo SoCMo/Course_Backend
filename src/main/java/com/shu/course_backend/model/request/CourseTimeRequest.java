@@ -1,5 +1,6 @@
 package com.shu.course_backend.model.request;
 
+import com.shu.course_backend.annotation.CheckTime;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 /**
@@ -31,6 +33,7 @@ public class CourseTimeRequest {
 
     @NotEmpty(message = "上课时间不能为空")
     @ApiModelProperty(value = "上课时间", required = true, example = "周二:3-4")
+    @CheckTime
     private List<String> courseTime;
 
     @ApiModelProperty(value = "答疑地点", required = true, example = "计704")
