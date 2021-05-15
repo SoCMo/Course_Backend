@@ -25,7 +25,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/student")
 @CrossOrigin
-@Api(tags = "学生模块")
+@Api(tags = "学生资源")
 @RequiredArgsConstructor
 public class StudentController {
     private final StudentService studentService;
