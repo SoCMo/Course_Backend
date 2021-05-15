@@ -27,6 +27,8 @@ public class CourseResponse {
 
     private Integer proportion;
 
+    private Integer isChosen;   // 1->被选择，0->未被选择
+
     private List<CourseTimeResponse> timeList;
 
     public CourseResponse() {

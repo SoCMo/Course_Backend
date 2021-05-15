@@ -97,6 +97,18 @@ public class AdminServiceImpl implements AdminService {
                     .andCourseIdEqualTo(courseDo.getId());
             List<CourseTimeDo> timeDoList = courseTimeDoMapper.selectByExample(example);
             List<CourseTimeResponse> timeResponses = new ArrayList<>();
+            // 是否已被选择
+            OpenDoExample openDoExample1 = new OpenDoExample();
+            openDoExample1
+                    .createCriteria()
+                    .andCourseIdEqualTo(courseDo.getId());
+            Integer ct = openDoMapper.countByExample(openDoExample1);
+            if (ct == 0) {
+                tmp.setIsChosen(0);
+            } else {
+                tmp.setIsChosen(1);
+            }
+
             // 上课时间
             for (CourseTimeDo courseTimeDo : timeDoList) {
                 CourseTimeResponse resTmp = new CourseTimeResponse();
@@ -135,10 +147,19 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Result deleteOneCourse(Integer courseId) {
         try {
-            if (courseDoMapper.deleteByPrimaryKey(courseId) == 1) {
-                return Result.success("删除成功");
+            OpenDoExample openDoExample = new OpenDoExample();
+            openDoExample
+                    .createCriteria()
+                    .andCourseIdEqualTo(courseId);
+            Integer count = openDoMapper.countByExample(openDoExample);
+            if (count == 0) {
+                if (courseDoMapper.deleteByPrimaryKey(courseId) == 1) {
+                    return Result.success("删除成功");
+                } else {
+                    throw new AllException(EmAllException.DATABASE_ERROR, "课程id错误");
+                }
             } else {
-                throw new AllException(EmAllException.DATABASE_ERROR, "课程id错误");
+                throw new AllException(EmAllException.BAD_REQUEST, "请先删除时间");
             }
         } catch (AllException ex) {
             return Result.error(ex);
@@ -223,10 +244,20 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Result deleteCourseTime(Integer id) {
         try {
-            if (courseTimeDoMapper.deleteByPrimaryKey(id) == 1) {
-                return Result.success("删除成功");
+            OpenDoExample openDoExample = new OpenDoExample();
+            openDoExample
+                    .createCriteria()
+                    .andCourseTimeIdEqualTo(id);
+            Integer count = openDoMapper.countByExample(openDoExample);
+
+            if (count == 0) {
+                if (courseTimeDoMapper.deleteByPrimaryKey(id) == 1) {
+                    return Result.success("删除成功");
+                } else {
+                    throw new AllException(EmAllException.BAD_REQUEST, "传入id有误");
+                }
             } else {
-                throw new AllException(EmAllException.BAD_REQUEST, "传入id有误");
+                throw new AllException(EmAllException.BAD_REQUEST, "该时间已被教师选择");
             }
         } catch (AllException e) {
             return Result.error(e);
