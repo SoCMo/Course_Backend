@@ -10,10 +10,12 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.Map;
 
 /**
@@ -33,6 +35,7 @@ public class StudentController {
     @GetMapping("/this/semester/{semester}/course")
     @ApiOperation(value = "获取学生选课列表")
     Result courseList(@ApiParam(value = "学期", required = true)
+                      @Pattern(regexp = "^\\d{4}[0-3]$", message = "学期格式错误")
                       @PathVariable("semester") String semester) {
         return studentService.selectionList(semester);
     }
