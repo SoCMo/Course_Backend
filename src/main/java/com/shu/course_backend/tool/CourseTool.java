@@ -9,6 +9,7 @@ import sun.swing.StringUIClientPropertyKey;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName: CourseTool
@@ -104,6 +105,22 @@ public class CourseTool {
         }
         res = sb;
         return res.toString();
+    }
+
+    /**
+    * @program: CourseTool
+    * @Description: 选课时间冲突检测
+    * @Author: SoCMo
+    * @Date: 2021/5/15
+    */
+    public static boolean conflictCheck(List<String> timeList, String target) {
+        timeList.add(target);
+        try {
+            String consume = merge(timeList);
+            return true;
+        }catch (AllException ex){
+            return false;
+        }
     }
 
     /*
