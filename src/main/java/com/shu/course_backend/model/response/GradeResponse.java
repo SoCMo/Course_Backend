@@ -12,7 +12,7 @@ import lombok.Data;
 public class GradeResponse {
 
 
-    private Integer studentId;
+    private String studentId;
 
     private String name;
 
@@ -20,5 +20,5 @@ public class GradeResponse {
 
     private Integer exam;
 
-    private Integer grade;
+    private Double grade;
 }

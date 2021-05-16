@@ -1,6 +1,10 @@
 package com.shu.course_backend.service;
 
+import com.shu.course_backend.model.Grade;
 import com.shu.course_backend.model.Result;
+import com.shu.course_backend.model.request.GradeRequest;
+
+import java.util.List;
 
 /**
  * @ClassName: TeacherService
@@ -30,5 +34,15 @@ public interface TeacherService {
      * @Date: 2021/5/15 22:04
      */
     Result getAllGrades(Integer courseId);
+
+    /*
+     * @Description: 输入学生成绩
+     * @Method: [courseId, gradeList]
+     * @Return: com.shu.course_backend.model.Result
+     * @Version: 1.0
+     * @Author: pongshy
+     * @Date: 2021/5/16 22:01
+     */
+    Result enterStudentGrades(Integer courseId, List<Grade> gradeList);
 
 }

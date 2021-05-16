@@ -2,6 +2,7 @@ package com.shu.course_backend.controller;
 
 import com.shu.course_backend.model.Result;
 import com.shu.course_backend.model.request.ApplyRequest;
+import com.shu.course_backend.model.request.GradeRequest;
 import com.shu.course_backend.service.TeacherService;
 import com.shu.course_backend.tool.JwtTokenUtil;
 import io.swagger.annotations.Api;
@@ -58,6 +59,13 @@ public class TeacherController {
     @GetMapping("/getGrades/{courseId}")
     public Result getAllGrades(@PathVariable("courseId") Integer courseId) {
         return teacherService.getAllGrades(courseId);
+    }
+
+    @PreAuthorize("hasRole('TEACHER')")
+    @ApiOperation(value = "输入成绩")
+    @PatchMapping("/enterGrade")
+    public Result enterStudentGrades(@RequestBody @Validated GradeRequest gradeRequest) {
+        return teacherService.enterStudentGrades(gradeRequest.getCourseId(), gradeRequest.getGradeList());
     }
 
 
