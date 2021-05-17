@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -33,6 +34,7 @@ import java.util.Map;
 public class StudentController {
     private final StudentService studentService;
 
+    @PreAuthorize("hasRole('STUDENT')")
     @GetMapping("/this/semester/{semester}/course")
     @ApiOperation(value = "获取学生选课列表")
     Result courseList(@ApiParam(value = "学期", required = true)
@@ -41,6 +43,7 @@ public class StudentController {
         return studentService.selectionList(semester);
     }
 
+    @PreAuthorize("hasRole('STUDENT')")
     @PutMapping("/this/semester/this/course/")
     @ApiOperation(value = "选课")
     @ApiImplicitParam(name = "openId", value = "请求体:开课Id", required = true, dataType = "int")
