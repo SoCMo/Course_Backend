@@ -32,6 +32,17 @@ public class CourseTool {
      * @Version: V1.0
      **/
     public static String translateFromStrToBit(List<String> courseTimeList) throws AllException {
+        return merge(translateFromStrToBitList(courseTimeList));
+    }
+
+    /**
+    * @Description: 时间转换函数: str -> setOf (bit)
+    * @Param: [courseTimeList]
+    * @Return: java.util.List<java.lang.String>
+    * @Author: SoCMo
+    * @Date: 2021/5/18
+    */
+    public static List<String> translateFromStrToBitList(List<String> courseTimeList) throws AllException {
         if (ObjectUtils.isEmpty(courseTimeList) || courseTimeList.size() == 0) {
             return null;
         }
@@ -69,8 +80,7 @@ public class CourseTool {
             }
             timeList.add(sb.toString());
         }
-        // 合并
-        return merge(timeList);
+        return timeList;
     }
 
     /*
@@ -114,9 +124,10 @@ public class CourseTool {
     * @Date: 2021/5/15
     */
     public static boolean conflictCheck(List<String> timeList, String target) {
-        timeList.add(target);
+        List<String> tempList = new ArrayList<>(timeList);
+        tempList.add(target);
         try {
-            String consume = merge(timeList);
+            String consume = merge(tempList);
             return true;
         }catch (AllException ex){
             return false;
