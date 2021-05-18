@@ -43,6 +43,8 @@ public class AdminServiceImpl implements AdminService {
 
     private final OpenDoMapper openDoMapper;
 
+    private final ConstDoMapper constDoMapper;
+
     /**
      * @Description: 创建课程
      * @Param: [courseRequest]
@@ -82,6 +84,8 @@ public class AdminServiceImpl implements AdminService {
     public Result getAllCourses() {
         List<CourseDo> courseDoList = courseDoMapper.selectByExample(null);
         List<CourseResponse> responses = new ArrayList<>();
+        String semester = constDoMapper.selectByPrimaryKey("NOW_SEMESTER")
+                .getConfigValue();
 
         for (CourseDo courseDo : courseDoList) {
             CourseResponse tmp = new CourseResponse();
@@ -116,7 +120,8 @@ public class AdminServiceImpl implements AdminService {
                 OpenDoExample openDoExample = new OpenDoExample();
                 openDoExample
                         .createCriteria()
-                        .andCourseTimeIdEqualTo(id);
+                        .andCourseTimeIdEqualTo(id)
+                        .andSemesterEqualTo(semester);
                 Integer count = openDoMapper.countByExample(openDoExample);
                 if (count == 0) {
                     resTmp.setIsChosen(0);
