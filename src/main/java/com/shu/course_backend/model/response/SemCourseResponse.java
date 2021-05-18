@@ -17,6 +17,8 @@ public class SemCourseResponse {
 
     private Integer courseId;
 
+    private Integer openid;
+
     private String name;
 
     private Integer credit;

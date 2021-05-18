@@ -242,6 +242,7 @@ public class TeacherServiceImpl implements TeacherService {
             Integer courseid = openDo.getCourseId();
             Integer course_time_id = openDo.getCourseTimeId();
 
+            tmp_res.setOpenid(openDo.getOpenId());
             CourseDo courseDo = courseDoMapper.selectByPrimaryKey(courseid);
             BeanUtils.copyProperties(courseDo, tmp_res);
             tmp_res.setCourseId(courseid);
