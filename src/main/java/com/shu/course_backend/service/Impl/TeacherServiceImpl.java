@@ -86,8 +86,13 @@ public class TeacherServiceImpl implements TeacherService {
      * @Date: 2021/5/15 22:04
      */
     @Override
-    public Result getAllGrades(Integer courseId) {
+    public Result getAllGrades(Integer openId) {
         try {
+            OpenDo openDo = openDoMapper.selectByPrimaryKey(openId);
+            if (ObjectUtils.isEmpty(openDo)) {
+                throw new AllException(EmAllException.NOT_FOUND);
+            }
+            Integer courseId = openDo.getCourseId();
             CourseDo courseDo = courseDoMapper.selectByPrimaryKey(courseId);
 
             if (ObjectUtils.isEmpty(courseDo)) {

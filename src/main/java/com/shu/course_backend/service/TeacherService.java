@@ -33,7 +33,7 @@ public interface TeacherService {
      * @Author: pongshy
      * @Date: 2021/5/15 22:04
      */
-    Result getAllGrades(Integer courseId);
+    Result getAllGrades(Integer openId);
 
     /*
      * @Description: 输入学生成绩

@@ -77,9 +77,9 @@ public class TeacherController {
     @PreAuthorize("hasRole('TEACHER')")
     @ApiOperation(value = "查看具体一门课的所有学生的成绩")
     @ApiImplicitParam(name = "courseId", value = "课程号", required = true, paramType = "path")
-    @GetMapping("/getGrades/{courseId}")
-    public Result getAllGrades(@PathVariable("courseId") Integer courseId) {
-        return teacherService.getAllGrades(courseId);
+    @GetMapping("/getGrades/{openId}")
+    public Result getAllGrades(@PathVariable("openId") Integer openId) {
+        return teacherService.getAllGrades(openId);
     }
 
     @PreAuthorize("hasRole('TEACHER')")
