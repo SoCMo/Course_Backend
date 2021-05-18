@@ -64,6 +64,16 @@ public class TeacherController {
     }
 
     @PreAuthorize("hasRole('TEACHER')")
+    @ApiOperation(value = "获取指定学期教师开课情况")
+    @GetMapping("/courses/{semester}")
+    public Result getSemesterCourses(@PathVariable("semester") String semester,
+                                     HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        String teacherid = jwtTokenUtil.getUsernameFromTokenAfterSub(token);
+        return teacherService.getSemesterCourses(semester, teacherid);
+    }
+
+    @PreAuthorize("hasRole('TEACHER')")
     @ApiOperation(value = "查看具体一门课的所有学生的成绩")
     @ApiImplicitParam(name = "courseId", value = "课程号", required = true, paramType = "path")
     @GetMapping("/getGrades/{courseId}")

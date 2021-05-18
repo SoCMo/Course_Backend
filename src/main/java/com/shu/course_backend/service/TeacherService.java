@@ -55,4 +55,14 @@ public interface TeacherService {
      **/
     Result getCourses(String teacherid);
 
+    /*
+     * @Description: 获取指定学期教师的开课情况
+     * @Param: [semester, teacherid]
+     * @return: com.shu.course_backend.model.Result
+     * @Author: pongshy
+     * @Date: 2021/5/18
+     * @Version: V1.0
+     **/
+    Result getSemesterCourses(String semester, String teacherid);
+
 }

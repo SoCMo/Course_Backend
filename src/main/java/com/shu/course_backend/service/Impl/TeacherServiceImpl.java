@@ -9,8 +9,10 @@ import com.shu.course_backend.model.entity.*;
 import com.shu.course_backend.model.response.CourseResponse;
 import com.shu.course_backend.model.response.CourseTimeResponse;
 import com.shu.course_backend.model.response.GradeResponse;
+import com.shu.course_backend.model.response.SemCourseResponse;
 import com.shu.course_backend.service.TeacherService;
 import com.shu.course_backend.tool.CourseTool;
+import com.shu.course_backend.tool.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeanUtils;
@@ -20,6 +22,7 @@ import javax.annotation.Resource;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @ClassName: TeacherServiceImpl
@@ -174,7 +177,9 @@ public class TeacherServiceImpl implements TeacherService {
             OpenDoExample openDoExample1 = new OpenDoExample();
             openDoExample1
                     .createCriteria()
-                    .andCourseIdEqualTo(courseDo.getId());
+                    .andCourseIdEqualTo(courseDo.getId())
+                    .andTeacherIdEqualTo(teacherid)
+                    .andSemesterEqualTo(semester);
             Integer ct = openDoMapper.countByExample(openDoExample1);
             if (ct == 0) {
                 tmp.setIsChosen(0);
@@ -193,8 +198,7 @@ public class TeacherServiceImpl implements TeacherService {
                 openDoExample
                         .createCriteria()
                         .andCourseTimeIdEqualTo(id)
-                        .andSemesterEqualTo(semester)
-                        .andTeacherIdEqualTo(teacherid);
+                        .andSemesterEqualTo(semester);
                 Integer count = openDoMapper.countByExample(openDoExample);
                 if (count == 0) {
                     resTmp.setIsChosen(0);
@@ -206,6 +210,58 @@ public class TeacherServiceImpl implements TeacherService {
             }
             tmp.setTimeList(timeResponses);
             responses.add(tmp);
+        }
+
+        return Result.success(responses);
+    }
+
+    /*
+     * @Description: 获取指定学期教师的开课情况
+     * @Param: [semester, teacherid]
+     * @return: com.shu.course_backend.model.Result
+     * @Author: pongshy
+     * @Date: 2021/5/18
+     * @Version: V1.0
+     **/
+    @Override
+    public Result getSemesterCourses(String semester, String teacherid) {
+        List<SemCourseResponse> responses = new ArrayList<>();
+        // 处理学期
+        semester = StrUtil.semesterFromStrToInt(semester);
+
+        OpenDoExample openDoExample = new OpenDoExample();
+        openDoExample
+                .createCriteria()
+                .andSemesterEqualTo(semester)
+                .andTeacherIdEqualTo(teacherid);
+        List<OpenDo> openDoList = openDoMapper.selectByExample(openDoExample);
+
+        for (OpenDo openDo : openDoList) {
+            StringBuffer sb = new StringBuffer();
+            SemCourseResponse tmp_res = new SemCourseResponse();
+            Integer courseid = openDo.getCourseId();
+            Integer course_time_id = openDo.getCourseTimeId();
+
+            CourseDo courseDo = courseDoMapper.selectByPrimaryKey(courseid);
+            BeanUtils.copyProperties(courseDo, tmp_res);
+            tmp_res.setCourseId(courseid);
+
+            CourseTimeDo courseTimeDo = courseTimeDoMapper.selectByPrimaryKey(course_time_id);
+            BeanUtils.copyProperties(courseTimeDo, tmp_res);
+            tmp_res.setCourseTimeList(CourseTool.translateFromBitToStr(courseTimeDo.getCourseTime()));
+
+            // 查看选课人数
+            ElectionDoExample electionDoExample = new ElectionDoExample();
+            electionDoExample
+                    .createCriteria()
+                    .andCourseIdEqualTo(courseid);
+            Integer count = electionDoMapper.countByExample(electionDoExample);
+            sb.append(count.toString());
+            sb.append("/");
+            sb.append(courseDo.getProportion().toString());
+            tmp_res.setChoseAndAll(sb.toString());
+
+            responses.add(tmp_res);
         }
 
         return Result.success(responses);
