@@ -1,25 +1,24 @@
 package com.shu.course_backend.service.Impl;
 
-import com.shu.course_backend.dao.ConstDoMapper;
-import com.shu.course_backend.dao.CourseDoMapper;
-import com.shu.course_backend.dao.ElectionDoMapper;
-import com.shu.course_backend.dao.OpenDoMapper;
+import com.shu.course_backend.dao.*;
 import com.shu.course_backend.exception.AllException;
 import com.shu.course_backend.exception.EmAllException;
 import com.shu.course_backend.model.Grade;
 import com.shu.course_backend.model.Result;
-import com.shu.course_backend.model.entity.CourseDo;
-import com.shu.course_backend.model.entity.ElectionDo;
-import com.shu.course_backend.model.entity.ElectionDoExample;
-import com.shu.course_backend.model.entity.OpenDo;
+import com.shu.course_backend.model.entity.*;
+import com.shu.course_backend.model.response.CourseResponse;
+import com.shu.course_backend.model.response.CourseTimeResponse;
 import com.shu.course_backend.model.response.GradeResponse;
 import com.shu.course_backend.service.TeacherService;
+import com.shu.course_backend.tool.CourseTool;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,6 +44,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Resource
     private ElectionDoMapper electionDoMapper;
+
+    @Resource
+    private CourseTimeDoMapper courseTimeDoMapper;
 
     /*
      * @Description: 申请课程
@@ -140,5 +142,72 @@ public class TeacherServiceImpl implements TeacherService {
         } catch (AllException e) {
             return Result.error(e);
         }
+    }
+
+    /*
+     * @Description: 获取现在能选的所有课程
+     * @Param: [teacherid]
+     * @return: com.shu.course_backend.model.Result
+     * @Author: pongshy
+     * @Date: 2021/5/18
+     * @Version: V1.0
+     **/
+    @Override
+    public Result getCourses(String teacherid) {
+        List<CourseDo> courseDoList = courseDoMapper.selectCourseWhichHaveTime();
+        List<CourseResponse> responses = new ArrayList<>();
+        String semester = constDoMapper.selectByPrimaryKey("NOW_SEMESTER")
+                .getConfigValue();
+
+        for (CourseDo courseDo : courseDoList) {
+            CourseResponse tmp = new CourseResponse();
+
+            BeanUtils.copyProperties(courseDo, tmp);
+
+            CourseTimeDoExample example = new CourseTimeDoExample();
+            example
+                    .createCriteria()
+                    .andCourseIdEqualTo(courseDo.getId());
+            List<CourseTimeDo> timeDoList = courseTimeDoMapper.selectByExample(example);
+            List<CourseTimeResponse> timeResponses = new ArrayList<>();
+            // 是否已被选择
+            OpenDoExample openDoExample1 = new OpenDoExample();
+            openDoExample1
+                    .createCriteria()
+                    .andCourseIdEqualTo(courseDo.getId());
+            Integer ct = openDoMapper.countByExample(openDoExample1);
+            if (ct == 0) {
+                tmp.setIsChosen(0);
+            } else {
+                tmp.setIsChosen(1);
+            }
+
+            // 上课时间
+            for (CourseTimeDo courseTimeDo : timeDoList) {
+                CourseTimeResponse resTmp = new CourseTimeResponse();
+                BeanUtils.copyProperties(courseTimeDo, resTmp);
+                resTmp.setCourseTimeList(CourseTool.translateFromBitToStr(courseTimeDo.getCourseTime()));
+                //查看该时间段老师是否已开课
+                Integer id = courseTimeDo.getId();
+                OpenDoExample openDoExample = new OpenDoExample();
+                openDoExample
+                        .createCriteria()
+                        .andCourseTimeIdEqualTo(id)
+                        .andSemesterEqualTo(semester)
+                        .andTeacherIdEqualTo(teacherid);
+                Integer count = openDoMapper.countByExample(openDoExample);
+                if (count == 0) {
+                    resTmp.setIsChosen(0);
+                } else {
+                    resTmp.setIsChosen(1);
+                }
+
+                timeResponses.add(resTmp);
+            }
+            tmp.setTimeList(timeResponses);
+            responses.add(tmp);
+        }
+
+        return Result.success(responses);
     }
 }

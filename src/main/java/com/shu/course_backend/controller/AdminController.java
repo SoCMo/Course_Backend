@@ -69,11 +69,11 @@ public class AdminController {
         return adminService.deleteCourseTime(id);
     }
 
-    @ApiOperation(value = "获取某门课的所有学生成绩")
-    @GetMapping("/getGrades/{courseId}")
-    public Result getStudentGrades(@PathVariable("courseId") Integer courseId) {
-        return null;
-    }
+//    @ApiOperation(value = "获取某门课的所有学生成绩")
+//    @GetMapping("/getGrades/{courseId}")
+//    public Result getStudentGrades(@PathVariable("courseId") Integer courseId) {
+//        return null;
+//    }
 
 
 }

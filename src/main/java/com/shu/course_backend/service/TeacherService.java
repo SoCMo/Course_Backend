@@ -45,4 +45,14 @@ public interface TeacherService {
      */
     Result enterStudentGrades(Integer courseId, List<Grade> gradeList);
 
+    /*
+     * @Description: 获取现在能选的所有课程
+     * @Param: [teacherid]
+     * @return: com.shu.course_backend.model.Result
+     * @Author: pongshy
+     * @Date: 2021/5/18
+     * @Version: V1.0
+     **/
+    Result getCourses(String teacherid);
+
 }
