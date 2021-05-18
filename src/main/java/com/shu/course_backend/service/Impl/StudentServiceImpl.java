@@ -68,6 +68,14 @@ public class StudentServiceImpl implements StudentService {
                 return Result.error(EmAllException.BAD_REQUEST, "已选择该门课程!");
             }
 
+            electionDoExample.clear();
+            electionDoExample.createCriteria()
+                    .andCourseIdEqualTo(openId);
+            CourseDo courseDo = courseDoMapper.selectByPrimaryKey(openDo.getCourseId());
+            if(electionDoMapper.selectByExample(electionDoExample).size() >= courseDo.getCapacity()){
+                return Result.error(EmAllException.BAD_REQUEST, "该课程已满!");
+            }
+
             if(!electionDoList.isEmpty()){
                 List<Integer> openIdList = electionDoList.stream()
                         .map(ElectionDo::getCourseId)
@@ -198,6 +206,30 @@ public class StudentServiceImpl implements StudentService {
             return Result.error(ex);
         }
 
+    }
+
+    @Override
+    public Result quiteCourse(Integer openId) {
+        try {
+            ConstDo constDo = constDoMapper.selectByPrimaryKey("NOW_ELECTIONSTATE");
+            if(constDo == null) throw new AllException(EmAllException.DATABASE_ERROR);
+            if(!Boolean.parseBoolean(constDo.getConfigValue())){
+                return Result.error(EmAllException.BAD_REQUEST, "当前不能选退课！");
+            }
+
+            ElectionDoExample electionDoExample = new ElectionDoExample();
+            electionDoExample.createCriteria()
+                    .andCourseIdEqualTo(openId)
+                    .andStudentIdEqualTo(authTool.getUserId());
+            if(electionDoMapper.deleteByExample(electionDoExample) >= 1){
+                return Result.success();
+            }else {
+                throw new AllException(EmAllException.DATABASE_ERROR);
+            }
+        } catch (AllException ex){
+            log.error(ex.getMsg());
+            return Result.error(ex);
+        }
     }
 
 

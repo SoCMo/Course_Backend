@@ -12,4 +12,6 @@ public interface StudentService {
     Result selectCourse(Integer openId);
 
     Result selectionList(String semester);
+
+    Result quiteCourse(Integer openId);
 }
