@@ -3,6 +3,7 @@ package com.shu.course_backend.controller;
 import com.shu.course_backend.model.Result;
 import com.shu.course_backend.model.request.ApplyRequest;
 import com.shu.course_backend.model.request.GradeRequest;
+import com.shu.course_backend.model.request.SemesterRequest;
 import com.shu.course_backend.service.TeacherService;
 import com.shu.course_backend.tool.JwtTokenUtil;
 import io.swagger.annotations.Api;
@@ -65,12 +66,12 @@ public class TeacherController {
 
     @PreAuthorize("hasRole('TEACHER')")
     @ApiOperation(value = "获取指定学期教师开课情况")
-    @GetMapping("/courses/{semester}")
-    public Result getSemesterCourses(@PathVariable("semester") String semester,
+    @PostMapping("/courses")
+    public Result getSemesterCourses(@RequestBody @Validated SemesterRequest semesterRequest,
                                      HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         String teacherid = jwtTokenUtil.getUsernameFromTokenAfterSub(token);
-        return teacherService.getSemesterCourses(semester, teacherid);
+        return teacherService.getSemesterCourses(semesterRequest.getSemester(), teacherid);
     }
 
     @PreAuthorize("hasRole('TEACHER')")
