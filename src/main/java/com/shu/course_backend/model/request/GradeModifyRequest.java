@@ -1,4 +1,4 @@
-package com.shu.course_backend.model;
+package com.shu.course_backend.model.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,15 +10,20 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
- * @ClassName: Grade
- * @Description: 成绩类
+ * @ClassName: GradeModifyRequest
+ * @Description: 成绩修改类
  * @Author: pongshy
- * @Date: 2021/5/16 21:54
+ * @Date: 2021/5/19-14:51
+ * @Version: V1.0
  **/
 @Data
-@ApiModel(value = "成绩类", description = "成绩类")
-public class Grade {
+@ApiModel(value = "成绩修改类", description = "成绩修改类")
+public class GradeModifyRequest {
 
+
+    @NotNull(message = "课程号不能为空")
+    @ApiModelProperty(value = "课程号", required = true, example = "10")
+    private Integer courseId;
 
     @NotBlank(message = "学生学号")
     @ApiModelProperty(value = "学生学号", required = true, example = "18120198")

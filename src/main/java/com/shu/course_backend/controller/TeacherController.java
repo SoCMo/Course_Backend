@@ -2,6 +2,7 @@ package com.shu.course_backend.controller;
 
 import com.shu.course_backend.model.Result;
 import com.shu.course_backend.model.request.ApplyRequest;
+import com.shu.course_backend.model.request.GradeModifyRequest;
 import com.shu.course_backend.model.request.GradeRequest;
 import com.shu.course_backend.model.request.SemesterRequest;
 import com.shu.course_backend.service.TeacherService;
@@ -88,6 +89,27 @@ public class TeacherController {
     public Result enterStudentGrades(@RequestBody @Validated GradeRequest gradeRequest) {
         return teacherService.enterStudentGrades(gradeRequest.getCourseId(), gradeRequest.getGradeList());
     }
+
+    @PreAuthorize("hasRole('TEACHER')")
+    @ApiOperation(value = "删除学生成绩")
+    @PatchMapping("/grade")
+    @Validated
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "studentId", value = "学号", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "courseId", value = "课程号", required = true, dataType = "Integer")
+    })
+    public Result deleteStudentGrade(@RequestParam("studentId") @NotNull(message = "学号不能为空") String studentId,
+                                     @RequestParam("courseId") @NotNull(message = "课程号不能为空")  Integer courseId) {
+        return teacherService.deleteStudentGrade(courseId, studentId);
+    }
+
+    @PreAuthorize("hasRole('TEACHER')")
+    @ApiOperation(value = "修改成绩")
+    @PutMapping("/grade")
+    public Result modifyGrade(@RequestBody @Validated GradeModifyRequest request) {
+        return teacherService.modfiyStudentGrade(request);
+    }
+
 
 
 

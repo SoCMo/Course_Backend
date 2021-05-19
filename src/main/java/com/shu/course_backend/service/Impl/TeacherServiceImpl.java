@@ -6,6 +6,7 @@ import com.shu.course_backend.exception.EmAllException;
 import com.shu.course_backend.model.Grade;
 import com.shu.course_backend.model.Result;
 import com.shu.course_backend.model.entity.*;
+import com.shu.course_backend.model.request.GradeModifyRequest;
 import com.shu.course_backend.model.response.CourseResponse;
 import com.shu.course_backend.model.response.CourseTimeResponse;
 import com.shu.course_backend.model.response.GradeResponse;
@@ -271,5 +272,89 @@ public class TeacherServiceImpl implements TeacherService {
         }
 
         return Result.success(responses);
+    }
+
+    /*
+     * @Description: 删除学生成绩
+     * @Param: [courseId, studentId]
+     * @return: com.shu.course_backend.model.Result
+     * @Author: pongshy
+     * @Date: 2021/5/19
+     * @Version: V1.0
+     **/
+    @Override
+    public Result deleteStudentGrade(Integer courseId, String studentId) {
+        try {
+            CourseDo courseDo = courseDoMapper.selectByPrimaryKey(courseId);
+            if (ObjectUtils.isEmpty(courseDo)) {
+                throw new AllException(EmAllException.NOT_FOUND);
+            }
+
+            ElectionDoExample electionDoExample = new ElectionDoExample();
+            electionDoExample
+                    .createCriteria()
+                    .andCourseIdEqualTo(courseId)
+                    .andStudentIdEqualTo(studentId);
+            List<ElectionDo> electionDoList = electionDoMapper.selectByExample(electionDoExample);
+
+            if (ObjectUtils.isEmpty(electionDoList) || electionDoList.size() != 1) {
+                throw new AllException(EmAllException.NOT_FOUND);
+            }
+            ElectionDo record = electionDoList.get(0);
+            record.setGrade(null);
+            record.setUsual(null);
+            record.setExamination(null);
+
+            electionDoMapper.updateByPrimaryKey(record);
+            return Result.success("删除成功");
+        } catch (AllException e) {
+            return Result.error(e);
+        }
+    }
+
+    /*
+     * @Description: 修改学生成绩
+     * @Param: [gradeModifyRequest]
+     * @return: com.shu.course_backend.model.Result
+     * @Author: pongshy
+     * @Date: 2021/5/19
+     * @Version: V1.0
+     **/
+    @Override
+    public Result modfiyStudentGrade(GradeModifyRequest gradeModifyRequest) {
+        try {
+            CourseDo courseDo = courseDoMapper.selectByPrimaryKey(gradeModifyRequest.getCourseId());
+            if (ObjectUtils.isEmpty(courseDo)) {
+                throw new AllException(EmAllException.NOT_FOUND);
+            }
+            // 平时成绩占比
+            Integer proportion = courseDo.getProportion();
+            Double pro = (double) proportion / 100.0;
+
+            ElectionDoExample electionDoExample = new ElectionDoExample();
+            electionDoExample
+                    .createCriteria()
+                    .andCourseIdEqualTo(gradeModifyRequest.getCourseId())
+                    .andStudentIdEqualTo(gradeModifyRequest.getStudentId());
+            List<ElectionDo> electionDoList = electionDoMapper.selectByExample(electionDoExample);
+
+            if (ObjectUtils.isEmpty(electionDoList) || electionDoList.size() != 1) {
+                throw new AllException(EmAllException.NOT_FOUND);
+            }
+            ElectionDo record = electionDoList.get(0);
+
+            record.setUsual(gradeModifyRequest.getUsual());
+            record.setExamination(gradeModifyRequest.getExam());
+            Double gd = (double) record.getUsual() * pro
+                    + (double) record.getExamination() * (1 - pro);
+            record.setGrade(gd);
+
+            electionDoMapper.updateByPrimaryKey(record);
+            return Result.success("修改成功");
+        } catch (AllException e) {
+            return Result.error(e);
+        }
+
+
     }
 }

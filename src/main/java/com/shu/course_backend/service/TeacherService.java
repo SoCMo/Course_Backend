@@ -2,6 +2,7 @@ package com.shu.course_backend.service;
 
 import com.shu.course_backend.model.Grade;
 import com.shu.course_backend.model.Result;
+import com.shu.course_backend.model.request.GradeModifyRequest;
 import com.shu.course_backend.model.request.GradeRequest;
 
 import java.util.List;
@@ -64,5 +65,25 @@ public interface TeacherService {
      * @Version: V1.0
      **/
     Result getSemesterCourses(String semester, String teacherid);
+
+    /*
+     * @Description: 删除学生成绩
+     * @Param: [courseId, studentId]
+     * @return: com.shu.course_backend.model.Result
+     * @Author: pongshy
+     * @Date: 2021/5/19
+     * @Version: V1.0
+     **/
+    Result deleteStudentGrade(Integer courseId, String studentId);
+
+    /*
+     * @Description: 修改学生成绩
+     * @Param: [gradeModifyRequest]
+     * @return: com.shu.course_backend.model.Result
+     * @Author: pongshy
+     * @Date: 2021/5/19
+     * @Version: V1.0
+     **/
+    Result modfiyStudentGrade(GradeModifyRequest gradeModifyRequest);
 
 }
