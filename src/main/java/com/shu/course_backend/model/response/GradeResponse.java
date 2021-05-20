@@ -21,4 +21,8 @@ public class GradeResponse {
     private Integer exam;
 
     private Double grade;
+
+    private Integer proportion; //平时成绩占比
+
+    private String department;
 }

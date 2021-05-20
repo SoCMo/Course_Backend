@@ -227,9 +227,17 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectNameAndGrade" parameterType="java.lang.Integer" resultType="com.shu.course_backend.model.response.GradeResponse">
-    SELECT user_info.`name`, user_info.user_id AS studentId, election_info.grade, election_info.usual, election_info.examination AS exam
-    FROM user_info INNER JOIN election_info ON user_info.user_id = election_info.student_id
-    WHERE election_info.course_id = #{courseId,jdbcType=INTEGER}
+    SELECT user_info.`name`, user_info.user_id AS studentId, election_info.grade, election_info.usual, election_info.examination AS exam,
+            course_info.proportion, department_info.department_name AS department
+    FROM user_info, election_info, course_info, department_info
+    WHERE
+        user_info.user_id = election_info.student_id
+    AND
+        election_info.course_id = course_info.id
+    AND
+        department_info.id = user_info.department_id
+    AND
+        election_info.course_id = #{courseId,jdbcType=INTEGER}
     ORDER BY election_info.student_id ASC
   </select>
 </mapper>
