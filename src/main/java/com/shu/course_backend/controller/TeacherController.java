@@ -2,7 +2,9 @@ package com.shu.course_backend.controller;
 
 import com.shu.course_backend.model.Result;
 import com.shu.course_backend.model.request.ApplyRequest;
+import com.shu.course_backend.model.request.GradeModifyRequest;
 import com.shu.course_backend.model.request.GradeRequest;
+import com.shu.course_backend.model.request.SemesterRequest;
 import com.shu.course_backend.service.TeacherService;
 import com.shu.course_backend.tool.JwtTokenUtil;
 import io.swagger.annotations.Api;
@@ -54,11 +56,31 @@ public class TeacherController {
     }
 
     @PreAuthorize("hasRole('TEACHER')")
+    @ApiOperation(value = "教师获取本学期所有课程")
+    @GetMapping("/courses")
+    public Result getCourses(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        String teacherid = jwtTokenUtil.getUsernameFromTokenAfterSub(token);
+
+        return teacherService.getCourses(teacherid);
+    }
+
+    @PreAuthorize("hasRole('TEACHER')")
+    @ApiOperation(value = "获取指定学期教师开课情况")
+    @PostMapping("/courses")
+    public Result getSemesterCourses(@RequestBody @Validated SemesterRequest semesterRequest,
+                                     HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        String teacherid = jwtTokenUtil.getUsernameFromTokenAfterSub(token);
+        return teacherService.getSemesterCourses(semesterRequest.getSemester(), teacherid);
+    }
+
+    @PreAuthorize("hasRole('TEACHER')")
     @ApiOperation(value = "查看具体一门课的所有学生的成绩")
     @ApiImplicitParam(name = "courseId", value = "课程号", required = true, paramType = "path")
-    @GetMapping("/getGrades/{courseId}")
-    public Result getAllGrades(@PathVariable("courseId") Integer courseId) {
-        return teacherService.getAllGrades(courseId);
+    @GetMapping("/getGrades/{openId}")
+    public Result getAllGrades(@PathVariable("openId") Integer openId) {
+        return teacherService.getAllGrades(openId);
     }
 
     @PreAuthorize("hasRole('TEACHER')")
@@ -67,6 +89,27 @@ public class TeacherController {
     public Result enterStudentGrades(@RequestBody @Validated GradeRequest gradeRequest) {
         return teacherService.enterStudentGrades(gradeRequest.getCourseId(), gradeRequest.getGradeList());
     }
+
+    @PreAuthorize("hasRole('TEACHER')")
+    @ApiOperation(value = "删除学生成绩")
+    @PatchMapping("/grade")
+    @Validated
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "studentId", value = "学号", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "courseId", value = "课程号", required = true, dataType = "Integer")
+    })
+    public Result deleteStudentGrade(@RequestParam("studentId") @NotNull(message = "学号不能为空") String studentId,
+                                     @RequestParam("courseId") @NotNull(message = "课程号不能为空")  Integer courseId) {
+        return teacherService.deleteStudentGrade(courseId, studentId);
+    }
+
+    @PreAuthorize("hasRole('TEACHER')")
+    @ApiOperation(value = "修改成绩")
+    @PutMapping("/grade")
+    public Result modifyGrade(@RequestBody @Validated GradeModifyRequest request) {
+        return teacherService.modfiyStudentGrade(request);
+    }
+
 
 
 

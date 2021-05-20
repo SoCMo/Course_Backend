@@ -50,4 +50,12 @@ public class StudentController {
     Result selectCourse(@RequestBody @ApiIgnore Map<String, Object> paramsMap){
         return studentService.selectCourse(Integer.parseInt(paramsMap.get("openId").toString()));
     }
+
+    @PreAuthorize("hasRole('STUDENT')")
+    @DeleteMapping("/this/semester/this/course/")
+    @ApiOperation(value = "退课")
+    @ApiImplicitParam(name = "openId", value = "请求体:开课Id", required = true, dataType = "int")
+    Result quiteCourse(@RequestBody @ApiIgnore Map<String, Object> paramsMap){
+        return studentService.quiteCourse(Integer.parseInt(paramsMap.get("openId").toString()));
+    }
 }

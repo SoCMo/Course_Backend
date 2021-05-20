@@ -209,4 +209,10 @@
       proportion = #{proportion,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectCourseWhichHaveTime" resultMap="BaseResultMap">
+    select distinct course_info.`id`, `name`, credit, capacity, proportion
+    from course_info
+        inner join course_time
+            on course_info.id = course_time.course_id;
+  </select>
 </mapper>

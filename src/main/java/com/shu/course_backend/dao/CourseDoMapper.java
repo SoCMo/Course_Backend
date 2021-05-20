@@ -27,4 +27,6 @@ public interface CourseDoMapper {
     int updateByPrimaryKeySelective(CourseDo record);
 
     int updateByPrimaryKey(CourseDo record);
+
+    List<CourseDo> selectCourseWhichHaveTime();
 }
