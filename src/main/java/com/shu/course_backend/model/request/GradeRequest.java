@@ -20,9 +20,9 @@ import java.util.List;
 public class GradeRequest {
 
 
-    @NotNull(message = "课程号不能为空")
-    @ApiModelProperty(value = "课程号", required = true, example = "10")
-    private Integer courseId;
+    @NotNull(message = "开课号不能为空")
+    @ApiModelProperty(value = "开课号", required = true, example = "10")
+    private Integer openId;
 
     @NotEmpty(message = "成绩列表不能为空")
     @ApiModelProperty(value = "成绩列表", required = true)

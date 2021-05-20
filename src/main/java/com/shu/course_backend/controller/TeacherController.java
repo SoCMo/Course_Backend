@@ -77,7 +77,7 @@ public class TeacherController {
 
     @PreAuthorize("hasRole('TEACHER')")
     @ApiOperation(value = "查看具体一门课的所有学生的成绩")
-    @ApiImplicitParam(name = "courseId", value = "课程号", required = true, paramType = "path")
+    @ApiImplicitParam(name = "openId", value = "开课号", required = true, paramType = "path")
     @GetMapping("/getGrades/{openId}")
     public Result getAllGrades(@PathVariable("openId") Integer openId) {
         return teacherService.getAllGrades(openId);
@@ -87,7 +87,7 @@ public class TeacherController {
     @ApiOperation(value = "输入成绩")
     @PatchMapping("/enterGrade")
     public Result enterStudentGrades(@RequestBody @Validated GradeRequest gradeRequest) {
-        return teacherService.enterStudentGrades(gradeRequest.getCourseId(), gradeRequest.getGradeList());
+        return teacherService.enterStudentGrades(gradeRequest.getOpenId(), gradeRequest.getGradeList());
     }
 
     @PreAuthorize("hasRole('TEACHER')")
@@ -96,11 +96,11 @@ public class TeacherController {
     @Validated
     @ApiImplicitParams({
             @ApiImplicitParam(name = "studentId", value = "学号", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "courseId", value = "课程号", required = true, dataType = "Integer")
+            @ApiImplicitParam(name = "openId", value = "开课号", required = true, dataType = "Integer")
     })
     public Result deleteStudentGrade(@RequestParam("studentId") @NotNull(message = "学号不能为空") String studentId,
-                                     @RequestParam("courseId") @NotNull(message = "课程号不能为空")  Integer courseId) {
-        return teacherService.deleteStudentGrade(courseId, studentId);
+                                     @RequestParam("openId") @NotNull(message = "开课号不能为空")  Integer openId) {
+        return teacherService.deleteStudentGrade(openId, studentId);
     }
 
     @PreAuthorize("hasRole('TEACHER')")

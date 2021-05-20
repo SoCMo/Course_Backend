@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.shu.course_backend.model.entity.ElectionDo" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="student_id" property="studentId" jdbcType="VARCHAR" />
-    <result column="course_id" property="courseId" jdbcType="INTEGER" />
+    <result column="open_id" property="openId" jdbcType="INTEGER" />
     <result column="grade" property="grade" jdbcType="DOUBLE" />
     <result column="usual" property="usual" jdbcType="INTEGER" />
     <result column="examination" property="examination" jdbcType="INTEGER" />
@@ -68,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, student_id, course_id, grade, usual, examination
+    id, student_id, open_id, grade, usual, examination
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shu.course_backend.model.entity.ElectionDoExample" >
     select
@@ -102,14 +102,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.shu.course_backend.model.entity.ElectionDo" >
-    insert into election_info (id, student_id, course_id, 
+    insert into election_info (id, student_id, open_id, 
       grade, usual, examination
       )
-    values (#{id,jdbcType=INTEGER}, #{studentId,jdbcType=VARCHAR}, #{courseId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{studentId,jdbcType=VARCHAR}, #{openId,jdbcType=INTEGER}, 
       #{grade,jdbcType=DOUBLE}, #{usual,jdbcType=INTEGER}, #{examination,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.shu.course_backend.model.entity.ElectionDo" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.shu.course_backend.model.entity.ElectionDo" >
     insert into election_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -118,8 +118,8 @@
       <if test="studentId != null" >
         student_id,
       </if>
-      <if test="courseId != null" >
-        course_id,
+      <if test="openId != null" >
+        open_id,
       </if>
       <if test="grade != null" >
         grade,
@@ -138,8 +138,8 @@
       <if test="studentId != null" >
         #{studentId,jdbcType=VARCHAR},
       </if>
-      <if test="courseId != null" >
-        #{courseId,jdbcType=INTEGER},
+      <if test="openId != null" >
+        #{openId,jdbcType=INTEGER},
       </if>
       <if test="grade != null" >
         #{grade,jdbcType=DOUBLE},
@@ -167,8 +167,8 @@
       <if test="record.studentId != null" >
         student_id = #{record.studentId,jdbcType=VARCHAR},
       </if>
-      <if test="record.courseId != null" >
-        course_id = #{record.courseId,jdbcType=INTEGER},
+      <if test="record.openId != null" >
+        open_id = #{record.openId,jdbcType=INTEGER},
       </if>
       <if test="record.grade != null" >
         grade = #{record.grade,jdbcType=DOUBLE},
@@ -188,7 +188,7 @@
     update election_info
     set id = #{record.id,jdbcType=INTEGER},
       student_id = #{record.studentId,jdbcType=VARCHAR},
-      course_id = #{record.courseId,jdbcType=INTEGER},
+      open_id = #{record.openId,jdbcType=INTEGER},
       grade = #{record.grade,jdbcType=DOUBLE},
       usual = #{record.usual,jdbcType=INTEGER},
       examination = #{record.examination,jdbcType=INTEGER}
@@ -202,8 +202,8 @@
       <if test="studentId != null" >
         student_id = #{studentId,jdbcType=VARCHAR},
       </if>
-      <if test="courseId != null" >
-        course_id = #{courseId,jdbcType=INTEGER},
+      <if test="openId != null" >
+        open_id = #{openId,jdbcType=INTEGER},
       </if>
       <if test="grade != null" >
         grade = #{grade,jdbcType=DOUBLE},
@@ -220,24 +220,27 @@
   <update id="updateByPrimaryKey" parameterType="com.shu.course_backend.model.entity.ElectionDo" >
     update election_info
     set student_id = #{studentId,jdbcType=VARCHAR},
-      course_id = #{courseId,jdbcType=INTEGER},
+      open_id = #{openId,jdbcType=INTEGER},
       grade = #{grade,jdbcType=DOUBLE},
       usual = #{usual,jdbcType=INTEGER},
       examination = #{examination,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectNameAndGrade" parameterType="java.lang.Integer" resultType="com.shu.course_backend.model.response.GradeResponse">
-    SELECT user_info.`name`, user_info.user_id AS studentId, election_info.grade, election_info.usual, election_info.examination AS exam,
-            course_info.proportion, department_info.department_name AS department
-    FROM user_info, election_info, course_info, department_info
+  <select id="selectNameAndGrade" resultType="com.shu.course_backend.model.response.GradeResponse" parameterType="java.lang.Integer">
+    SELECT election_info.student_id AS studentId, user_info.`name`, election_info.usual,
+           election_info.examination AS exam, election_info.grade, course_info.proportion,
+           department_info.department_name AS department
+    FROM election_info, user_info, department_info, course_info, open_info
     WHERE
-        user_info.user_id = election_info.student_id
+        election_info.student_id = user_info.user_id
     AND
-        election_info.course_id = course_info.id
+        user_info.department_id = department_info.id
     AND
-        department_info.id = user_info.department_id
+        election_info.open_id = open_info.open_id
     AND
-        election_info.course_id = #{courseId,jdbcType=INTEGER}
-    ORDER BY election_info.student_id ASC
+        open_info.course_id = course_info.id
+    AND
+        open_info.open_id = #{openid,jdbcType=INTEGER}
+    ORDER BY user_info.user_id ASC
   </select>
 </mapper>

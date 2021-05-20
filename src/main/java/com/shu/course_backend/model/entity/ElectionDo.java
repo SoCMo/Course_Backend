@@ -5,7 +5,7 @@ public class ElectionDo {
 
     private String studentId;
 
-    private Integer courseId;
+    private Integer openId;
 
     private Double grade;
 
@@ -29,12 +29,12 @@ public class ElectionDo {
         this.studentId = studentId == null ? null : studentId.trim();
     }
 
-    public Integer getCourseId() {
-        return courseId;
+    public Integer getOpenId() {
+        return openId;
     }
 
-    public void setCourseId(Integer courseId) {
-        this.courseId = courseId;
+    public void setOpenId(Integer openId) {
+        this.openId = openId;
     }
 
     public Double getGrade() {

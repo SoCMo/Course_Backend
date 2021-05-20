@@ -163,8 +163,9 @@ public class CourseServiceImpl implements CourseService {
                         courseFilterRes.setTeacherName(teacherDo.getName());
 
                         ElectionDoExample electionDoExample = new ElectionDoExample();
-                        electionDoExample.createCriteria()
-                                .andCourseIdEqualTo(openDo.getCourseId());
+                        // TODO: 修改
+//                        electionDoExample.createCriteria()
+//                                .andCourseIdEqualTo(openDo.getCourseId());
                         List<ElectionDo> electionDoList = electionDoMapper.selectByExample(electionDoExample);
                         if(electionDoList == null) return null;
                         courseFilterRes.setChosenNum(electionDoList.size());

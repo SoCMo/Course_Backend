@@ -93,13 +93,13 @@ public class TeacherServiceImpl implements TeacherService {
             if (ObjectUtils.isEmpty(openDo)) {
                 throw new AllException(EmAllException.NOT_FOUND);
             }
-            Integer courseId = openDo.getCourseId();
-            CourseDo courseDo = courseDoMapper.selectByPrimaryKey(courseId);
-
-            if (ObjectUtils.isEmpty(courseDo)) {
-                throw new AllException(EmAllException.NOT_FOUND);
-            }
-            List<GradeResponse> responseList = electionDoMapper.selectNameAndGrade(courseId);
+//            Integer courseId = openDo.getCourseId();
+//            CourseDo courseDo = courseDoMapper.selectByPrimaryKey(courseId);
+//
+//            if (ObjectUtils.isEmpty(courseDo)) {
+//                throw new AllException(EmAllException.NOT_FOUND);
+//            }
+            List<GradeResponse> responseList = electionDoMapper.selectNameAndGrade(openId);
 
             return Result.success(responseList);
         } catch (AllException e) {
@@ -117,9 +117,13 @@ public class TeacherServiceImpl implements TeacherService {
      * @Date: 2021/5/16 22:01
      */
     @Override
-    public Result enterStudentGrades(Integer courseId, List<Grade> gradeList) {
+    public Result enterStudentGrades(Integer openId, List<Grade> gradeList) {
         try {
-            CourseDo courseDo = courseDoMapper.selectByPrimaryKey(courseId);
+            OpenDo openDo = openDoMapper.selectByPrimaryKey(openId);
+            if (ObjectUtils.isEmpty(openDo)) {
+                throw new AllException(EmAllException.NOT_FOUND);
+            }
+            CourseDo courseDo = courseDoMapper.selectByPrimaryKey(openDo.getCourseId());
             if (ObjectUtils.isEmpty(courseDo)) {
                 throw new AllException(EmAllException.NOT_FOUND);
             }
@@ -135,7 +139,7 @@ public class TeacherServiceImpl implements TeacherService {
 
                 example
                         .createCriteria()
-                        .andCourseIdEqualTo(courseId)
+                        .andOpenIdEqualTo(openId)
                         .andStudentIdEqualTo(studentId);
                 ElectionDo record = new ElectionDo();
                 record.setUsual(grade.getUsual());
@@ -246,6 +250,7 @@ public class TeacherServiceImpl implements TeacherService {
             StringBuffer sb = new StringBuffer();
             SemCourseResponse tmp_res = new SemCourseResponse();
             Integer courseid = openDo.getCourseId();
+            Integer openid = openDo.getOpenId();
             Integer course_time_id = openDo.getCourseTimeId();
 
             tmp_res.setOpenid(openDo.getOpenId());
@@ -261,7 +266,7 @@ public class TeacherServiceImpl implements TeacherService {
             ElectionDoExample electionDoExample = new ElectionDoExample();
             electionDoExample
                     .createCriteria()
-                    .andCourseIdEqualTo(courseid);
+                    .andOpenIdEqualTo(openid);
             Integer count = electionDoMapper.countByExample(electionDoExample);
             sb.append(count.toString());
             sb.append("/");
@@ -283,17 +288,21 @@ public class TeacherServiceImpl implements TeacherService {
      * @Version: V1.0
      **/
     @Override
-    public Result deleteStudentGrade(Integer courseId, String studentId) {
+    public Result deleteStudentGrade(Integer openId, String studentId) {
         try {
-            CourseDo courseDo = courseDoMapper.selectByPrimaryKey(courseId);
-            if (ObjectUtils.isEmpty(courseDo)) {
+            OpenDo openDo = openDoMapper.selectByPrimaryKey(openId);
+            if (ObjectUtils.isEmpty(openDo)) {
                 throw new AllException(EmAllException.NOT_FOUND);
             }
+//            CourseDo courseDo = courseDoMapper.selectByPrimaryKey(courseId);
+//            if (ObjectUtils.isEmpty(courseDo)) {
+//                throw new AllException(EmAllException.NOT_FOUND);
+//            }
 
             ElectionDoExample electionDoExample = new ElectionDoExample();
             electionDoExample
                     .createCriteria()
-                    .andCourseIdEqualTo(courseId)
+                    .andOpenIdEqualTo(openId)
                     .andStudentIdEqualTo(studentId);
             List<ElectionDo> electionDoList = electionDoMapper.selectByExample(electionDoExample);
 
@@ -323,7 +332,11 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Result modfiyStudentGrade(GradeModifyRequest gradeModifyRequest) {
         try {
-            CourseDo courseDo = courseDoMapper.selectByPrimaryKey(gradeModifyRequest.getCourseId());
+            OpenDo openDo = openDoMapper.selectByPrimaryKey(gradeModifyRequest.getOpenId());
+            if (ObjectUtils.isEmpty(openDo)) {
+                throw new AllException(EmAllException.NOT_FOUND);
+            }
+            CourseDo courseDo = courseDoMapper.selectByPrimaryKey(openDo.getCourseId());
             if (ObjectUtils.isEmpty(courseDo)) {
                 throw new AllException(EmAllException.NOT_FOUND);
             }
@@ -334,7 +347,7 @@ public class TeacherServiceImpl implements TeacherService {
             ElectionDoExample electionDoExample = new ElectionDoExample();
             electionDoExample
                     .createCriteria()
-                    .andCourseIdEqualTo(gradeModifyRequest.getCourseId())
+                    .andOpenIdEqualTo(gradeModifyRequest.getOpenId())
                     .andStudentIdEqualTo(gradeModifyRequest.getStudentId());
             List<ElectionDo> electionDoList = electionDoMapper.selectByExample(electionDoExample);
 

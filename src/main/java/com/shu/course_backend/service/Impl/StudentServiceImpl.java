@@ -64,22 +64,25 @@ public class StudentServiceImpl implements StudentService {
             electionDoExample.createCriteria()
                     .andStudentIdEqualTo(authTool.getUserId());
             List<ElectionDo> electionDoList = electionDoMapper.selectByExample(electionDoExample);
-            if(electionDoList.stream().anyMatch(electionDo -> electionDo.getCourseId().equals(openId))){
-                return Result.error(EmAllException.BAD_REQUEST, "已选择该门课程!");
-            }
+            // TODO: 修改
+//            if(electionDoList.stream().anyMatch(electionDo -> electionDo.getCourseId().equals(openId))){
+//                return Result.error(EmAllException.BAD_REQUEST, "已选择该门课程!");
+//            }
 
             electionDoExample.clear();
-            electionDoExample.createCriteria()
-                    .andCourseIdEqualTo(openId);
+            // TODO: 修改
+//            electionDoExample.createCriteria()
+//                    .andCourseIdEqualTo(openId);
             CourseDo courseDo = courseDoMapper.selectByPrimaryKey(openDo.getCourseId());
             if(electionDoMapper.selectByExample(electionDoExample).size() >= courseDo.getCapacity()){
                 return Result.error(EmAllException.BAD_REQUEST, "该课程已满!");
             }
 
             if(!electionDoList.isEmpty()){
-                List<Integer> openIdList = electionDoList.stream()
-                        .map(ElectionDo::getCourseId)
-                        .collect(Collectors.toList());
+                // TODO: 修改
+//                List<Integer> openIdList = electionDoList.stream()
+//                        .map(ElectionDo::getCourseId)
+//                        .collect(Collectors.toList());
 
                 constDo = constDoMapper.selectByPrimaryKey("NOW_SEMESTER");
                 if(constDo == null) throw new AllException(EmAllException.DATABASE_ERROR);
@@ -87,7 +90,8 @@ public class StudentServiceImpl implements StudentService {
 
                 OpenDoExample openDoExample = new OpenDoExample();
                 openDoExample.createCriteria()
-                        .andOpenIdIn(openIdList)
+                        // TODO: 修改
+//                        .andOpenIdIn(openIdList)
                         .andSemesterEqualTo(semester);
                 List<OpenDo> openDoList = openDoMapper.selectByExample(openDoExample);
 
@@ -107,7 +111,8 @@ public class StudentServiceImpl implements StudentService {
             }
 
             ElectionDo electionDo = new ElectionDo();
-            electionDo.setCourseId(openId);
+            // TODO: 修改
+//            electionDo.setCourseId(openId);
             electionDo.setStudentId(authTool.getUserId());
 
             if(electionDoMapper.insertSelective(electionDo) >= 1){
@@ -139,10 +144,11 @@ public class StudentServiceImpl implements StudentService {
             if(electionDoList.isEmpty()){
                 return Result.error(EmAllException.EMPTY_RESPONSE, "还未选过课！");
             }
-
-            List<Integer> openIdList = electionDoList.stream()
-                    .map(ElectionDo::getCourseId)
-                    .collect(Collectors.toList());
+            // TODO 修改
+            List<Integer> openIdList = new ArrayList<>();
+//            List<Integer> openIdList = electionDoList.stream()
+//                    .map(ElectionDo::getCourseId)
+//                    .collect(Collectors.toList());
 
             OpenDoExample openDoExample = new OpenDoExample();
             openDoExample.createCriteria()
@@ -182,8 +188,9 @@ public class StudentServiceImpl implements StudentService {
             List<SelectionInfoRes> selectionInfoResList =
                     electionDoList.stream().map(electionDo -> {
                         SelectionInfoRes selectionInfoRes = new SelectionInfoRes();
-
-                        OpenDo openDo = openDoMapper.get(electionDo.getCourseId());
+                        // TODO: 修改
+                        OpenDo openDo = new OpenDo();
+//                        OpenDo openDo = openDoMapper.get(electionDo.getCourseId());
                         CourseDo courseDo = courseDoMapper.get(openDo.getCourseId());
 
                         BeanUtils.copyProperties(electionDo, selectionInfoRes);
@@ -219,7 +226,8 @@ public class StudentServiceImpl implements StudentService {
 
             ElectionDoExample electionDoExample = new ElectionDoExample();
             electionDoExample.createCriteria()
-                    .andCourseIdEqualTo(openId)
+                    // TODO: 修改
+//                    .andCourseIdEqualTo(openId)
                     .andStudentIdEqualTo(authTool.getUserId());
             if(electionDoMapper.deleteByExample(electionDoExample) >= 1){
                 return Result.success();

@@ -44,7 +44,7 @@ public interface TeacherService {
      * @Author: pongshy
      * @Date: 2021/5/16 22:01
      */
-    Result enterStudentGrades(Integer courseId, List<Grade> gradeList);
+    Result enterStudentGrades(Integer openId, List<Grade> gradeList);
 
     /*
      * @Description: 获取现在能选的所有课程
@@ -74,7 +74,7 @@ public interface TeacherService {
      * @Date: 2021/5/19
      * @Version: V1.0
      **/
-    Result deleteStudentGrade(Integer courseId, String studentId);
+    Result deleteStudentGrade(Integer openId, String studentId);
 
     /*
      * @Description: 修改学生成绩

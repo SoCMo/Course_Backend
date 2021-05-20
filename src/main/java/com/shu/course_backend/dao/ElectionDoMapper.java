@@ -30,5 +30,5 @@ public interface ElectionDoMapper {
 
     int updateByPrimaryKey(ElectionDo record);
 
-    List<GradeResponse> selectNameAndGrade(Integer courseId);
+    List<GradeResponse> selectNameAndGrade(Integer openid);
 }

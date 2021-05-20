@@ -21,9 +21,9 @@ import javax.validation.constraints.NotNull;
 public class GradeModifyRequest {
 
 
-    @NotNull(message = "课程号不能为空")
-    @ApiModelProperty(value = "课程号", required = true, example = "10")
-    private Integer courseId;
+    @NotNull(message = "开课号不能为空")
+    @ApiModelProperty(value = "开课号", required = true, example = "10")
+    private Integer openId;
 
     @NotBlank(message = "学生学号")
     @ApiModelProperty(value = "学生学号", required = true, example = "18120198")
