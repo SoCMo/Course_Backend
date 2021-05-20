@@ -1,7 +1,6 @@
 package com.shu.course_backend.service.Impl;
 
 import com.shu.course_backend.dao.ConstDoMapper;
-import com.shu.course_backend.exception.AllException;
 import com.shu.course_backend.exception.EmAllException;
 import com.shu.course_backend.model.Result;
 import com.shu.course_backend.model.entity.ConstDo;
@@ -24,7 +23,7 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public Result updateSemester(String nowSemester) {
-        if(!nowSemester.matches("^\\d{4}[0-3]$")){
+        if (!nowSemester.matches("^\\d{4}[0-3]$")) {
             return Result.error(EmAllException.BAD_REQUEST, "学期格式错误");
         }
 
@@ -32,14 +31,14 @@ public class ConfigServiceImpl implements ConfigService {
         constDo.setConfigKey("NOW_SEMESTER");
         constDo.setConfigValue(nowSemester);
 
-        if(constDoMapper.updateByPrimaryKey(constDo) == 1){
+        if (constDoMapper.updateByPrimaryKey(constDo) == 1) {
             return Result.success(constDo);
         } else return Result.error(EmAllException.DATABASE_ERROR);
     }
 
     @Override
     public Result updateElectionState(String state) {
-        if(!(state.equals("true") || state.equals("false"))){
+        if (!(state.equals("true") || state.equals("false"))) {
             return Result.error(EmAllException.BAD_REQUEST, "选课状态错误");
         }
 
@@ -47,7 +46,7 @@ public class ConfigServiceImpl implements ConfigService {
         constDo.setConfigKey("NOW_ELECTIONSTATE");
         constDo.setConfigValue(state);
 
-        if(constDoMapper.updateByPrimaryKey(constDo) == 1){
+        if (constDoMapper.updateByPrimaryKey(constDo) == 1) {
             return Result.success(constDo);
         } else return Result.error(EmAllException.DATABASE_ERROR);
     }

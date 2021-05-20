@@ -4,7 +4,6 @@ import com.shu.course_backend.model.Result;
 import com.shu.course_backend.model.request.CourseRequest;
 import com.shu.course_backend.model.request.CourseTimeModifyRequest;
 import com.shu.course_backend.model.request.CourseTimeRequest;
-import com.shu.course_backend.model.request.UserAdditionReq;
 
 /**
  * @ClassName: AdminService

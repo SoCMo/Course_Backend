@@ -9,11 +9,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 /**
-* @program: UserAdditionReq
-* @Description: 添加用户请求体
-* @Author: SoCMo
-* @Date: 2021/4/26
-*/
+ * @program: UserAdditionReq
+ * @Description: 添加用户请求体
+ * @Author: SoCMo
+ * @Date: 2021/4/26
+ */
 @Data
 @ApiModel(value = "用户创建请求体", description = "用户创建请求体")
 public class UserAdditionReq {

@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.validation.ConstraintViolationException;
 
 /**
-* @program: ExceptionHandler
-* @Description: 错误处理
-* @Author: SoCMo
-* @Date: 2021/4/28
-*/
+ * @program: ExceptionHandler
+ * @Description: 错误处理
+ * @Author: SoCMo
+ * @Date: 2021/4/28
+ */
 @Slf4j
 @RestControllerAdvice
 @RequiredArgsConstructor

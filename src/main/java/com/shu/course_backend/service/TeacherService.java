@@ -3,7 +3,6 @@ package com.shu.course_backend.service;
 import com.shu.course_backend.model.Grade;
 import com.shu.course_backend.model.Result;
 import com.shu.course_backend.model.request.GradeModifyRequest;
-import com.shu.course_backend.model.request.GradeRequest;
 
 import java.util.List;
 

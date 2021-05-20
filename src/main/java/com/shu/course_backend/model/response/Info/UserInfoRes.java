@@ -1,7 +1,6 @@
 package com.shu.course_backend.model.response.Info;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 

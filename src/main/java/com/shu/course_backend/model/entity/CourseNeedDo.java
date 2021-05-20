@@ -1,17 +1,16 @@
 package com.shu.course_backend.model.entity;
 
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 /**
-* @program: CourseNeedDo
-* @Description: 获取课程列表请求体
-* @Author: SoCMo
-* @Date: 2021/5/18
-*/
+ * @program: CourseNeedDo
+ * @Description: 获取课程列表请求体
+ * @Author: SoCMo
+ * @Date: 2021/5/18
+ */
 @Data
 @NoArgsConstructor
 public class CourseNeedDo {

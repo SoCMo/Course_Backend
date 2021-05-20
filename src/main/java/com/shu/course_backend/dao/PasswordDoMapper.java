@@ -2,8 +2,9 @@ package com.shu.course_backend.dao;
 
 import com.shu.course_backend.model.entity.PasswordDo;
 import com.shu.course_backend.model.entity.PasswordDoExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface PasswordDoMapper {
     int countByExample(PasswordDoExample example);

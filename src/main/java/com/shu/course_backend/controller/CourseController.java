@@ -2,7 +2,6 @@ package com.shu.course_backend.controller;
 
 import com.shu.course_backend.model.Result;
 import com.shu.course_backend.model.entity.CourseNeedDo;
-import com.shu.course_backend.model.response.Info.CourseFilterRes;
 import com.shu.course_backend.service.CourseService;
 import com.shu.course_backend.tool.StrUtil;
 import io.swagger.annotations.Api;
@@ -16,11 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
-* @program: CourseController
-* @Description: 课程资源控制层
-* @Author: SoCMo
-* @Date: 2021/5/18
-*/
+ * @program: CourseController
+ * @Description: 课程资源控制层
+ * @Author: SoCMo
+ * @Date: 2021/5/18
+ */
 @RestController
 @RequestMapping("/courses")
 @CrossOrigin
@@ -57,18 +56,18 @@ public class CourseController {
                     Boolean notFull,
             @ApiParam(value = "学期")
             @RequestParam(value = "semester", required = false)
-                    String semester){
-            CourseNeedDo courseNeedDo = new CourseNeedDo();
-            courseNeedDo.setCourseId(courseId);
-            courseNeedDo.setCourseName(courseName);
-            courseNeedDo.setCredit(credit);
-            courseNeedDo.setCourseTime(courseTime);
-            courseNeedDo.setSemester(StrUtil.semesterFromStrToInt(semester));
-            courseNeedDo.setNotFull(notFull);
-            courseNeedDo.setTeacherId(teacherId);
-            courseNeedDo.setTeacherName(teacherName);
+                    String semester) {
+        CourseNeedDo courseNeedDo = new CourseNeedDo();
+        courseNeedDo.setCourseId(courseId);
+        courseNeedDo.setCourseName(courseName);
+        courseNeedDo.setCredit(credit);
+        courseNeedDo.setCourseTime(courseTime);
+        courseNeedDo.setSemester(StrUtil.semesterFromStrToInt(semester));
+        courseNeedDo.setNotFull(notFull);
+        courseNeedDo.setTeacherId(teacherId);
+        courseNeedDo.setTeacherName(teacherName);
 
-            return courseService.getCourseList(courseNeedDo);
+        return courseService.getCourseList(courseNeedDo);
     }
 
 }

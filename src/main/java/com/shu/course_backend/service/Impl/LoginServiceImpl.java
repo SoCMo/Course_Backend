@@ -10,24 +10,22 @@ import com.shu.course_backend.exception.AllException;
 import com.shu.course_backend.exception.EmAllException;
 import com.shu.course_backend.model.Result;
 import com.shu.course_backend.model.UserRole;
-import com.shu.course_backend.model.entity.*;
+import com.shu.course_backend.model.entity.ConstDo;
+import com.shu.course_backend.model.entity.PasswordDo;
+import com.shu.course_backend.model.entity.UserDo;
 import com.shu.course_backend.model.request.RegisterRequest;
 import com.shu.course_backend.model.response.LoginResponse;
 import com.shu.course_backend.service.LoginService;
 import com.shu.course_backend.tool.JwtTokenUtil;
 import com.shu.course_backend.tool.StrUtil;
-import org.apache.ibatis.annotations.ResultType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -64,8 +62,6 @@ public class LoginServiceImpl implements LoginService {
 
     @Resource
     private ConstDoMapper constDoMapper;
-
-
 
 
     /**
@@ -105,7 +101,7 @@ public class LoginServiceImpl implements LoginService {
     private void authenticate(String username, String password) throws Exception {
         Objects.requireNonNull(username);
         Objects.requireNonNull(password);
-        try{
+        try {
             // 采用默认的认证，会自动调用重写的UserDetailsService中的loadUserByName()方法
             // 获取用户信息进行认证
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
@@ -131,7 +127,7 @@ public class LoginServiceImpl implements LoginService {
      * @Version: V1.0
      **/
     @Override
-    public Result register(RegisterRequest registerRequest)  {
+    public Result register(RegisterRequest registerRequest) {
         UserDo isExisted = userDOMapper.selectByPrimaryKey(registerRequest.getUserId());
         try {
             if (isExisted == null) {

@@ -20,10 +20,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @ClassName: TeacherServiceImpl
@@ -34,7 +32,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Service
 @Slf4j
 public class TeacherServiceImpl implements TeacherService {
-
 
 
     @Resource

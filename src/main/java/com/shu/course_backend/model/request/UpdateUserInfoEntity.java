@@ -9,11 +9,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 /**
-* @program: UpdateUserInfoEntity
-* @Description: 用户信息修改请求体
-* @Author: SoCMo
-* @Date: 2021/4/28
-*/
+ * @program: UpdateUserInfoEntity
+ * @Description: 用户信息修改请求体
+ * @Author: SoCMo
+ * @Date: 2021/4/28
+ */
 @Data
 @ApiModel(value = "用户信息修改请求体", description = "用户信息修改请求体")
 public class UpdateUserInfoEntity {

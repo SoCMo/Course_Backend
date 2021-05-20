@@ -1,7 +1,6 @@
 package com.shu.course_backend.model.response;
 
 import lombok.Data;
-import lombok.NonNull;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;

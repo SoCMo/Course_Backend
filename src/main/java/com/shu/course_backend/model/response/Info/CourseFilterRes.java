@@ -1,16 +1,15 @@
 package com.shu.course_backend.model.response.Info;
 
 import lombok.Data;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
 /**
-* @program: CourseFilterRes
-* @Description: 多条件课程信息返回
-* @Author: SoCMo
-* @Date: 2021/5/18
-*/
+ * @program: CourseFilterRes
+ * @Description: 多条件课程信息返回
+ * @Author: SoCMo
+ * @Date: 2021/5/18
+ */
 @Data
 
 public class CourseFilterRes {

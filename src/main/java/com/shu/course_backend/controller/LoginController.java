@@ -2,18 +2,15 @@ package com.shu.course_backend.controller;
 
 import com.shu.course_backend.model.Result;
 import com.shu.course_backend.model.request.JwtRequest;
-
 import com.shu.course_backend.model.request.RegisterRequest;
 import com.shu.course_backend.service.LoginService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**

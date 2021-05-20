@@ -2,10 +2,10 @@ package com.shu.course_backend.dao;
 
 import com.shu.course_backend.model.entity.ElectionDo;
 import com.shu.course_backend.model.entity.ElectionDoExample;
-import java.util.List;
-
 import com.shu.course_backend.model.response.GradeResponse;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface ElectionDoMapper {
     int countByExample(ElectionDoExample example);
