@@ -5,6 +5,7 @@ import com.shu.course_backend.exception.AllException;
 import com.shu.course_backend.exception.EmAllException;
 import com.shu.course_backend.model.Result;
 import com.shu.course_backend.model.entity.*;
+import com.shu.course_backend.model.response.CourseTimeResponse;
 import com.shu.course_backend.model.response.Info.SelectionInfoRes;
 import com.shu.course_backend.service.StudentService;
 import com.shu.course_backend.tool.AuthTool;
@@ -170,8 +171,8 @@ public class StudentServiceImpl implements StudentService {
             courseTimeDoExample.createCriteria()
                     .andIdIn(openDoList.stream().map(OpenDo::getCourseTimeId).collect(Collectors.toList()));
             List<CourseTimeDo> courseTimeDoList = courseTimeDoMapper.selectByExample(courseTimeDoExample);
-            Map<Integer, String> courseTimeDoMapper = courseTimeDoList.stream()
-                    .collect(Collectors.toMap(CourseTimeDo::getId, CourseTimeDo::getCourseTime));
+            Map<Integer, CourseTimeDo> courseTimeDoMapper = courseTimeDoList.stream()
+                    .collect(Collectors.toMap(CourseTimeDo::getId, courseTimeDo -> courseTimeDo));
 
             CourseDoExample courseDoExample = new CourseDoExample();
             courseDoExample.createCriteria()
@@ -188,16 +189,21 @@ public class StudentServiceImpl implements StudentService {
                         if(openDo == null) return null;
 
                         CourseDo courseDo = courseDoMapper.get(openDo.getCourseId());
+                        CourseTimeDo courseTimeDo = courseTimeDoMapper.get(openDo.getCourseTimeId());
+                        CourseTimeResponse courseTimeResponse = new CourseTimeResponse();
 
                         BeanUtils.copyProperties(electionDo, selectionInfoRes);
+                        BeanUtils.copyProperties(courseTimeDo, courseTimeResponse);
+                        selectionInfoRes.setCourseTimeResponse(courseTimeResponse);
                         selectionInfoRes.setPoint(CourseTool.gradeToPoint(electionDo.getGrade()));
+                        selectionInfoRes.setCapacity(courseDo.getCapacity());
+                        selectionInfoRes.setCredit(courseDo.getCredit());
                         selectionInfoRes.setSemester(StrUtil.semesterConversion(openDo.getSemester()));
                         selectionInfoRes.setTeacherName(teacherDoMapper.get(openDo.getTeacherId()));
-                        selectionInfoRes.setCourseTime(
-                                CourseTool.translateFromBitToStr(
-                                        courseTimeDoMapper.get(openDo.getCourseTimeId())
-                                )
+                        selectionInfoRes.getCourseTimeResponse().setCourseTimeList(
+                                CourseTool.translateFromBitToStr(courseTimeDo.getCourseTime())
                         );
+                        selectionInfoRes.getCourseTimeResponse().setIsChosen(1);
                         selectionInfoRes.setCourseName(courseDo.getName());
                         selectionInfoRes.setProportion(courseDo.getProportion() + "%");
 

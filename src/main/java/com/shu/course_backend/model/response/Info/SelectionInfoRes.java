@@ -1,6 +1,9 @@
 package com.shu.course_backend.model.response.Info;
 
+import com.shu.course_backend.model.entity.CourseDo;
+import com.shu.course_backend.model.response.CourseTimeResponse;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -11,6 +14,7 @@ import java.util.List;
  * create: 2021/5/15 12:12
  */
 @Data
+@NoArgsConstructor
 public class SelectionInfoRes {
     private Integer id;
 
@@ -20,13 +24,17 @@ public class SelectionInfoRes {
 
     private String semester;
 
-    private List<String> courseTime;
-
     private Double grade;
 
     private Integer usual;
 
     private Integer examination;
+
+    private CourseTimeResponse courseTimeResponse;
+
+    private Integer credit;
+
+    private Integer capacity;
 
     private Double point;
 
