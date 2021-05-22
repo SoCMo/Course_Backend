@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.AutoPopulatingList;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -97,8 +98,15 @@ public class TeacherServiceImpl implements TeacherService {
 //                throw new AllException(EmAllException.NOT_FOUND);
 //            }
             List<GradeResponse> responseList = electionDoMapper.selectNameAndGrade(openId);
+            List<GradeResponse> responses = new ArrayList<>();
+            for (GradeResponse tmp : responseList) {
+                GradeResponse res = new GradeResponse();
+                BeanUtils.copyProperties(tmp, res);
+                res.setGradePoint(CourseTool.gradeToPoint(tmp.getGrade()));
+                responses.add(res);
+            }
 
-            return Result.success(responseList);
+            return Result.success(responses);
         } catch (AllException e) {
             return Result.error(e);
         }

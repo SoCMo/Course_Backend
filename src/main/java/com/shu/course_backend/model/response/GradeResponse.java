@@ -25,4 +25,6 @@ public class GradeResponse {
     private Integer proportion; //平时成绩占比
 
     private String department;
+
+    private Double gradePoint;
 }

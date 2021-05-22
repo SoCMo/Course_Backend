@@ -169,5 +169,37 @@ public class CourseTool {
         return res;
     }
 
+    public static Double gradeToPoint(Double grade) {
+        if (ObjectUtils.isEmpty(grade)) {
+            return null;
+        }
+        if (grade < 0 || grade > 100) {
+            return null;
+        }
+        Double res = 0.0;
+        if (grade >= 90) {
+            res = 4.0;
+        } else if (grade >= 85) {
+            res = 3.7;
+        } else if (grade >= 82) {
+            res = 3.3;
+        } else if (grade >= 78) {
+            res = 3.0;
+        } else if (grade >= 75) {
+            res = 2.7;
+        } else if (grade >= 72) {
+            res = 2.3;
+        } else if (grade >= 69) {
+            res = 2.0;
+        } else if (grade >= 65) {
+            res = 1.5;
+        } else if (grade >= 60) {
+            res = 1.0;
+        } else {
+            res = 0.0;
+        }
+        return res;
+    }
+
 
 }
