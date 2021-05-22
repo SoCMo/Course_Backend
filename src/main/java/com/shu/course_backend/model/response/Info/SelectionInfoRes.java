@@ -28,5 +28,7 @@ public class SelectionInfoRes {
 
     private Integer examination;
 
+    private Double point;
+
     private String proportion;
 }

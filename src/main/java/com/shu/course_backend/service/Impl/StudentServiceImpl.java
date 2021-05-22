@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -125,7 +126,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Result selectionList(String semester) {
         try {
-            if (StringUtils.isEmpty(semester)) {
+            if (semester.equals("this")) {
                 ConstDo constDo = constDoMapper.selectByPrimaryKey("NOW_SEMESTER");
                 if (constDo == null) throw new AllException(EmAllException.DATABASE_ERROR);
                 semester = constDo.getConfigValue();
@@ -184,9 +185,12 @@ public class StudentServiceImpl implements StudentService {
                         SelectionInfoRes selectionInfoRes = new SelectionInfoRes();
 
                         OpenDo openDo = openDoMapper.get(electionDo.getOpenId());
+                        if(openDo == null) return null;
+
                         CourseDo courseDo = courseDoMapper.get(openDo.getCourseId());
 
                         BeanUtils.copyProperties(electionDo, selectionInfoRes);
+                        selectionInfoRes.setPoint(CourseTool.gradeToPoint(electionDo.getGrade()));
                         selectionInfoRes.setSemester(StrUtil.semesterConversion(openDo.getSemester()));
                         selectionInfoRes.setTeacherName(teacherDoMapper.get(openDo.getTeacherId()));
                         selectionInfoRes.setCourseTime(
@@ -200,6 +204,10 @@ public class StudentServiceImpl implements StudentService {
                         return selectionInfoRes;
                     }).collect(Collectors.toList());
 
+            selectionInfoResList = selectionInfoResList.stream().filter(Objects::nonNull).collect(Collectors.toList());
+            if(selectionInfoResList.isEmpty()){
+                return Result.error(EmAllException.EMPTY_RESPONSE, "该学期尚未选课!");
+            }
             return Result.success(selectionInfoResList);
         } catch (AllException ex) {
             log.error(ex.getMsg());
