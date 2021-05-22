@@ -112,7 +112,7 @@
         values (#{id,jdbcType=INTEGER}, #{studentId,jdbcType=VARCHAR}, #{openId,jdbcType=INTEGER},
                 #{grade,jdbcType=DOUBLE}, #{usual,jdbcType=INTEGER}, #{examination,jdbcType=INTEGER})
     </insert>
-    <insert id="insertSelective" parameterType="com.shu.course_backend.model.entity.ElectionDo">
+    <insert id="insertSelective" parameterType="com.shu.course_backend.model.entity.ElectionDo" useGeneratedKeys="true" keyProperty="id">
         insert into election_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">

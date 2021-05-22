@@ -67,6 +67,10 @@ public class StudentServiceImpl implements StudentService {
                 return Result.error(EmAllException.BAD_REQUEST, "已选择该门课程!");
             }
 
+            constDo = constDoMapper.selectByPrimaryKey("NOW_SEMESTER");
+            if (constDo == null) throw new AllException(EmAllException.DATABASE_ERROR);
+            String semester = constDo.getConfigValue();
+
             electionDoExample.clear();
             electionDoExample.createCriteria()
                     .andOpenIdEqualTo(openId);
@@ -80,28 +84,26 @@ public class StudentServiceImpl implements StudentService {
                         .map(ElectionDo::getOpenId)
                         .collect(Collectors.toList());
 
-                constDo = constDoMapper.selectByPrimaryKey("NOW_SEMESTER");
-                if (constDo == null) throw new AllException(EmAllException.DATABASE_ERROR);
-                String semester = constDo.getConfigValue();
-
                 OpenDoExample openDoExample = new OpenDoExample();
                 openDoExample.createCriteria()
                         .andOpenIdIn(openIdList)
                         .andSemesterEqualTo(semester);
                 List<OpenDo> openDoList = openDoMapper.selectByExample(openDoExample);
 
-                CourseTimeDoExample courseTimeDoExample = new CourseTimeDoExample();
-                courseTimeDoExample.createCriteria()
-                        .andIdIn(openDoList.stream().map(OpenDo::getCourseTimeId).collect(Collectors.toList()));
-                List<CourseTimeDo> courseTimeDoList = courseTimeDoMapper.selectByExample(courseTimeDoExample);
-                List<String> consumeTimeList = courseTimeDoList.stream()
-                        .map(CourseTimeDo::getCourseTime)
-                        .collect(Collectors.toList());
+                if(!openDoList.isEmpty()){
+                    CourseTimeDoExample courseTimeDoExample = new CourseTimeDoExample();
+                    courseTimeDoExample.createCriteria()
+                            .andIdIn(openDoList.stream().map(OpenDo::getCourseTimeId).collect(Collectors.toList()));
+                    List<CourseTimeDo> courseTimeDoList = courseTimeDoMapper.selectByExample(courseTimeDoExample);
+                    List<String> consumeTimeList = courseTimeDoList.stream()
+                            .map(CourseTimeDo::getCourseTime)
+                            .collect(Collectors.toList());
 
-                CourseTimeDo courseTimeDo = courseTimeDoMapper.selectByPrimaryKey(openDo.getCourseTimeId());
+                    CourseTimeDo courseTimeDo = courseTimeDoMapper.selectByPrimaryKey(openDo.getCourseTimeId());
 
-                if (CourseTool.conflictCheck(consumeTimeList, courseTimeDo.getCourseTime())) {
-                    return Result.error(EmAllException.BAD_REQUEST, "存在课时冲突!");
+                    if (CourseTool.conflictCheck(consumeTimeList, courseTimeDo.getCourseTime())) {
+                        return Result.error(EmAllException.BAD_REQUEST, "存在课时冲突!");
+                    }
                 }
             }
 
@@ -110,8 +112,7 @@ public class StudentServiceImpl implements StudentService {
             electionDo.setStudentId(authTool.getUserId());
 
             if (electionDoMapper.insertSelective(electionDo) >= 1) {
-                electionDo = electionDoMapper.selectByPrimaryKey(electionDo.getId());
-                if (electionDo != null) return Result.success(electionDo);
+                return Result.success(electionDo);
             }
 
             return Result.error(EmAllException.DATABASE_ERROR);
