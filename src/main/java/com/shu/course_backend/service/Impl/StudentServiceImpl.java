@@ -157,11 +157,14 @@ public class StudentServiceImpl implements StudentService {
             Map<Integer, OpenDo> openDoMapper = openDoList.stream()
                     .collect(Collectors.toMap(OpenDo::getOpenId, openDo -> openDo));
 
+            List<String> teacherIdList = openDoList.stream().map(OpenDo::getTeacherId)
+                    .distinct()
+                    .collect(Collectors.toList());
             UserDoExample userDoExample = new UserDoExample();
             userDoExample.createCriteria()
-                    .andUserIdIn(openDoList.stream().map(OpenDo::getTeacherId).collect(Collectors.toList()));
+                    .andUserIdIn(teacherIdList);
             List<UserDo> teacherDoList = userDoMapper.selectByExample(userDoExample);
-            if (teacherDoList.size() != openDoList.size()) {
+            if (teacherDoList.size() != teacherIdList.size()) {
                 throw new AllException(EmAllException.DATABASE_ERROR, "数据库错误，查询不到教师信息！");
             }
             Map<String, String> teacherDoMapper = teacherDoList.stream()
@@ -253,11 +256,14 @@ public class StudentServiceImpl implements StudentService {
             Map<Integer, OpenDo> openDoMapper = openDoList.stream()
                     .collect(Collectors.toMap(OpenDo::getOpenId, openDo -> openDo));
 
+            List<String> teacherIdList = openDoList.stream().map(OpenDo::getTeacherId)
+                    .distinct()
+                    .collect(Collectors.toList());
             UserDoExample userDoExample = new UserDoExample();
             userDoExample.createCriteria()
-                    .andUserIdIn(openDoList.stream().map(OpenDo::getTeacherId).collect(Collectors.toList()));
+                    .andUserIdIn(teacherIdList);
             List<UserDo> teacherDoList = userDoMapper.selectByExample(userDoExample);
-            if (teacherDoList.size() != openDoList.size()) {
+            if (teacherDoList.size() != teacherIdList.size()) {
                 throw new AllException(EmAllException.DATABASE_ERROR, "数据库错误，查询不到教师信息！");
             }
             Map<String, String> teacherDoMapper = teacherDoList.stream()
