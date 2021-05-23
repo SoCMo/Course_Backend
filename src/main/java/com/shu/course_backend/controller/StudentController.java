@@ -42,6 +42,13 @@ public class StudentController {
     }
 
     @PreAuthorize("hasRole('STUDENT')")
+    @GetMapping("/this/courses")
+    @ApiOperation(value = "获取学生所有选课")
+    Result courseList() {
+        return studentService.allSelectionList();
+    }
+
+    @PreAuthorize("hasRole('STUDENT')")
     @PutMapping("/this/semester/this/course/")
     @ApiOperation(value = "选课")
     @ApiImplicitParam(name = "openId", value = "请求体:开课Id", required = true, dataType = "int")

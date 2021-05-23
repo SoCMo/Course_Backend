@@ -28,6 +28,15 @@ public interface StudentService {
     Result selectionList(String semester);
 
     /**
+    * @Description: 获取所有选课列表
+    * @Param: []
+    * @Return: com.shu.course_backend.model.Result
+    * @Author: SoCMo
+    * @Date: 2021/5/23
+    */
+    Result allSelectionList();
+
+    /**
      * @Description: 退课
      * @Param: [openId]
      * @Return: com.shu.course_backend.model.Result

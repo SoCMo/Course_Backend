@@ -223,6 +223,101 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public Result allSelectionList() {
+        try {
+            ConstDo constDo = constDoMapper.selectByPrimaryKey("NOW_SEMESTER");
+            if (constDo == null) throw new AllException(EmAllException.DATABASE_ERROR);
+            String semester = constDo.getConfigValue();
+
+            ElectionDoExample electionDoExample = new ElectionDoExample();
+            electionDoExample.createCriteria()
+                    .andStudentIdEqualTo(authTool.getUserId());
+            List<ElectionDo> electionDoList = electionDoMapper.selectByExample(electionDoExample);
+
+            if (electionDoList.isEmpty()) {
+                return Result.error(EmAllException.EMPTY_RESPONSE, "还未选过课！");
+            }
+
+            List<Integer> openIdList = electionDoList.stream()
+                    .map(ElectionDo::getOpenId)
+                    .collect(Collectors.toList());
+
+            OpenDoExample openDoExample = new OpenDoExample();
+            openDoExample.createCriteria()
+                    .andOpenIdIn(openIdList)
+                    .andSemesterNotEqualTo(semester);
+            List<OpenDo> openDoList = openDoMapper.selectByExample(openDoExample);
+            if (openDoList.isEmpty()) {
+                return Result.error(EmAllException.EMPTY_RESPONSE, "还未选过课！");
+            }
+            Map<Integer, OpenDo> openDoMapper = openDoList.stream()
+                    .collect(Collectors.toMap(OpenDo::getOpenId, openDo -> openDo));
+
+            UserDoExample userDoExample = new UserDoExample();
+            userDoExample.createCriteria()
+                    .andUserIdIn(openDoList.stream().map(OpenDo::getTeacherId).collect(Collectors.toList()));
+            List<UserDo> teacherDoList = userDoMapper.selectByExample(userDoExample);
+            if (teacherDoList.size() != openDoList.size()) {
+                throw new AllException(EmAllException.DATABASE_ERROR, "数据库错误，查询不到教师信息！");
+            }
+            Map<String, String> teacherDoMapper = teacherDoList.stream()
+                    .collect(Collectors.toMap(UserDo::getUserId, UserDo::getName));
+
+            CourseTimeDoExample courseTimeDoExample = new CourseTimeDoExample();
+            courseTimeDoExample.createCriteria()
+                    .andIdIn(openDoList.stream().map(OpenDo::getCourseTimeId).collect(Collectors.toList()));
+            List<CourseTimeDo> courseTimeDoList = courseTimeDoMapper.selectByExample(courseTimeDoExample);
+            Map<Integer, CourseTimeDo> courseTimeDoMapper = courseTimeDoList.stream()
+                    .collect(Collectors.toMap(CourseTimeDo::getId, courseTimeDo -> courseTimeDo));
+
+            CourseDoExample courseDoExample = new CourseDoExample();
+            courseDoExample.createCriteria()
+                    .andIdIn(openDoList.stream().map(OpenDo::getCourseId).collect(Collectors.toList()));
+            List<CourseDo> courseDoList = courseDoMapper.selectByExample(courseDoExample);
+            Map<Integer, CourseDo> courseDoMapper = courseDoList.stream()
+                    .collect(Collectors.toMap(CourseDo::getId, courseDo -> courseDo));
+
+            List<SelectionInfoRes> selectionInfoResList =
+                    electionDoList.stream().map(electionDo -> {
+                        SelectionInfoRes selectionInfoRes = new SelectionInfoRes();
+
+                        OpenDo openDo = openDoMapper.get(electionDo.getOpenId());
+                        if(openDo == null) return null;
+
+                        CourseDo courseDo = courseDoMapper.get(openDo.getCourseId());
+                        CourseTimeDo courseTimeDo = courseTimeDoMapper.get(openDo.getCourseTimeId());
+                        CourseTimeResponse courseTimeResponse = new CourseTimeResponse();
+
+                        BeanUtils.copyProperties(electionDo, selectionInfoRes);
+                        BeanUtils.copyProperties(courseTimeDo, courseTimeResponse);
+                        selectionInfoRes.setCourseTimeResponse(courseTimeResponse);
+                        selectionInfoRes.setPoint(CourseTool.gradeToPoint(electionDo.getGrade()));
+                        selectionInfoRes.setCapacity(courseDo.getCapacity());
+                        selectionInfoRes.setCredit(courseDo.getCredit());
+                        selectionInfoRes.setSemester(StrUtil.semesterConversion(openDo.getSemester()));
+                        selectionInfoRes.setTeacherName(teacherDoMapper.get(openDo.getTeacherId()));
+                        selectionInfoRes.getCourseTimeResponse().setCourseTimeList(
+                                CourseTool.translateFromBitToStr(courseTimeDo.getCourseTime())
+                        );
+                        selectionInfoRes.getCourseTimeResponse().setIsChosen(1);
+                        selectionInfoRes.setCourseName(courseDo.getName());
+                        selectionInfoRes.setProportion(courseDo.getProportion() + "%");
+
+                        return selectionInfoRes;
+                    }).collect(Collectors.toList());
+
+            selectionInfoResList = selectionInfoResList.stream().filter(Objects::nonNull).collect(Collectors.toList());
+            if(selectionInfoResList.isEmpty()){
+                return Result.error(EmAllException.EMPTY_RESPONSE, "尚未选课!");
+            }
+            return Result.success(selectionInfoResList);
+        } catch (AllException ex) {
+            log.error(ex.getMsg());
+            return Result.error(ex);
+        }
+    }
+
+    @Override
     public Result quiteCourse(Integer openId) {
         try {
             ConstDo constDo = constDoMapper.selectByPrimaryKey("NOW_ELECTIONSTATE");
