@@ -68,10 +68,31 @@ public class TeacherServiceImpl implements TeacherService {
         record.setTeacherId(userId);
 
         try {
-            if (openDoMapper.insertSelective(record) == 1) {
-                return Result.success("申请成功");
+            String semester = constDoMapper.selectByPrimaryKey("NOW_SEMESTER").getConfigValue();
+            OpenDoExample openDoExample = new OpenDoExample();
+            openDoExample
+                    .createCriteria()
+                    .andSemesterEqualTo(semester)
+                    .andTeacherIdEqualTo(userId);
+            List<OpenDo> openDoList = openDoMapper.selectByExample(openDoExample);
+            Boolean confict = true;
+            if (!ObjectUtils.isEmpty(openDoList)) {
+                List<String> coursetimes = new ArrayList<>();
+                for (OpenDo openDo : openDoList) {
+                    String time = courseTimeDoMapper.selectByPrimaryKey(openDo.getCourseTimeId()).getCourseTime();
+                    coursetimes.add(time);
+                }
+                String target = courseTimeDoMapper.selectByPrimaryKey(courseTimeId).getCourseTime();
+                confict = CourseTool.conflictCheck(coursetimes, target);
+            }
+            if (confict) {
+                if (openDoMapper.insertSelective(record) == 1) {
+                    return Result.success("申请成功");
+                } else {
+                    throw new AllException(EmAllException.DATABASE_ERROR);
+                }
             } else {
-                throw new AllException(EmAllException.DATABASE_ERROR);
+                throw new AllException(EmAllException.BAD_REQUEST, "重课");
             }
         } catch (AllException e) {
             return Result.error(e);
