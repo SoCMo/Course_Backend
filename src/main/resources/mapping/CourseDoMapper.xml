@@ -111,7 +111,7 @@
         values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{credit,jdbcType=INTEGER},
                 #{capacity,jdbcType=INTEGER}, #{proportion,jdbcType=INTEGER})
     </insert>
-    <insert id="insertSelective" parameterType="com.shu.course_backend.model.entity.CourseDo">
+    <insert id="insertSelective" parameterType="com.shu.course_backend.model.entity.CourseDo" useGeneratedKeys="true" keyProperty="id">
         insert into course_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">

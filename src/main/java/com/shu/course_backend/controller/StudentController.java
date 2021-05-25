@@ -2,6 +2,7 @@ package com.shu.course_backend.controller;
 
 import com.shu.course_backend.model.Result;
 import com.shu.course_backend.service.StudentService;
+import com.shu.course_backend.tool.StrUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -34,9 +35,17 @@ public class StudentController {
     @GetMapping("/this/semester/{semester}/course")
     @ApiOperation(value = "获取学生选课列表")
     Result courseList(@ApiParam(value = "学期", required = true)
-                      @Pattern(regexp = "^\\d{4}[0-3]$", message = "学期格式错误")
+                      @Pattern(regexp = "^\\d{4}学年[春夏秋冬]季学期$", message = "学期格式错误")
                       @PathVariable("semester") String semester) {
+        semester = StrUtil.semesterFromStrToInt(semester);
         return studentService.selectionList(semester);
+    }
+
+    @PreAuthorize("hasRole('STUDENT')")
+    @GetMapping("/this/courses")
+    @ApiOperation(value = "获取学生所有选课")
+    Result courseList() {
+        return studentService.allSelectionList();
     }
 
     @PreAuthorize("hasRole('STUDENT')")
