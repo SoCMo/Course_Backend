@@ -14,12 +14,12 @@ import com.shu.course_backend.model.request.UserAdditionReq;
  */
 public interface UserService {
     /**
-    * @Description: 获取用户信息
-    * @Param: [userId]
-    * @Return: com.shu.course_backend.model.Result
-    * @Author: SoCMo
-    * @Date: 2021/4/26
-    */
+     * @Description: 获取用户信息
+     * @Param: [userId]
+     * @Return: com.shu.course_backend.model.Result
+     * @Author: SoCMo
+     * @Date: 2021/4/26
+     */
     Result UserInfo(String userId);
 
 
@@ -33,30 +33,30 @@ public interface UserService {
     Result UserAddition(UserAdditionReq userAdditionReq);
 
     /**
-    * @Description: 删除用户
-    * @Param: [userId]
-    * @Return: com.shu.course_backend.model.Result
-    * @Author: SoCMo
-    * @Date: 2021/4/29
-    */
+     * @Description: 删除用户
+     * @Param: [userId]
+     * @Return: com.shu.course_backend.model.Result
+     * @Author: SoCMo
+     * @Date: 2021/4/29
+     */
     Result UserDeletion(String userId);
 
     /**
-    * @Description: 更新密码
-    * @Param: [updatePasswordEntity]
-    * @Return: com.shu.course_backend.model.Result
-    * @Author: SoCMo
-    * @Date: 2021/4/29
-    */
+     * @Description: 更新密码
+     * @Param: [updatePasswordEntity]
+     * @Return: com.shu.course_backend.model.Result
+     * @Author: SoCMo
+     * @Date: 2021/4/29
+     */
     Result UpdatePassword(UpdatePasswordReq updatePasswordReq);
 
     /**
-    * @Description: 修改用户身份
-    * @Param: [updateIdentityReq]
-    * @Return: com.shu.course_backend.model.Result
-    * @Author: SoCMo
-    * @Date: 2021/4/28
-    */
+     * @Description: 修改用户身份
+     * @Param: [updateIdentityReq]
+     * @Return: com.shu.course_backend.model.Result
+     * @Author: SoCMo
+     * @Date: 2021/4/28
+     */
     Result UpdateIdentity(UpdateIdentityReq updateIdentityReq);
 
     Result UpdateUserInfo(UpdateUserInfoEntity updateUserInfoEntity);

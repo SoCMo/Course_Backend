@@ -99,7 +99,7 @@ public class TeacherController {
             @ApiImplicitParam(name = "openId", value = "开课号", required = true, dataType = "Integer")
     })
     public Result deleteStudentGrade(@RequestParam("studentId") @NotNull(message = "学号不能为空") String studentId,
-                                     @RequestParam("openId") @NotNull(message = "开课号不能为空")  Integer openId) {
+                                     @RequestParam("openId") @NotNull(message = "开课号不能为空") Integer openId) {
         return teacherService.deleteStudentGrade(openId, studentId);
     }
 
@@ -109,11 +109,6 @@ public class TeacherController {
     public Result modifyGrade(@RequestBody @Validated GradeModifyRequest request) {
         return teacherService.modfiyStudentGrade(request);
     }
-
-
-
-
-
 
 
 }

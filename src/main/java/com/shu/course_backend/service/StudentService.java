@@ -10,29 +10,38 @@ import com.shu.course_backend.model.Result;
  */
 public interface StudentService {
     /**
-    * @Description: 选课
-    * @Param: [openId]
-    * @Return: com.shu.course_backend.model.Result
-    * @Author: SoCMo
-    * @Date: 2021/5/18
-    */
+     * @Description: 选课
+     * @Param: [openId]
+     * @Return: com.shu.course_backend.model.Result
+     * @Author: SoCMo
+     * @Date: 2021/5/18
+     */
     Result selectCourse(Integer openId);
 
     /**
-    * @Description: 获取选课列表
-    * @Param: [semester]
-    * @Return: com.shu.course_backend.model.Result
-    * @Author: SoCMo
-    * @Date: 2021/5/18
-    */
+     * @Description: 获取选课列表
+     * @Param: [semester]
+     * @Return: com.shu.course_backend.model.Result
+     * @Author: SoCMo
+     * @Date: 2021/5/18
+     */
     Result selectionList(String semester);
 
     /**
-    * @Description: 退课
-    * @Param: [openId]
+    * @Description: 获取所有选课列表
+    * @Param: []
     * @Return: com.shu.course_backend.model.Result
     * @Author: SoCMo
-    * @Date: 2021/5/18
+    * @Date: 2021/5/23
     */
+    Result allSelectionList();
+
+    /**
+     * @Description: 退课
+     * @Param: [openId]
+     * @Return: com.shu.course_backend.model.Result
+     * @Author: SoCMo
+     * @Date: 2021/5/18
+     */
     Result quiteCourse(Integer openId);
 }

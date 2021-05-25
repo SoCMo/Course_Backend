@@ -3,7 +3,6 @@ package com.shu.course_backend.model;
 import com.shu.course_backend.exception.AllException;
 import com.shu.course_backend.exception.EmAllException;
 import com.shu.course_backend.tool.TimeTool;
-import com.sun.net.httpserver.Authenticator;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 
@@ -23,7 +22,7 @@ public class Result<T> {
 
 
     private Result(HttpStatus status,
-                  String msg
+                   String msg
     ) {
         Date date = new Date(System.currentTimeMillis());
 
@@ -40,13 +39,13 @@ public class Result<T> {
         this.message = ex.getMsg();
     }
 
-    public static Result success(Object object){
+    public static Result success(Object object) {
         Result result = new Result(HttpStatus.OK, "");
         result.setData(object);
         return result;
     }
 
-    public static Result success(){
+    public static Result success() {
         return new Result(HttpStatus.OK, "");
     }
 
@@ -55,15 +54,15 @@ public class Result<T> {
         return result;
     }
 
-    public static Result error(AllException ex){
+    public static Result error(AllException ex) {
         return new Result(ex);
     }
 
-    public static Result error(EmAllException ex){
+    public static Result error(EmAllException ex) {
         return new Result(new AllException(ex));
     }
 
-    public static Result error(EmAllException ex, String msg){
+    public static Result error(EmAllException ex, String msg) {
         return new Result(new AllException(ex, msg));
     }
 }

@@ -25,7 +25,7 @@ import java.util.function.Function;
 public class JwtTokenUtil implements Serializable {
 
 
-    private static final long  serialVersionUID = -2550185165626007488L;
+    private static final long serialVersionUID = -2550185165626007488L;
 
     private static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60; // 5个小时
 //    private static final long JWT_TOKEN_VALIDITY = 20;  // 20 seconds
@@ -79,7 +79,7 @@ public class JwtTokenUtil implements Serializable {
         return TOKEN_PREFIX + doGenerateToken(claims, userDetails.getUsername());
     }
 
-    public String doGenerateToken(Map<String ,Object> claims, String subject) {
+    public String doGenerateToken(Map<String, Object> claims, String subject) {
         return Jwts
                 .builder()
                 .setClaims(claims)

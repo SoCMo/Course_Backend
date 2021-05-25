@@ -1,246 +1,257 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.shu.course_backend.dao.ElectionDoMapper" >
-  <resultMap id="BaseResultMap" type="com.shu.course_backend.model.entity.ElectionDo" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="student_id" property="studentId" jdbcType="VARCHAR" />
-    <result column="open_id" property="openId" jdbcType="INTEGER" />
-    <result column="grade" property="grade" jdbcType="DOUBLE" />
-    <result column="usual" property="usual" jdbcType="INTEGER" />
-    <result column="examination" property="examination" jdbcType="INTEGER" />
-  </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+<mapper namespace="com.shu.course_backend.dao.ElectionDoMapper">
+    <resultMap id="BaseResultMap" type="com.shu.course_backend.model.entity.ElectionDo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="student_id" property="studentId" jdbcType="VARCHAR"/>
+        <result column="open_id" property="openId" jdbcType="INTEGER"/>
+        <result column="grade" property="grade" jdbcType="DOUBLE"/>
+        <result column="usual" property="usual" jdbcType="INTEGER"/>
+        <result column="examination" property="examination" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id
+        , student_id, open_id, grade, usual, examination
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap"
+            parameterType="com.shu.course_backend.model.entity.ElectionDoExample">
+        select
+        <if test="distinct">
+            distinct
         </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List" >
-    id, student_id, open_id, grade, usual, examination
-  </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shu.course_backend.model.entity.ElectionDoExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    'true' as QUERYID,
-    <include refid="Base_Column_List" />
-    from election_info
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from election_info
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from election_info
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.shu.course_backend.model.entity.ElectionDoExample" >
-    delete from election_info
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.shu.course_backend.model.entity.ElectionDo" >
-    insert into election_info (id, student_id, open_id, 
-      grade, usual, examination
-      )
-    values (#{id,jdbcType=INTEGER}, #{studentId,jdbcType=VARCHAR}, #{openId,jdbcType=INTEGER}, 
-      #{grade,jdbcType=DOUBLE}, #{usual,jdbcType=INTEGER}, #{examination,jdbcType=INTEGER}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.shu.course_backend.model.entity.ElectionDo" >
-    insert into election_info
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="studentId != null" >
-        student_id,
-      </if>
-      <if test="openId != null" >
-        open_id,
-      </if>
-      <if test="grade != null" >
-        grade,
-      </if>
-      <if test="usual != null" >
-        usual,
-      </if>
-      <if test="examination != null" >
-        examination,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="studentId != null" >
-        #{studentId,jdbcType=VARCHAR},
-      </if>
-      <if test="openId != null" >
-        #{openId,jdbcType=INTEGER},
-      </if>
-      <if test="grade != null" >
-        #{grade,jdbcType=DOUBLE},
-      </if>
-      <if test="usual != null" >
-        #{usual,jdbcType=INTEGER},
-      </if>
-      <if test="examination != null" >
-        #{examination,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.shu.course_backend.model.entity.ElectionDoExample" resultType="java.lang.Integer" >
-    select count(*) from election_info
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update election_info
-    <set >
-      <if test="record.id != null" >
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.studentId != null" >
+        'true' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from election_info
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from election_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from election_info
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.shu.course_backend.model.entity.ElectionDoExample">
+        delete from election_info
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.shu.course_backend.model.entity.ElectionDo">
+        insert into election_info (id, student_id, open_id,
+                                   grade, usual, examination)
+        values (#{id,jdbcType=INTEGER}, #{studentId,jdbcType=VARCHAR}, #{openId,jdbcType=INTEGER},
+                #{grade,jdbcType=DOUBLE}, #{usual,jdbcType=INTEGER}, #{examination,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="com.shu.course_backend.model.entity.ElectionDo" useGeneratedKeys="true" keyProperty="id">
+        insert into election_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="studentId != null">
+                student_id,
+            </if>
+            <if test="openId != null">
+                open_id,
+            </if>
+            <if test="grade != null">
+                grade,
+            </if>
+            <if test="usual != null">
+                usual,
+            </if>
+            <if test="examination != null">
+                examination,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="studentId != null">
+                #{studentId,jdbcType=VARCHAR},
+            </if>
+            <if test="openId != null">
+                #{openId,jdbcType=INTEGER},
+            </if>
+            <if test="grade != null">
+                #{grade,jdbcType=DOUBLE},
+            </if>
+            <if test="usual != null">
+                #{usual,jdbcType=INTEGER},
+            </if>
+            <if test="examination != null">
+                #{examination,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.shu.course_backend.model.entity.ElectionDoExample"
+            resultType="java.lang.Integer">
+        select count(*) from election_info
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update election_info
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.studentId != null">
+                student_id = #{record.studentId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.openId != null">
+                open_id = #{record.openId,jdbcType=INTEGER},
+            </if>
+            <if test="record.grade != null">
+                grade = #{record.grade,jdbcType=DOUBLE},
+            </if>
+            <if test="record.usual != null">
+                usual = #{record.usual,jdbcType=INTEGER},
+            </if>
+            <if test="record.examination != null">
+                examination = #{record.examination,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update election_info
+        set id = #{record.id,jdbcType=INTEGER},
         student_id = #{record.studentId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.openId != null" >
         open_id = #{record.openId,jdbcType=INTEGER},
-      </if>
-      <if test="record.grade != null" >
         grade = #{record.grade,jdbcType=DOUBLE},
-      </if>
-      <if test="record.usual != null" >
         usual = #{record.usual,jdbcType=INTEGER},
-      </if>
-      <if test="record.examination != null" >
-        examination = #{record.examination,jdbcType=INTEGER},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update election_info
-    set id = #{record.id,jdbcType=INTEGER},
-      student_id = #{record.studentId,jdbcType=VARCHAR},
-      open_id = #{record.openId,jdbcType=INTEGER},
-      grade = #{record.grade,jdbcType=DOUBLE},
-      usual = #{record.usual,jdbcType=INTEGER},
-      examination = #{record.examination,jdbcType=INTEGER}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.shu.course_backend.model.entity.ElectionDo" >
-    update election_info
-    <set >
-      <if test="studentId != null" >
-        student_id = #{studentId,jdbcType=VARCHAR},
-      </if>
-      <if test="openId != null" >
-        open_id = #{openId,jdbcType=INTEGER},
-      </if>
-      <if test="grade != null" >
-        grade = #{grade,jdbcType=DOUBLE},
-      </if>
-      <if test="usual != null" >
-        usual = #{usual,jdbcType=INTEGER},
-      </if>
-      <if test="examination != null" >
-        examination = #{examination,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.shu.course_backend.model.entity.ElectionDo" >
-    update election_info
-    set student_id = #{studentId,jdbcType=VARCHAR},
-      open_id = #{openId,jdbcType=INTEGER},
-      grade = #{grade,jdbcType=DOUBLE},
-      usual = #{usual,jdbcType=INTEGER},
-      examination = #{examination,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <select id="selectNameAndGrade" resultType="com.shu.course_backend.model.response.GradeResponse" parameterType="java.lang.Integer">
-    SELECT election_info.student_id AS studentId, user_info.`name`, election_info.usual,
-           election_info.examination AS exam, election_info.grade, course_info.proportion,
-           department_info.department_name AS department
-    FROM election_info, user_info, department_info, course_info, open_info
-    WHERE
-        election_info.student_id = user_info.user_id
-    AND
-        user_info.department_id = department_info.id
-    AND
-        election_info.open_id = open_info.open_id
-    AND
-        open_info.course_id = course_info.id
-    AND
-        open_info.open_id = #{openid,jdbcType=INTEGER}
-    ORDER BY user_info.user_id ASC
-  </select>
+        examination = #{record.examination,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.shu.course_backend.model.entity.ElectionDo">
+        update election_info
+        <set>
+            <if test="studentId != null">
+                student_id = #{studentId,jdbcType=VARCHAR},
+            </if>
+            <if test="openId != null">
+                open_id = #{openId,jdbcType=INTEGER},
+            </if>
+            <if test="grade != null">
+                grade = #{grade,jdbcType=DOUBLE},
+            </if>
+            <if test="usual != null">
+                usual = #{usual,jdbcType=INTEGER},
+            </if>
+            <if test="examination != null">
+                examination = #{examination,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.shu.course_backend.model.entity.ElectionDo">
+        update election_info
+        set student_id  = #{studentId,jdbcType=VARCHAR},
+            open_id     = #{openId,jdbcType=INTEGER},
+            grade       = #{grade,jdbcType=DOUBLE},
+            usual       = #{usual,jdbcType=INTEGER},
+            examination = #{examination,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectNameAndGrade" resultType="com.shu.course_backend.model.response.GradeResponse"
+            parameterType="java.lang.Integer">
+        SELECT election_info.student_id        AS studentId,
+               user_info.`name`,
+               election_info.usual,
+               election_info.examination       AS exam,
+               election_info.grade,
+               course_info.proportion,
+               department_info.department_name AS department
+        FROM election_info,
+             user_info,
+             department_info,
+             course_info,
+             open_info
+        WHERE election_info.student_id = user_info.user_id
+          AND user_info.department_id = department_info.id
+          AND election_info.open_id = open_info.open_id
+          AND open_info.course_id = course_info.id
+          AND open_info.open_id = #{openid,jdbcType=INTEGER}
+        ORDER BY user_info.user_id ASC
+    </select>
+    <select id="getGradePoint" resultType="java.lang.Double" statementType="CALLABLE">
+        {call cal(#{grade})}
+    </select>
 </mapper>

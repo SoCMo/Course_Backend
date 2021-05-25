@@ -2,8 +2,9 @@ package com.shu.course_backend.dao;
 
 import com.shu.course_backend.model.entity.UserDo;
 import com.shu.course_backend.model.entity.UserDoExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UserDoMapper {
     int countByExample(UserDoExample example);

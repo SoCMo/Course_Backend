@@ -2,8 +2,9 @@ package com.shu.course_backend.dao;
 
 import com.shu.course_backend.model.entity.DepartmentDo;
 import com.shu.course_backend.model.entity.DepartmentDoExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface DepartmentDoMapper {
     int countByExample(DepartmentDoExample example);

@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * @ClassName: JwtUserDetailsService
  * @Description: Getting the user details from the database
- *               when authenticating the user details provided by the user
+ * when authenticating the user details provided by the user
  * @Author: pongshy
  * @Date: 2021/1/8-10:39
  * @Version: V1.0

@@ -43,12 +43,12 @@ public class UserController {
     @GetMapping("/{userId}")
     @ApiOperation(value = "获取用户信息")
     Result UserInfo(@PathVariable("userId") String userId) {
-        if(StringUtils.isEmpty(userId)){
+        if (StringUtils.isEmpty(userId)) {
             return Result.error(new AllException(EmAllException.BAD_REQUEST, "用户名不能为空"));
         }
-        if(authTool.getUserIdentity().contains("ROLE_ADMIN")
-        || authTool.getUserIdentity().contains("ROLE_TEACHER")
-        || userId.equals(authTool.getUserId())){
+        if (authTool.getUserIdentity().contains("ROLE_ADMIN")
+                || authTool.getUserIdentity().contains("ROLE_TEACHER")
+                || userId.equals(authTool.getUserId())) {
             return userService.UserInfo(userId);
         }
 
@@ -74,10 +74,10 @@ public class UserController {
     @PatchMapping("/identity/{userId}")
     @ApiOperation(value = "更新用户身份")
     @ApiImplicitParam(name = "identity", value = "用户身份，共3位二进制(001学生，010教师，100系统管理员)"
-            ,required = true, dataType = "string")
+            , required = true, dataType = "string")
     Result UpdateIdentity(@ApiParam(value = "用户Id", required = true)
                           @NotBlank(message = "用户名不能为空") @PathVariable("userId") String userId,
-                          @RequestBody @Validated UpdateIdentityReq updateIdentityReq){
+                          @RequestBody @Validated UpdateIdentityReq updateIdentityReq) {
         updateIdentityReq.setUserId(userId);
 
         return userService.UpdateIdentity(updateIdentityReq);
@@ -87,7 +87,7 @@ public class UserController {
     @ApiOperation(value = "更新用户密码")
     @ApiImplicitParam(name = "password", value = "例:123456", required = true, dataType = "string")
     Result UpdatePassword(@ApiParam(value = "用户Id", required = true) @NotBlank(message = "用户名不能为空") @PathVariable("userId") String userId,
-                          @RequestBody @Validated UpdatePasswordReq updatePasswordReq){
+                          @RequestBody @Validated UpdatePasswordReq updatePasswordReq) {
         updatePasswordReq.setUserId(userId);
 
         return userService.UpdatePassword(updatePasswordReq);
@@ -96,12 +96,12 @@ public class UserController {
     @PutMapping("/{userId}")
     @ApiOperation(value = "更新用户信息")
     Result UpdateUserInfo(@RequestBody @Validated UpdateUserInfoEntity updateUserInfoEntity,
-                          @PathVariable("userId") @NotBlank(message = "用户Id不能为空") String userId){
+                          @PathVariable("userId") @NotBlank(message = "用户Id不能为空") String userId) {
         updateUserInfoEntity.setUserId(userId);
 
-        if(authTool.getUserIdentity().contains("ROLE_ADMIN")
+        if (authTool.getUserIdentity().contains("ROLE_ADMIN")
                 || authTool.getUserIdentity().contains("ROLE_TEACHER")
-                || userId.equals(authTool.getUserId())){
+                || userId.equals(authTool.getUserId())) {
             return userService.UpdateUserInfo(updateUserInfoEntity);
         }
 

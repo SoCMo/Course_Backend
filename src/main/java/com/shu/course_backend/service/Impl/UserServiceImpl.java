@@ -7,7 +7,8 @@ import com.shu.course_backend.exception.AllException;
 import com.shu.course_backend.exception.EmAllException;
 import com.shu.course_backend.model.Result;
 import com.shu.course_backend.model.UserRole;
-import com.shu.course_backend.model.entity.*;
+import com.shu.course_backend.model.entity.PasswordDo;
+import com.shu.course_backend.model.entity.UserDo;
 import com.shu.course_backend.model.request.UpdateIdentityReq;
 import com.shu.course_backend.model.request.UpdatePasswordReq;
 import com.shu.course_backend.model.request.UpdateUserInfoEntity;
@@ -40,7 +41,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result UserInfo(String userId) {
         UserDo userDo = userDoMapper.selectByPrimaryKey(userId);
-        if(userDo == null){
+        if (userDo == null) {
             return Result.error(EmAllException.BAD_REQUEST, "该用户不存在");
         }
 
@@ -64,24 +65,24 @@ public class UserServiceImpl implements UserService {
             return Result.error(new AllException(EmAllException.BAD_REQUEST, "该部门不存在"));
         }
 
-        if(userDoMapper.selectByPrimaryKey(userAdditionReq.getUserId()) != null){
+        if (userDoMapper.selectByPrimaryKey(userAdditionReq.getUserId()) != null) {
             return Result.error(new AllException(EmAllException.BAD_REQUEST, "该用户Id已存在"));
         }
 
         UserDo userDo = new UserDo();
         BeanUtils.copyProperties(userAdditionReq, userDo);
         try {
-            if(userDoMapper.insertSelective(userDo) >= 1){
+            if (userDoMapper.insertSelective(userDo) >= 1) {
                 PasswordDo passwordDo = new PasswordDo();
                 passwordDo.setUserId(userAdditionReq.getUserId());
                 passwordDo.setPassword(new BCryptPasswordEncoder().encode("123456"));
-                if(passwordDoMapper.updateByPrimaryKeySelective(passwordDo) >= 1){
+                if (passwordDoMapper.updateByPrimaryKeySelective(passwordDo) >= 1) {
                     return Result.success(userDo);
                 }
             }
 
             throw new AllException(EmAllException.DATABASE_ERROR);
-        }catch (AllException ex){
+        } catch (AllException ex) {
             return Result.error(ex);
         }
     }
@@ -89,17 +90,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result UserDeletion(String userId) {
         UserDo userDo = userDoMapper.selectByPrimaryKey(userId);
-        if(userDo == null){
+        if (userDo == null) {
             return Result.error(EmAllException.BAD_REQUEST, "该用户不存在");
         }
 
         try {
-            if(userDoMapper.deleteByPrimaryKey(userId) == 1){
+            if (userDoMapper.deleteByPrimaryKey(userId) == 1) {
                 return Result.success();
-            }else {
+            } else {
                 throw new AllException(EmAllException.DATABASE_ERROR);
             }
-        }catch (AllException ex){
+        } catch (AllException ex) {
             return Result.error(ex);
         }
     }
@@ -107,18 +108,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result UpdatePassword(UpdatePasswordReq updatePasswordReq) {
         PasswordDo passwordDo = passwordDoMapper.selectByPrimaryKey(updatePasswordReq.getUserId());
-        if(passwordDo == null){
+        if (passwordDo == null) {
             return Result.error(EmAllException.BAD_REQUEST, "该用户不存在");
         }
 
         passwordDo.setPassword(new BCryptPasswordEncoder().encode(updatePasswordReq.getPassword()));
         try {
-            if(passwordDoMapper.updateByPrimaryKeySelective(passwordDo) >= 1){
+            if (passwordDoMapper.updateByPrimaryKeySelective(passwordDo) >= 1) {
                 return Result.success();
-            }else {
+            } else {
                 throw new AllException(EmAllException.DATABASE_ERROR);
             }
-        }catch (AllException ex){
+        } catch (AllException ex) {
             return Result.error(ex);
         }
     }
@@ -126,18 +127,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result UpdateIdentity(UpdateIdentityReq updateIdentityReq) {
         UserDo userDo = userDoMapper.selectByPrimaryKey(updateIdentityReq.getUserId());
-        if(userDo == null){
+        if (userDo == null) {
             return Result.error(EmAllException.BAD_REQUEST, "该用户不存在");
         }
 
         userDo.setIdentity(updateIdentityReq.getIdentity());
         try {
-            if(userDoMapper.updateByPrimaryKeySelective(userDo) >= 1){
+            if (userDoMapper.updateByPrimaryKeySelective(userDo) >= 1) {
                 return Result.success(userDoMapper.selectByPrimaryKey(updateIdentityReq.getUserId()));
-            }else {
+            } else {
                 throw new AllException(EmAllException.DATABASE_ERROR);
             }
-        }catch (AllException ex){
+        } catch (AllException ex) {
             return Result.error(ex);
         }
     }
@@ -145,19 +146,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result UpdateUserInfo(UpdateUserInfoEntity updateUserInfoEntity) {
         UserDo userDo = userDoMapper.selectByPrimaryKey(updateUserInfoEntity.getUserId());
-        if(userDo == null){
+        if (userDo == null) {
             return Result.error(EmAllException.BAD_REQUEST, "该用户不存在");
         }
 
         userDo.setMobilePhone(updateUserInfoEntity.getMobilePhone());
         userDo.setEmail(updateUserInfoEntity.getEmail());
         try {
-            if(userDoMapper.updateByPrimaryKeySelective(userDo) >= 1){
+            if (userDoMapper.updateByPrimaryKeySelective(userDo) >= 1) {
                 return Result.success(userDoMapper.selectByPrimaryKey(updateUserInfoEntity.getUserId()));
-            }else {
+            } else {
                 throw new AllException(EmAllException.DATABASE_ERROR);
             }
-        }catch (AllException ex){
+        } catch (AllException ex) {
             return Result.error(ex);
         }
     }

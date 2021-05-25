@@ -67,7 +67,8 @@ public class StrUtil {
                 sb.append("3");
                 break;
             }
-            default:{}
+            default: {
+            }
         }
         return sb.toString();
     }

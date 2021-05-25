@@ -4,12 +4,9 @@ import com.shu.course_backend.exception.AllException;
 import com.shu.course_backend.exception.EmAllException;
 import com.shu.course_backend.model.WeekEnum;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
-import sun.swing.StringUIClientPropertyKey;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @ClassName: CourseTool
@@ -20,7 +17,6 @@ import java.util.Map;
  **/
 
 public class CourseTool {
-
 
 
     /*
@@ -36,12 +32,12 @@ public class CourseTool {
     }
 
     /**
-    * @Description: 时间转换函数: str -> setOf (bit)
-    * @Param: [courseTimeList]
-    * @Return: java.util.List<java.lang.String>
-    * @Author: SoCMo
-    * @Date: 2021/5/18
-    */
+     * @Description: 时间转换函数: str -> setOf (bit)
+     * @Param: [courseTimeList]
+     * @Return: java.util.List<java.lang.String>
+     * @Author: SoCMo
+     * @Date: 2021/5/18
+     */
     public static List<String> translateFromStrToBitList(List<String> courseTimeList) throws AllException {
         if (ObjectUtils.isEmpty(courseTimeList) || courseTimeList.size() == 0) {
             return null;
@@ -118,18 +114,18 @@ public class CourseTool {
     }
 
     /**
-    * @program: CourseTool
-    * @Description: 选课时间冲突检测
-    * @Author: SoCMo
-    * @Date: 2021/5/15
-    */
+     * @program: CourseTool
+     * @Description: 选课时间冲突检测
+     * @Author: SoCMo
+     * @Date: 2021/5/15
+     */
     public static boolean conflictCheck(List<String> timeList, String target) {
         List<String> tempList = new ArrayList<>(timeList);
         tempList.add(target);
         try {
             String consume = merge(tempList);
             return true;
-        }catch (AllException ex){
+        } catch (AllException ex) {
             return false;
         }
     }
@@ -173,8 +169,37 @@ public class CourseTool {
         return res;
     }
 
-
-
+    public static Double gradeToPoint(Double grade) {
+        if (ObjectUtils.isEmpty(grade)) {
+            return null;
+        }
+        if (grade < 0 || grade > 100) {
+            return null;
+        }
+        Double res = 0.0;
+        if (grade >= 90) {
+            res = 4.0;
+        } else if (grade >= 85) {
+            res = 3.7;
+        } else if (grade >= 82) {
+            res = 3.3;
+        } else if (grade >= 78) {
+            res = 3.0;
+        } else if (grade >= 75) {
+            res = 2.7;
+        } else if (grade >= 72) {
+            res = 2.3;
+        } else if (grade >= 69) {
+            res = 2.0;
+        } else if (grade >= 65) {
+            res = 1.5;
+        } else if (grade >= 60) {
+            res = 1.0;
+        } else {
+            res = 0.0;
+        }
+        return res;
+    }
 
 
 }

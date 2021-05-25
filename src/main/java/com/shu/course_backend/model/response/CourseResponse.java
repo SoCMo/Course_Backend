@@ -1,6 +1,5 @@
 package com.shu.course_backend.model.response;
 
-import com.shu.course_backend.model.entity.CourseTimeDo;
 import lombok.Data;
 
 import java.util.ArrayList;

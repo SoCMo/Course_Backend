@@ -8,11 +8,11 @@ import lombok.Data;
 import javax.validation.constraints.Pattern;
 
 /**
-* @program: UpdateIdentityReq
-* @Description: 权限修改请求体
-* @Author: SoCMo
-* @Date: 2021/4/28
-*/
+ * @program: UpdateIdentityReq
+ * @Description: 权限修改请求体
+ * @Author: SoCMo
+ * @Date: 2021/4/28
+ */
 @Data
 @ApiModel(value = "权限修改请求体", description = "权限修改请求体")
 public class UpdateIdentityReq {

@@ -1,6 +1,5 @@
 package com.shu.course_backend.service;
 
-import com.shu.course_backend.exception.AllException;
 import com.shu.course_backend.model.Result;
 import com.shu.course_backend.model.request.RegisterRequest;
 import org.springframework.http.ResponseEntity;

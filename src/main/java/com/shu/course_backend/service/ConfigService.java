@@ -10,20 +10,20 @@ import com.shu.course_backend.model.Result;
  */
 public interface ConfigService {
     /**
-    * @Description: 更新学期
-    * @Param: [nowSemester]
-    * @Return: com.shu.course_backend.model.Result
-    * @Author: SoCMo
-    * @Date: 2021/4/28
-    */
+     * @Description: 更新学期
+     * @Param: [nowSemester]
+     * @Return: com.shu.course_backend.model.Result
+     * @Author: SoCMo
+     * @Date: 2021/4/28
+     */
     Result updateSemester(String nowSemester);
 
     /**
-    * @Description: 更新选课状态
-    * @Param: [State]
-    * @Return: com.shu.course_backend.model.Result
-    * @Author: SoCMo
-    * @Date: 2021/4/28
-    */
+     * @Description: 更新选课状态
+     * @Param: [State]
+     * @Return: com.shu.course_backend.model.Result
+     * @Author: SoCMo
+     * @Date: 2021/4/28
+     */
     Result updateElectionState(String State);
 }
