@@ -31,4 +31,6 @@ public interface ElectionDoMapper {
     int updateByPrimaryKey(ElectionDo record);
 
     List<GradeResponse> selectNameAndGrade(Integer openid);
+
+    Double getGradePoint(@Param("grade") Double grade);
 }

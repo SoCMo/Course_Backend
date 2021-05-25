@@ -251,4 +251,7 @@
           AND open_info.open_id = #{openid,jdbcType=INTEGER}
         ORDER BY user_info.user_id ASC
     </select>
+    <select id="getGradePoint" resultType="java.lang.Double" statementType="CALLABLE">
+        {call cal(#{grade})}
+    </select>
 </mapper>

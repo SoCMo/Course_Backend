@@ -102,7 +102,8 @@ public class TeacherServiceImpl implements TeacherService {
             for (GradeResponse tmp : responseList) {
                 GradeResponse res = new GradeResponse();
                 BeanUtils.copyProperties(tmp, res);
-                res.setGradePoint(CourseTool.gradeToPoint(tmp.getGrade()));
+//                res.setGradePoint(CourseTool.gradeToPoint(tmp.getGrade()));
+                res.setGradePoint(electionDoMapper.getGradePoint(tmp.getGrade()));
                 responses.add(res);
             }
 
